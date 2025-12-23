@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, ArrowRight } from "lucide-react";
+import logo from "@/assets/mediamatic-logo.png";
+
+gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
   { label: "Home", href: "#home" },
@@ -12,6 +16,7 @@ const navLinks = [
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDarkSection, setIsDarkSection] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
@@ -26,6 +31,25 @@ export const Header = () => {
       { y: -100, opacity: 0 },
       { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.5 }
     );
+
+    // Detect dark sections (about, contact are dark/primary colored)
+    const darkSections = document.querySelectorAll("#about, #contact, #brand-statement");
+    
+    darkSections.forEach((section) => {
+      ScrollTrigger.create({
+        trigger: section,
+        start: "top 80px",
+        end: "bottom 80px",
+        onEnter: () => setIsDarkSection(true),
+        onLeave: () => setIsDarkSection(false),
+        onEnterBack: () => setIsDarkSection(true),
+        onLeaveBack: () => setIsDarkSection(false),
+      });
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, []);
 
   useEffect(() => {
@@ -53,24 +77,30 @@ export const Header = () => {
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
+  // Dynamic colors based on section
+  const textColor = isDarkSection ? "text-primary-foreground" : "text-foreground";
+  const textColorHover = isDarkSection ? "hover:text-primary-foreground/70" : "hover:text-foreground/70";
+  const textColorMuted = isDarkSection ? "text-primary-foreground/70" : "text-foreground/70";
+  const bgButton = isDarkSection ? "bg-primary-foreground text-primary" : "bg-foreground text-background";
+
   return (
     <>
       <header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50"
+        className="fixed top-0 left-0 right-0 z-50 transition-colors duration-500"
       >
-        <div className="container mx-auto px-6 py-6">
+        <div className="container mx-auto px-6 py-4">
           <nav className="flex items-center justify-between">
             {/* Logo */}
             <a
               href="#home"
-              className="font-display text-2xl font-medium text-foreground tracking-tight"
+              className="flex items-center gap-3"
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick("#home");
               }}
             >
-              MediaMatic
+              <img src={logo} alt="MediaMatic Studio" className="h-12 w-auto" />
             </a>
 
             {/* Desktop Navigation */}
@@ -83,7 +113,7 @@ export const Header = () => {
                     e.preventDefault();
                     handleNavClick(link.href);
                   }}
-                  className="text-foreground/70 hover:text-foreground font-medium text-sm uppercase tracking-wider transition-colors duration-300 link-underline"
+                  className={`${textColorMuted} ${textColorHover} font-medium text-sm uppercase tracking-wider transition-colors duration-300 link-underline`}
                 >
                   {link.label}
                 </a>
@@ -97,7 +127,7 @@ export const Header = () => {
                 e.preventDefault();
                 handleNavClick("#contact");
               }}
-              className="hidden md:flex items-center gap-2 bg-foreground text-background px-6 py-3 rounded-full font-medium text-sm uppercase tracking-wider hover:scale-105 transition-transform duration-300"
+              className={`hidden md:flex items-center gap-2 ${bgButton} px-6 py-3 rounded-full font-medium text-sm uppercase tracking-wider hover:scale-105 transition-all duration-300`}
             >
               <span>Get Started</span>
               <ArrowRight size={16} />
@@ -106,7 +136,7 @@ export const Header = () => {
             {/* Mobile Menu Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="md:hidden text-foreground p-2"
+              className={`md:hidden ${textColor} p-2 transition-colors duration-300`}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
