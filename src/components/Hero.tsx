@@ -19,19 +19,36 @@ export const Hero = () => {
       if (title) {
         const lines = title.querySelectorAll(".hero-line");
         
-        gsap.fromTo(
-          lines,
-          { y: 200, opacity: 0, rotateX: -45 },
-          {
-            y: 0,
-            opacity: 1,
-            rotateX: 0,
-            duration: 1.2,
-            stagger: 0.15,
-            ease: "power4.out",
-            delay: 0.8,
-          }
-        );
+        // Initial state
+        gsap.set(lines, { y: 200, opacity: 0, rotateX: -45 });
+        
+        // Animate each line
+        gsap.to(lines, {
+          y: 0,
+          opacity: 1,
+          rotateX: 0,
+          duration: 1.2,
+          stagger: 0.15,
+          ease: "power4.out",
+          delay: 0.8,
+        });
+
+        // Character stagger effect for main text
+        const chars = title.querySelectorAll(".hero-char");
+        if (chars.length) {
+          gsap.fromTo(
+            chars,
+            { opacity: 0, y: 50 },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              stagger: 0.02,
+              ease: "power3.out",
+              delay: 1,
+            }
+          );
+        }
       }
 
       // Subtitle animation
@@ -138,16 +155,16 @@ export const Hero = () => {
           <Palette className="hero-icon float-up w-12 h-12 text-foreground" />
         </div>
 
-        {/* Title with duplicate effect */}
+        {/* Title with bold modern typography */}
         <h1
           ref={titleRef}
-          className="font-display text-[clamp(3rem,12vw,10rem)] leading-[0.9] tracking-tight text-foreground"
+          className="font-display text-[clamp(3rem,12vw,10rem)] leading-[0.9] tracking-tight text-foreground font-bold"
         >
           <span className="hero-line block overflow-hidden">
             <span className="inline-block">MediaMatic</span>
           </span>
           <span className="hero-line block overflow-hidden">
-            <span className="inline-block italic opacity-70">Studio</span>
+            <span className="inline-block italic font-normal opacity-70">Studio</span>
           </span>
         </h1>
 
@@ -157,7 +174,7 @@ export const Hero = () => {
           className="mt-8 text-lg md:text-xl text-foreground/70 max-w-xl mx-auto font-body"
         >
           Crafting digital experiences that resonate. <br />
-          <span className="text-foreground font-medium">Branding • Design • Strategy</span>
+          <span className="text-foreground font-semibold">Branding • Design • Strategy</span>
         </p>
 
         {/* Bottom Icons */}
