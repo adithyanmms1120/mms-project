@@ -2,24 +2,22 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, ArrowRight, ChevronDown } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/mediamatic-logo.png";
-import { useNavigate } from "react-router-dom";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/* ---------------- NAV LINKS ---------------- */
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Studio", href: "#studio" },
-
-  // ✅ NEW PAGE LINK
   { label: "Brand Statement", href: "/brand-statement", isPage: true },
-
   { label: "Contact", href: "#contact" },
 ];
 
-// ✅ Services dropdown links
+/* ---------------- SERVICES DROPDOWN ---------------- */
 const serviceLinks = [
   { label: "Digital Marketing", href: "/services/digital-marketing" },
   { label: "Website Development", href: "/services/web-development" },
@@ -37,26 +35,25 @@ export const Header = () => {
   const menuRef = useRef<HTMLDivElement>(null);
   const linksRef = useRef<HTMLDivElement>(null);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  /* ---------------- HEADER ENTRY ANIMATION ---------------- */
   useEffect(() => {
-    const header = headerRef.current;
-    if (!header) return;
-
     gsap.fromTo(
-      header,
+      headerRef.current,
       { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.5 }
+      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
     );
+  }, []);
 
-<<<<<<< HEAD
-    // Detect dark sections
-    const darkSections = document.querySelectorAll("#about, #contact");
-=======
-    const darkSections = document.querySelectorAll(
-      "#about, #contact, #brand-statement"
-    );
->>>>>>> dea768ee7fdf0cb9d657304a78db436695583eb2
+  /* ---------------- DARK SECTION DETECTION ---------------- */
+  useEffect(() => {
+    ScrollTrigger.getAll().forEach(t => t.kill());
 
-    darkSections.forEach((section) => {
+    const sections = document.querySelectorAll("#about, #contact");
+
+    sections.forEach(section => {
       ScrollTrigger.create({
         trigger: section,
         start: "top 80px",
@@ -67,84 +64,52 @@ export const Header = () => {
         onLeaveBack: () => setIsDarkSection(false),
       });
     });
+  }, [location.pathname]);
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill());
-    };
-  }, []);
-  const navigate = useNavigate();
-
+  /* ---------------- MOBILE MENU ANIMATION ---------------- */
   useEffect(() => {
-    if (isOpen && menuRef.current) {
-      gsap.fromTo(
-        menuRef.current,
-        { clipPath: "circle(0% at calc(100% - 40px) 40px)" },
-        {
-          clipPath: "circle(150% at calc(100% - 40px) 40px)",
-          duration: 0.6,
-          ease: "power3.out",
-        }
-      );
+    if (!isOpen || !menuRef.current) return;
 
-      const links = linksRef.current?.querySelectorAll("a");
-      if (links) {
-        gsap.fromTo(
-          links,
-          { x: 100, opacity: 0 },
-          {
-            x: 0,
-            opacity: 1,
-            stagger: 0.1,
-            duration: 0.5,
-            ease: "power3.out",
-            delay: 0.3,
-          }
-        );
+    gsap.fromTo(
+      menuRef.current,
+      { clipPath: "circle(0% at calc(100% - 40px) 40px)" },
+      {
+        clipPath: "circle(150% at calc(100% - 40px) 40px)",
+        duration: 0.6,
+        ease: "power3.out",
       }
-    }
+    );
+
+    gsap.fromTo(
+      linksRef.current?.querySelectorAll("a") || [],
+      { x: 80, opacity: 0 },
+      { x: 0, opacity: 1, stagger: 0.08, delay: 0.3 }
+    );
   }, [isOpen]);
 
   /* ---------------- NAV HANDLER ---------------- */
   const handleNavClick = (href: string, isPage?: boolean) => {
     setIsOpen(false);
-<<<<<<< HEAD
+    setServiceOpenMobile(false);
 
-    // ✅ PAGE NAVIGATION (Brand Statement)
-    if (isPage) {
-      window.location.href = href;
+    if (isPage || href.startsWith("/")) {
+      navigate(href);
       return;
     }
 
-    // ✅ SECTION SCROLL
-    const element = document.querySelector(href);
-    element?.scrollIntoView({ behavior: "smooth" });
+    const el = document.querySelector(href);
+    el?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Dynamic colors
-=======
-    setServiceOpenMobile(false);
-    if (href.startsWith("/")) {
-    navigate(href);
-    return;
-  }
-
-  // Scroll navigation
-  const element = document.querySelector(href);
-  element?.scrollIntoView({ behavior: "smooth" });
-    // document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-  };
-
->>>>>>> dea768ee7fdf0cb9d657304a78db436695583eb2
-  const textColor = isDarkSection
-    ? "text-primary-foreground"
-    : "text-foreground";
-  const textColorHover = isDarkSection
-    ? "hover:text-primary-foreground/70"
-    : "hover:text-foreground/70";
-  const textColorMuted = isDarkSection
+  /* ---------------- DYNAMIC COLORS ---------------- */
+  const textColor = isDarkSection ? "text-primary-foreground" : "text-foreground";
+  const textMuted = isDarkSection
     ? "text-primary-foreground/70"
     : "text-foreground/70";
-  const bgButton = isDarkSection
+  const hoverColor = isDarkSection
+    ? "hover:text-primary-foreground"
+    : "hover:text-foreground";
+  const buttonStyle = isDarkSection
     ? "bg-primary-foreground text-primary"
     : "bg-foreground text-background";
 
@@ -156,55 +121,36 @@ export const Header = () => {
       >
         <div className="container mx-auto px-6 py-4">
           <nav className="flex items-center justify-between">
-            {/* Logo */}
+            {/* LOGO */}
             <a
               href="#home"
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 handleNavClick("#home");
               }}
-              className="flex items-center gap-3"
             >
-              <img src={logo} alt="MediaMatic Studio" className="h-12 w-auto" />
+              <img src={logo} alt="MediaMatic Studio" className="h-12" />
             </a>
 
-            {/* Desktop Nav */}
+            {/* DESKTOP NAV */}
             <div className="hidden md:flex items-center gap-8">
-<<<<<<< HEAD
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.href, link.isPage);
-                  }}
-                  className={`${textColorMuted} ${textColorHover} font-medium text-sm uppercase tracking-wider transition-colors duration-300`}
-                >
-                  {link.label}
-                </a>
-              ))}
-=======
-              {navLinks.map((link) =>
+              {navLinks.map(link =>
                 link.label === "Services" ? (
                   <div key={link.label} className="relative group">
-                    <button
-                      className={`${textColorMuted} ${textColorHover} flex items-center gap-1 font-medium text-sm uppercase tracking-wider`}
-                    >
+                    <button className={`${textMuted} ${hoverColor} flex items-center gap-1 uppercase text-sm`}>
                       Services <ChevronDown size={14} />
                     </button>
 
-                    {/* Dropdown */}
-                    <div className="absolute left-0 top-full mt-4 w-60 rounded-xl bg-background shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300">
-                      {serviceLinks.map((service) => (
+                    <div className="absolute left-0 top-full mt-4 w-64 rounded-xl bg-background shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
+                      {serviceLinks.map(service => (
                         <a
                           key={service.label}
                           href={service.href}
-                          onClick={(e) => {
+                          onClick={e => {
                             e.preventDefault();
-                            handleNavClick(service.href);
+                            handleNavClick(service.href, true);
                           }}
-                          className="block px-5 py-3 text-sm text-foreground hover:bg-muted transition-colors"
+                          className="block px-5 py-3 text-sm hover:bg-muted"
                         >
                           {service.label}
                         </a>
@@ -215,39 +161,34 @@ export const Header = () => {
                   <a
                     key={link.label}
                     href={link.href}
-                    onClick={(e) => {
+                    onClick={e => {
                       e.preventDefault();
-                      handleNavClick(link.href);
+                      handleNavClick(link.href, link.isPage);
                     }}
-                    className={`${textColorMuted} ${textColorHover} font-medium text-sm uppercase tracking-wider link-underline`}
+                    className={`${textMuted} ${hoverColor} uppercase text-sm`}
                   >
                     {link.label}
                   </a>
                 )
               )}
->>>>>>> dea768ee7fdf0cb9d657304a78db436695583eb2
             </div>
 
             {/* CTA */}
             <a
               href="#contact"
-              onClick={(e) => {
+              onClick={e => {
                 e.preventDefault();
                 handleNavClick("#contact");
               }}
-              className={`hidden md:flex items-center gap-2 ${bgButton} px-6 py-3 rounded-full font-medium text-sm uppercase tracking-wider hover:scale-105 transition-all`}
+              className={`hidden md:flex items-center gap-2 ${buttonStyle} px-6 py-3 rounded-full uppercase text-sm hover:scale-105 transition`}
             >
               Get Started <ArrowRight size={16} />
             </a>
 
-            {/* Mobile Toggle */}
+            {/* MOBILE TOGGLE */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-<<<<<<< HEAD
-              className={`md:hidden ${textColor} p-2`}
-=======
               className={`md:hidden ${textColor}`}
->>>>>>> dea768ee7fdf0cb9d657304a78db436695583eb2
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -255,51 +196,34 @@ export const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Menu */}
+      {/* MOBILE MENU */}
       {isOpen && (
         <div
           ref={menuRef}
           className="fixed inset-0 z-40 bg-primary flex items-center justify-center"
         >
           <div ref={linksRef} className="flex flex-col items-center gap-8">
-<<<<<<< HEAD
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleNavClick(link.href, link.isPage);
-                }}
-                className="font-display text-5xl text-primary-foreground hover:opacity-70"
-              >
-                {link.label}
-              </a>
-            ))}
-=======
-            {navLinks.map((link) =>
+            {navLinks.map(link =>
               link.label === "Services" ? (
                 <div key={link.label} className="text-center">
                   <button
-                    onClick={() =>
-                      setServiceOpenMobile(!serviceOpenMobile)
-                    }
-                    className="font-display text-5xl text-primary-foreground flex items-center gap-2"
+                    onClick={() => setServiceOpenMobile(!serviceOpenMobile)}
+                    className="text-5xl text-primary-foreground flex items-center gap-2"
                   >
                     Services <ChevronDown size={22} />
                   </button>
 
                   {serviceOpenMobile && (
                     <div className="mt-6 flex flex-col gap-4">
-                      {serviceLinks.map((service) => (
+                      {serviceLinks.map(service => (
                         <a
                           key={service.label}
                           href={service.href}
-                          onClick={(e) => {
+                          onClick={e => {
                             e.preventDefault();
-                            handleNavClick(service.href);
+                            handleNavClick(service.href, true);
                           }}
-                          className="text-xl text-primary-foreground/80 hover:text-primary-foreground"
+                          className="text-xl text-primary-foreground/80"
                         >
                           {service.label}
                         </a>
@@ -311,17 +235,16 @@ export const Header = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={(e) => {
+                  onClick={e => {
                     e.preventDefault();
-                    handleNavClick(link.href);
+                    handleNavClick(link.href, link.isPage);
                   }}
-                  className="font-display text-5xl text-primary-foreground hover:opacity-70"
+                  className="text-5xl text-primary-foreground"
                 >
                   {link.label}
                 </a>
               )
             )}
->>>>>>> dea768ee7fdf0cb9d657304a78db436695583eb2
           </div>
         </div>
       )}
