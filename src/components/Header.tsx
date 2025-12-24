@@ -11,6 +11,10 @@ const navLinks = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services" },
   { label: "Studio", href: "#studio" },
+
+  // ✅ NEW PAGE LINK
+  { label: "Brand Statement", href: "/brand-statement", isPage: true },
+
   { label: "Contact", href: "#contact" },
 ];
 
@@ -32,9 +36,9 @@ export const Header = () => {
       { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.5 }
     );
 
-    // Detect dark sections (about, contact are dark/primary colored)
-    const darkSections = document.querySelectorAll("#about, #contact, #brand-statement");
-    
+    // Detect dark sections
+    const darkSections = document.querySelectorAll("#about, #contact");
+
     darkSections.forEach((section) => {
       ScrollTrigger.create({
         trigger: section,
@@ -48,7 +52,7 @@ export const Header = () => {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
 
@@ -57,7 +61,11 @@ export const Header = () => {
       gsap.fromTo(
         menuRef.current,
         { clipPath: "circle(0% at calc(100% - 40px) 40px)" },
-        { clipPath: "circle(150% at calc(100% - 40px) 40px)", duration: 0.6, ease: "power3.out" }
+        {
+          clipPath: "circle(150% at calc(100% - 40px) 40px)",
+          duration: 0.6,
+          ease: "power3.out",
+        }
       );
 
       const links = linksRef.current?.querySelectorAll("a");
@@ -65,23 +73,47 @@ export const Header = () => {
         gsap.fromTo(
           links,
           { x: 100, opacity: 0 },
-          { x: 0, opacity: 1, stagger: 0.1, duration: 0.5, ease: "power3.out", delay: 0.3 }
+          {
+            x: 0,
+            opacity: 1,
+            stagger: 0.1,
+            duration: 0.5,
+            ease: "power3.out",
+            delay: 0.3,
+          }
         );
       }
     }
   }, [isOpen]);
 
-  const handleNavClick = (href: string) => {
+  /* ---------------- NAV HANDLER ---------------- */
+  const handleNavClick = (href: string, isPage?: boolean) => {
     setIsOpen(false);
+
+    // ✅ PAGE NAVIGATION (Brand Statement)
+    if (isPage) {
+      window.location.href = href;
+      return;
+    }
+
+    // ✅ SECTION SCROLL
     const element = document.querySelector(href);
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
-  // Dynamic colors based on section
-  const textColor = isDarkSection ? "text-primary-foreground" : "text-foreground";
-  const textColorHover = isDarkSection ? "hover:text-primary-foreground/70" : "hover:text-foreground/70";
-  const textColorMuted = isDarkSection ? "text-primary-foreground/70" : "text-foreground/70";
-  const bgButton = isDarkSection ? "bg-primary-foreground text-primary" : "bg-foreground text-background";
+  // Dynamic colors
+  const textColor = isDarkSection
+    ? "text-primary-foreground"
+    : "text-foreground";
+  const textColorHover = isDarkSection
+    ? "hover:text-primary-foreground/70"
+    : "hover:text-foreground/70";
+  const textColorMuted = isDarkSection
+    ? "text-primary-foreground/70"
+    : "text-foreground/70";
+  const bgButton = isDarkSection
+    ? "bg-primary-foreground text-primary"
+    : "bg-foreground text-background";
 
   return (
     <>
@@ -94,16 +126,16 @@ export const Header = () => {
             {/* Logo */}
             <a
               href="#home"
-              className="flex items-center gap-3"
               onClick={(e) => {
                 e.preventDefault();
                 handleNavClick("#home");
               }}
+              className="flex items-center gap-3"
             >
               <img src={logo} alt="MediaMatic Studio" className="h-12 w-auto" />
             </a>
 
-            {/* Desktop Navigation */}
+            {/* Desktop Nav */}
             <div className="hidden md:flex items-center gap-8">
               {navLinks.map((link) => (
                 <a
@@ -111,16 +143,16 @@ export const Header = () => {
                   href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleNavClick(link.href);
+                    handleNavClick(link.href, link.isPage);
                   }}
-                  className={`${textColorMuted} ${textColorHover} font-medium text-sm uppercase tracking-wider transition-colors duration-300 link-underline`}
+                  className={`${textColorMuted} ${textColorHover} font-medium text-sm uppercase tracking-wider transition-colors duration-300`}
                 >
                   {link.label}
                 </a>
               ))}
             </div>
 
-            {/* CTA Button */}
+            {/* CTA */}
             <a
               href="#contact"
               onClick={(e) => {
@@ -133,10 +165,10 @@ export const Header = () => {
               <ArrowRight size={16} />
             </a>
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`md:hidden ${textColor} p-2 transition-colors duration-300`}
+              className={`md:hidden ${textColor} p-2`}
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -144,7 +176,7 @@ export const Header = () => {
         </div>
       </header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div
           ref={menuRef}
@@ -157,9 +189,9 @@ export const Header = () => {
                 href={link.href}
                 onClick={(e) => {
                   e.preventDefault();
-                  handleNavClick(link.href);
+                  handleNavClick(link.href, link.isPage);
                 }}
-                className="font-display text-5xl text-primary-foreground hover:opacity-70 transition-opacity"
+                className="font-display text-5xl text-primary-foreground hover:opacity-70"
               >
                 {link.label}
               </a>
