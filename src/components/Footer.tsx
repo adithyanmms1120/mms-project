@@ -77,24 +77,27 @@ export const Footer = () => {
             </div>
           </div>
 
-          {/* USEFUL LINKS */}
           <div className="footer-item">
             <h4 className="font-semibold mb-6">Useful Links</h4>
             <ul className="space-y-3 opacity-80">
-              {["Home", "About us", "Brand Management", "Services"].map(
-                (link) => (
-                  <li key={link}>
-                    <a
-                      href={`#${link.toLowerCase().replace(/\s/g, "-")}`}
-                      className="hover:opacity-100 transition"
-                    >
-                      {link}
-                    </a>
-                  </li>
-                )
-              )}
+              {[
+                { label: "Home", id: "home" },
+                { label: "About us", id: "about" },
+                { label: "Brand Management", id: "brand-management" },
+                { label: "Services", id: "services" },
+              ].map((link) => (
+                <li key={link.id}>
+                  <a
+                    href={`#${link.id}`}
+                    className="hover:opacity-100 transition"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
+
 
           {/* OUR SERVICES */}
           <div className="footer-item">
