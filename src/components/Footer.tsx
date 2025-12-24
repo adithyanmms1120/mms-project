@@ -1,26 +1,23 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Instagram, Twitter, Linkedin, Youtube, ArrowUp } from "lucide-react";
+import {
+  Instagram,
+  Twitter,
+  Linkedin,
+  Facebook,
+  Youtube,
+} from "lucide-react";
+import logo from "@/assets/mediamatic-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const socialLinks = [
-  { icon: Instagram, href: "#", label: "Instagram" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Youtube, href: "#", label: "YouTube" },
-];
-
-const footerLinks = [
-  {
-    title: "Navigation",
-    links: ["Home", "About", "Services", "Studio", "Contact"],
-  },
-  {
-    title: "Services",
-    links: ["Brand Identity", "Brand Strategy", "Digital Design", "Campaign Launch"],
-  },
+  { icon: Instagram, href: "https://www.instagram.com/mediamaticstudio/" },
+  { icon: Twitter, href: "https://x.com/_media_matic" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/reshma-s-1b7218276/" },
+  { icon: Facebook, href: "https://www.facebook.com/mediamatic.studio1" },
+  { icon: Youtube, href: "https://www.youtube.com/@mediamaticstudio" },
 ];
 
 export const Footer = () => {
@@ -29,18 +26,17 @@ export const Footer = () => {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        ".footer-content > *",
-        { y: 40, opacity: 0 },
+        ".footer-item",
+        { y: 30, opacity: 0 },
         {
           y: 0,
           opacity: 1,
-          stagger: 0.1,
+          stagger: 0.15,
           duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
             trigger: footerRef.current,
             start: "top 90%",
-            toggleActions: "play none none reverse",
           },
         }
       );
@@ -49,69 +45,118 @@ export const Footer = () => {
     return () => ctx.revert();
   }, []);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-
   return (
-    <footer ref={footerRef} className="bg-primary text-primary-foreground pt-20 pb-8">
+    <footer
+      ref={footerRef}
+      className="pt-20"
+      style={{ backgroundColor: "rgb(83, 19, 27)", color: "#fdf3b7" }}
+    >
       <div className="container mx-auto px-6">
-        <div className="footer-content grid md:grid-cols-4 gap-12 mb-16">
-          {/* Brand */}
-          <div className="md:col-span-2">
-            <h3 className="font-display text-4xl mb-6">MediaMatic Studio</h3>
-            <p className="text-primary-foreground/60 max-w-md mb-8 font-body leading-relaxed">
-              Crafting digital experiences that resonate. We build brands that
-              perform and designs that convert.
-            </p>
-            {/* Social links */}
+        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-16 pb-16">
+          {/* LOGO + SOCIAL */}
+          <div className="footer-item space-y-8">
+            <img
+              src={logo}
+              alt="MediaMatic Studio"
+              className="w-44"
+            />
+
             <div className="flex gap-4">
-              {socialLinks.map((social, index) => (
+              {socialLinks.map((social, i) => (
                 <a
-                  key={index}
+                  key={i}
                   href={social.href}
-                  aria-label={social.label}
-                  className="w-12 h-12 rounded-full bg-primary-foreground/10 flex items-center justify-center hover:bg-primary-foreground hover:text-primary transition-all duration-300 hover:-translate-y-1"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-10 h-10 rounded-full border flex items-center justify-center transition hover:scale-105"
+                  style={{ borderColor: "#fdf3b7", color: "#fdf3b7" }}
                 >
-                  <social.icon size={20} />
+                  <social.icon size={18} />
                 </a>
               ))}
             </div>
           </div>
 
-          {/* Links */}
-          {footerLinks.map((group, index) => (
-            <div key={index}>
-              <h4 className="font-display text-lg mb-6">{group.title}</h4>
-              <ul className="space-y-3">
-                {group.links.map((link, i) => (
-                  <li key={i}>
+          {/* USEFUL LINKS */}
+          <div className="footer-item">
+            <h4 className="font-semibold mb-6">Useful Links</h4>
+            <ul className="space-y-3 opacity-80">
+              {["Home", "About us", "Brand Management", "Services"].map(
+                (link) => (
+                  <li key={link}>
                     <a
                       href={`#${link.toLowerCase().replace(/\s/g, "-")}`}
-                      className="text-primary-foreground/60 hover:text-primary-foreground transition-colors font-body link-underline inline-block"
+                      className="hover:opacity-100 transition"
                     >
                       {link}
                     </a>
                   </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
+                )
+              )}
+            </ul>
+          </div>
 
-        {/* Bottom bar */}
-        <div className="border-t border-primary-foreground/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-primary-foreground/40 text-sm font-body">
-            © {new Date().getFullYear()} MediaMatic Studio. All rights reserved.
-          </p>
-          <button
-            onClick={scrollToTop}
-            className="group flex items-center gap-2 text-primary-foreground/60 hover:text-primary-foreground transition-colors font-body text-sm"
-          >
-            <span>Back to top</span>
-            <ArrowUp className="w-4 h-4 group-hover:-translate-y-1 transition-transform" />
-          </button>
+          {/* OUR SERVICES */}
+          <div className="footer-item">
+            <h4 className="font-semibold mb-6">Our Services</h4>
+            <ul className="space-y-3 opacity-80">
+              <li>Content Management</li>
+              <li>2D & 3D Animation</li>
+              <li>Web Development</li>
+              <li>Digital Marketing</li>
+              <li>Web Hosting</li>
+            </ul>
+          </div>
+
+          {/* OFFICE DETAILS */}
+          <div className="footer-item text-sm space-y-5 opacity-80">
+            <div>
+              <h4 className="font-semibold mb-2 opacity-100">
+                Corporate Office
+              </h4>
+              <p>
+                COVAI TECH PARK, Site No: 90,
+                <br />
+                Kovai Thiru Nagar, Kalapatty Village,
+                <br />
+                Coimbatore – 641 014
+              </p>
+            </div>
+
+            <div>
+              <h4 className="font-semibold mb-2 opacity-100">
+                Branch Office
+              </h4>
+              <p>
+                Civil Aerodrome Post, No. 97,
+                <br />
+                Dr. Jaganathanagar,
+                <br />
+                Coimbatore – 641 014
+              </p>
+            </div>
+
+            <div className="space-y-1">
+              <p>Office Direct: 0422-4772362</p>
+              <p>Office Mobile: +91 96295 93615</p>
+              <p>US Toll Free: (+1) (888) 219 5755</p>
+              <p>Email: support@mediamaticstudio.com</p>
+            </div>
+          </div>
         </div>
+      </div>
+
+      {/* BOTTOM BAR */}
+      <div
+        className="py-4 text-center text-sm"
+        style={{
+          backgroundColor: "rgba(0,0,0,0.25)",
+          color: "#fdf3b7",
+        }}
+      >
+        © Copyright MediaMatic. All Rights Reserved
+        <br />
+        Designed by <span className="font-semibold">MediaMatic Solution</span>
       </div>
     </footer>
   );

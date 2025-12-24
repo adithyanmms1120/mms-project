@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* Primary colors - Warm golden and burgundy */
-    --background: 43 100% 83%; /* #ffe7a9 */
+    --background: 43 100% 83%; /* #fdf3b7 */
     --foreground: 352 63% 20%; /* rgb(83, 19, 27) */
 
     --card: 43 100% 83%;

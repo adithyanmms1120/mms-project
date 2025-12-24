@@ -162,10 +162,11 @@ export const Hero = () => {
         >
           <span className="hero-line block overflow-hidden">
             <span className="inline-block">MediaMatic</span>
+            <span className="inline-block">Studio</span>
           </span>
-          <span className="hero-line block overflow-hidden">
+          {/* <span className="hero-line block overflow-hidden">
             <span className="inline-block italic font-normal opacity-70">Studio</span>
-          </span>
+          </span> */}
         </h1>
 
         {/* Subtitle */}
@@ -189,8 +190,8 @@ export const Hero = () => {
           onClick={scrollToAbout}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/50 hover:text-foreground transition-colors cursor-pointer"
         >
-          <span className="text-xs uppercase tracking-widest font-body">Scroll</span>
-          <ArrowDown className="w-5 h-5 animate-bounce" />
+          {/* <span className="text-xs uppercase tracking-widest font-body">Scroll</span>
+          <ArrowDown className="w-5 h-5 animate-bounce" /> */}
         </button>
       </div>
     </section>

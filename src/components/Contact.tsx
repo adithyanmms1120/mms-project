@@ -6,18 +6,17 @@ import { useToast } from "@/hooks/use-toast";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type SendStatus = 'idle' | 'sending' | 'success' | 'error';
+type SendStatus = "idle" | "sending" | "success";
 
 export const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
-  const [sendStatus, setSendStatus] = useState<SendStatus>('idle');
+  const [sendStatus, setSendStatus] = useState<SendStatus>("idle");
   const { toast } = useToast();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Heading animation
       gsap.fromTo(
         ".contact-heading",
         { y: 100, opacity: 0 },
@@ -29,12 +28,10 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: ".contact-heading",
             start: "top 85%",
-            toggleActions: "play none none reverse",
           },
         }
       );
 
-      // Form animation
       gsap.fromTo(
         ".contact-form",
         { y: 60, opacity: 0 },
@@ -42,20 +39,17 @@ export const Contact = () => {
           y: 0,
           opacity: 1,
           duration: 1,
-          delay: 0.2,
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".contact-form",
             start: "top 85%",
-            toggleActions: "play none none reverse",
           },
         }
       );
 
-      // Info cards animation
       gsap.fromTo(
         ".contact-info-card",
-        { x: 50, opacity: 0 },
+        { x: 60, opacity: 0 },
         {
           x: 0,
           opacity: 1,
@@ -65,7 +59,6 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: ".contact-info",
             start: "top 85%",
-            toggleActions: "play none none reverse",
           },
         }
       );
@@ -74,118 +67,23 @@ export const Contact = () => {
     return () => ctx.revert();
   }, []);
 
-  const runPlaneAnimation = (button: HTMLButtonElement) => {
-    // Create the plane SVG elements dynamically
-    const plane = document.createElement('div');
-    plane.className = 'send-plane';
-    plane.innerHTML = `
-      <svg viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-        <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-      </svg>
-    `;
-    
-    button.style.position = 'relative';
-    button.style.overflow = 'hidden';
-    button.appendChild(plane);
-
-    // Animate the plane
-    gsap.timeline()
-      .set(plane, {
-        position: 'absolute',
-        left: '50%',
-        top: '50%',
-        xPercent: -50,
-        yPercent: -50,
-        scale: 0,
-        rotation: 0,
-        opacity: 1,
-      })
-      .to(plane, {
-        scale: 1,
-        duration: 0.3,
-        ease: 'back.out(1.7)',
-      })
-      .to(plane, {
-        rotation: -45,
-        duration: 0.2,
-      })
-      .to(plane, {
-        x: 200,
-        y: -200,
-        opacity: 0,
-        duration: 0.5,
-        ease: 'power2.in',
-        onComplete: () => {
-          plane.remove();
-        },
-      });
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!buttonRef.current || sendStatus === 'sending') return;
+    if (!buttonRef.current || sendStatus === "sending") return;
 
-    const button = buttonRef.current;
-    setSendStatus('sending');
+    setSendStatus("sending");
 
-    // Button press animation
-    gsap.to(button, {
-      scale: 0.95,
-      duration: 0.1,
-    });
+    await new Promise((r) => setTimeout(r, 1200));
 
-    // Run plane animation
-    runPlaneAnimation(button);
-
-    // Hide text temporarily
-    const buttonText = button.querySelector('.button-text');
-    if (buttonText) {
-      gsap.to(buttonText, {
-        opacity: 0,
-        y: -10,
-        duration: 0.2,
-      });
-    }
-
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Success animation
-    setSendStatus('success');
-    
-    gsap.to(button, {
-      scale: 1,
-      duration: 0.3,
-      ease: 'back.out(1.7)',
-    });
-
-    if (buttonText) {
-      gsap.to(buttonText, {
-        opacity: 1,
-        y: 0,
-        duration: 0.3,
-        delay: 0.1,
-      });
-    }
-
-    // Success pulse effect
-    gsap.fromTo(button,
-      { boxShadow: '0 0 0 0 hsl(var(--primary-foreground) / 0.5)' },
-      {
-        boxShadow: '0 0 0 20px hsl(var(--primary-foreground) / 0)',
-        duration: 0.6,
-        ease: 'power2.out',
-      }
-    );
+    setSendStatus("success");
 
     toast({
       title: "Message sent!",
-      description: "We'll get back to you within 24 hours.",
+      description: "We’ll get back to you within 24 hours.",
     });
 
-    // Reset after delay
     setTimeout(() => {
-      setSendStatus('idle');
+      setSendStatus("idle");
       formRef.current?.reset();
     }, 3000);
   };
@@ -204,152 +102,123 @@ export const Contact = () => {
     {
       icon: Clock,
       title: "Hours",
-      content: "Mon-Fri: 9am - 8:30pm",
+      content: "Mon–Fri: 9am – 8:30pm",
     },
   ];
 
-  const getButtonContent = () => {
-    switch (sendStatus) {
-      case 'sending':
-        return (
-          <span className="button-text flex items-center gap-2">
-            <span className="animate-spin rounded-full h-5 w-5 border-b-2 border-primary"></span>
-            Sending...
-          </span>
-        );
-      case 'success':
-        return (
-          <span className="button-text flex items-center gap-2">
-            <Check className="w-5 h-5" />
-            Sent!
-          </span>
-        );
-      default:
-        return (
-          <span className="button-text flex items-center gap-3">
-            Send Message
-            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 transition-transform group-hover:translate-x-1">
-              <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
-            </svg>
-          </span>
-        );
-    }
-  };
+return (
+  <section
+    id="contact"
+    ref={sectionRef}
+    className="py-32 relative overflow-hidden"
+    style={{ backgroundColor: "#fdf3b7", color: "rgb(83,19,27)" }}
+  >
+    {/* Decorative rings */}
+    <div className="absolute top-20 right-20 w-72 h-72 rounded-full border border-[rgba(83,19,27,0.15)]" />
+    <div className="absolute bottom-20 left-20 w-48 h-48 rounded-full border border-[rgba(83,19,27,0.15)]" />
 
-  return (
-    <section
-      id="contact"
-      ref={sectionRef}
-      className="py-32 bg-primary text-primary-foreground relative overflow-hidden"
-    >
-      {/* Decorative circles */}
-      <div className="absolute top-20 right-20 w-72 h-72 rounded-full border border-primary-foreground/10" />
-      <div className="absolute bottom-20 left-20 w-48 h-48 rounded-full border border-primary-foreground/10" />
+    <div className="container mx-auto px-6 relative z-10">
+      {/* Header */}
+      <div className="mb-16">
+        <span className="text-xs uppercase tracking-[0.3em] opacity-60 block mb-4">
+          Get In Touch
+        </span>
+        <h2 className="contact-heading text-[clamp(2.5rem,6vw,5rem)] leading-[1.1] font-bold">
+          Let’s{" "}
+          <span className="italic font-normal opacity-70">Connect</span>
+        </h2>
+      </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Header */}
-        <div className="mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-primary-foreground/50 font-body block mb-4">
-            Get In Touch
-          </span>
-          <h2 className="contact-heading font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.1] max-w-2xl font-bold">
-            Let's <span className="italic font-normal text-primary-foreground/70">Connect</span>
-          </h2>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-16">
-          {/* Form */}
-          <form
-            ref={formRef}
-            onSubmit={handleSubmit}
-            className="contact-form space-y-8"
-          >
-            <div className="grid sm:grid-cols-2 gap-6">
-              <div>
-                <label className="text-sm text-primary-foreground/60 block mb-2 font-body">
-                  Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  required
-                  className="w-full bg-transparent border-b-2 border-primary-foreground/20 py-4 text-xl focus:border-primary-foreground outline-none transition-colors font-display placeholder:text-primary-foreground/30"
-                  placeholder="Your name"
-                />
-              </div>
-              <div>
-                <label className="text-sm text-primary-foreground/60 block mb-2 font-body">
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  required
-                  className="w-full bg-transparent border-b-2 border-primary-foreground/20 py-4 text-xl focus:border-primary-foreground outline-none transition-colors font-display placeholder:text-primary-foreground/30"
-                  placeholder="your@email.com"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="text-sm text-primary-foreground/60 block mb-2 font-body">
-                Subject
+      <div className="grid lg:grid-cols-2 gap-16 mb-24">
+        {/* Form */}
+        <form
+          ref={formRef}
+          onSubmit={handleSubmit}
+          className="contact-form space-y-8"
+        >
+          {["Name", "Email", "Subject"].map((label, i) => (
+            <div key={i}>
+              <label className="text-sm opacity-60 block mb-2">
+                {label}
               </label>
               <input
-                type="text"
-                name="subject"
                 required
-                className="w-full bg-transparent border-b-2 border-primary-foreground/20 py-4 text-xl focus:border-primary-foreground outline-none transition-colors font-display placeholder:text-primary-foreground/30"
-                placeholder="What's this about?"
+                className="w-full bg-transparent border-b-2 border-[rgba(83,19,27,0.3)] py-4 text-xl focus:border-[rgb(83,19,27)] outline-none"
               />
             </div>
+          ))}
 
-            <div>
-              <label className="text-sm text-primary-foreground/60 block mb-2 font-body">
-                Message
-              </label>
-              <textarea
-                name="message"
-                required
-                rows={4}
-                className="w-full bg-transparent border-b-2 border-primary-foreground/20 py-4 text-xl focus:border-primary-foreground outline-none transition-colors resize-none font-display placeholder:text-primary-foreground/30"
-                placeholder="Tell us about your project..."
-              />
-            </div>
-
-            <button
-              ref={buttonRef}
-              type="submit"
-              disabled={sendStatus === 'sending'}
-              className={`group inline-flex items-center justify-center gap-3 px-10 py-5 rounded-full font-body font-semibold text-lg uppercase tracking-wider transition-all duration-300 disabled:cursor-not-allowed min-w-[220px] ${
-                sendStatus === 'success' 
-                  ? 'bg-green-500 text-white' 
-                  : 'bg-primary-foreground text-primary hover:scale-105'
-              }`}
-            >
-              {getButtonContent()}
-            </button>
-          </form>
-
-          {/* Contact Info */}
-          <div className="contact-info space-y-8 lg:pl-16">
-            {contactInfo.map((info, index) => (
-              <div
-                key={index}
-                className="contact-info-card flex items-start gap-6 p-6 rounded-2xl bg-primary-foreground/5 border border-primary-foreground/10 hover:bg-primary-foreground/10 transition-colors duration-300"
-              >
-                <div className="w-14 h-14 rounded-xl bg-primary-foreground/10 flex items-center justify-center shrink-0">
-                  <info.icon className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="font-display text-xl mb-1 font-semibold">{info.title}</h4>
-                  <p className="text-primary-foreground/60 font-body">{info.content}</p>
-                </div>
-              </div>
-            ))}
+          <div>
+            <label className="text-sm opacity-60 block mb-2">
+              Message
+            </label>
+            <textarea
+              rows={4}
+              required
+              className="w-full bg-transparent border-b-2 border-[rgba(83,19,27,0.3)] py-4 text-xl focus:border-[rgb(83,19,27)] outline-none resize-none"
+            />
           </div>
+
+          <button
+            ref={buttonRef}
+            type="submit"
+            disabled={sendStatus === "sending"}
+            className={`inline-flex items-center justify-center px-10 py-5 rounded-full font-semibold uppercase tracking-wider transition-all min-w-[220px]
+              ${
+                sendStatus === "success"
+                  ? "bg-green-500 text-white"
+                  : "bg-[rgb(83,19,27)] text-[#fdf3b7] hover:scale-105"
+              }`}
+          >
+            {sendStatus === "success" ? (
+              <span className="flex items-center gap-2">
+                <Check className="w-5 h-5" /> Sent
+              </span>
+            ) : (
+              "Send Message"
+            )}
+          </button>
+        </form>
+
+        {/* Info */}
+        <div className="contact-info space-y-8 lg:pl-16">
+          {contactInfo.map((info, i) => (
+            <div
+              key={i}
+              className="contact-info-card flex items-start gap-6 p-6 rounded-2xl border border-[rgba(83,19,27,0.2)] hover:bg-[rgba(83,19,27,0.05)] transition"
+            >
+              <div className="w-14 h-14 rounded-xl bg-[rgba(83,19,27,0.1)] flex items-center justify-center">
+                <info.icon className="w-6 h-6" />
+              </div>
+              <div>
+                <h4 className="text-xl font-semibold mb-1">
+                  {info.title}
+                </h4>
+                <p className="opacity-70">{info.content}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
-    </section>
-  );
+
+      {/* MAP SECTION */}
+      <div
+        className="map-section rounded-3xl overflow-hidden border border-[rgba(83,19,27,0.2)] shadow-lg"
+        data-aos="fade-up"
+        data-aos-delay="200"
+      >
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.883535925273!2d77.04237169999999!3d11.047357800000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba859e917e14165%3A0x862614d85d3a08f9!2sMediamatic%20Studio%20-%20Complete%20Digital%20Solution!5e0!3m2!1sen!2sin!4v1756126340458!5m2!1sen!2sin"
+          width="100%"
+          height="500"
+          style={{ border: 0 }}
+          allowFullScreen
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+        />
+      </div>
+    </div>
+  </section>
+);
+
 };
