@@ -31,7 +31,7 @@ export const Studio = () => {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Section reveal
+      /* ------------------ Heading reveal ------------------ */
       gsap.fromTo(
         ".studio-heading",
         { y: 100, opacity: 0 },
@@ -43,31 +43,31 @@ export const Studio = () => {
           scrollTrigger: {
             trigger: ".studio-heading",
             start: "top 85%",
-            toggleActions: "play none none reverse",
           },
         }
       );
 
-      // Project cards
-      gsap.fromTo(
-        ".project-card",
-        { y: 80, opacity: 0, scale: 0.95 },
-        {
-          y: 0,
-          opacity: 1,
-          scale: 1,
-          stagger: 0.2,
-          duration: 0.8,
-          ease: "power3.out",
+      /* ------------------ Horizontal gallery scroll ------------------ */
+      const track = document.querySelector(".projects-track") as HTMLElement;
+
+      if (track) {
+        const scrollWidth = track.scrollWidth - window.innerWidth;
+
+        gsap.to(track, {
+          x: -scrollWidth,
+          ease: "none",
           scrollTrigger: {
-            trigger: ".projects-grid",
-            start: "top 85%",
-            toggleActions: "play none none reverse",
+            trigger: ".projects-wrapper",
+            start: "top top",
+            end: () => `+=${scrollWidth}`,
+            scrub: 1,
+            pin: true,
+            anticipatePin: 1,
           },
-        }
-      );
+        });
+      }
 
-      // Horizontal scroll for marquee
+      /* ------------------ Marquee animation ------------------ */
       gsap.to(marqueeRef.current, {
         xPercent: -50,
         repeat: -1,
@@ -83,39 +83,43 @@ export const Studio = () => {
     <section
       id="studio"
       ref={sectionRef}
-      className="py-32 bg-background overflow-hidden"
+      className="bg-background overflow-hidden"
     >
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 pt-32 pb-20">
         {/* Header */}
         <div className="mb-16">
           <span className="text-xs uppercase tracking-[0.3em] text-foreground/50 font-body block mb-4">
             Our Work
           </span>
           <h2 className="studio-heading font-display text-[clamp(2.5rem,5vw,4rem)] leading-[1.1]">
-            Featured <span className="italic text-foreground/60">Projects</span>
+            Featured{" "}
+            <span className="italic text-foreground/60">Projects</span>
           </h2>
         </div>
+      </div>
 
-        {/* Projects Grid */}
-        <div className="projects-grid grid md:grid-cols-3 gap-8 mb-20">
+      {/* ------------------ Horizontal Projects Gallery ------------------ */}
+      <div className="projects-wrapper overflow-hidden">
+        <div className="projects-track flex gap-8 px-6">
           {projects.map((project, index) => (
             <div
               key={index}
-              className="project-card group relative aspect-[4/5] rounded-3xl overflow-hidden cursor-pointer"
+              className="project-card group relative aspect-[4/5] min-w-[80vw] md:min-w-[32vw] rounded-3xl overflow-hidden cursor-pointer"
             >
               {/* Background gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${project.color}`} />
-              
-              {/* Content overlay */}
+              <div
+                className={`absolute inset-0 bg-gradient-to-br ${project.color}`}
+              />
+
+              {/* Hover overlay */}
               <div className="absolute inset-0 bg-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-              
+
               {/* Card content */}
               <div className="relative h-full p-8 flex flex-col justify-between">
-                <div>
-                  <span className="text-xs uppercase tracking-wider text-foreground/60 font-body">
-                    {project.category}
-                  </span>
-                </div>
+                <span className="text-xs uppercase tracking-wider text-foreground/60 font-body">
+                  {project.category}
+                </span>
+
                 <div className="transform group-hover:-translate-y-4 transition-transform duration-500">
                   <h3 className="font-display text-3xl mb-2 group-hover:text-background transition-colors duration-500">
                     {project.title}
@@ -130,16 +134,22 @@ export const Studio = () => {
         </div>
       </div>
 
-      {/* Marquee */}
-      <div className="relative overflow-hidden py-8 border-y border-foreground/10">
+      {/* ------------------ Marquee ------------------ */}
+      <div className="relative overflow-hidden py-10 border-y border-foreground/10 mt-32">
         <div ref={marqueeRef} className="flex whitespace-nowrap">
           {[...Array(4)].map((_, i) => (
             <div key={i} className="flex items-center gap-8 px-8">
-              <span className="font-display text-6xl text-foreground/10">Design</span>
+              <span className="font-display text-6xl text-foreground/10">
+                Design
+              </span>
               <span className="w-3 h-3 rounded-full bg-foreground/20" />
-              <span className="font-display text-6xl text-foreground/10 italic">Strategy</span>
+              <span className="font-display text-6xl text-foreground/10 italic">
+                Strategy
+              </span>
               <span className="w-3 h-3 rounded-full bg-foreground/20" />
-              <span className="font-display text-6xl text-foreground/10">Branding</span>
+              <span className="font-display text-6xl text-foreground/10">
+                Branding
+              </span>
               <span className="w-3 h-3 rounded-full bg-foreground/20" />
             </div>
           ))}

@@ -1,224 +1,253 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Mail, MapPin, Clock, Check } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Send, Mail, Phone, MapPin, CheckCircle, ArrowUpRight } from "lucide-react";
+import { toast } from "sonner";
 
 gsap.registerPlugin(ScrollTrigger);
 
-type SendStatus = "idle" | "sending" | "success";
-
 export const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const formRef = useRef<HTMLFormElement>(null);
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const [sendStatus, setSendStatus] = useState<SendStatus>("idle");
-  const { toast } = useToast();
+  const sendBtnRef = useRef<HTMLButtonElement>(null);
+  const [isSending, setIsSending] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
 
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
     const ctx = gsap.context(() => {
+      // Heading animation
       gsap.fromTo(
-        ".contact-heading",
-        { y: 100, opacity: 0 },
+        ".contact-char",
+        { opacity: 0, y: 50, rotateX: -90 },
         {
-          y: 0,
           opacity: 1,
-          duration: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.5,
+          stagger: 0.02,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ".contact-heading",
-            start: "top 85%",
+            trigger: section,
+            start: "top 70%",
+            toggleActions: "play none none reverse",
           },
         }
       );
 
+      // Form elements
       gsap.fromTo(
-        ".contact-form",
-        { y: 60, opacity: 0 },
+        ".contact-item",
+        { opacity: 0, y: 40 },
         {
-          y: 0,
           opacity: 1,
-          duration: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.08,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ".contact-form",
-            start: "top 85%",
+            trigger: section,
+            start: "top 60%",
+            toggleActions: "play none none reverse",
           },
         }
       );
 
+      // Info cards
       gsap.fromTo(
-        ".contact-info-card",
-        { x: 60, opacity: 0 },
+        ".info-card",
+        { opacity: 0, x: 50, scale: 0.95 },
         {
+          opacity: 1,
           x: 0,
-          opacity: 1,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power3.out",
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: "back.out(1.4)",
           scrollTrigger: {
-            trigger: ".contact-info",
-            start: "top 85%",
+            trigger: ".info-cards-container",
+            start: "top 80%",
+            toggleActions: "play none none reverse",
           },
         }
       );
-    }, sectionRef);
+    }, section);
 
     return () => ctx.revert();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!buttonRef.current || sendStatus === "sending") return;
+    const btn = sendBtnRef.current;
+    if (!btn) return;
 
-    setSendStatus("sending");
+    setIsSending(true);
 
-    await new Promise((r) => setTimeout(r, 1200));
+    // Animated send effect
+    const icon = btn.querySelector(".send-icon");
+    const btnText = btn.querySelector(".btn-text");
 
-    setSendStatus("success");
+    if (icon && btnText) {
+      const tl = gsap.timeline();
+      tl.to(btn, { scale: 0.96, duration: 0.1 });
+      tl.to(icon, { x: 250, y: -100, rotation: 35, opacity: 0, duration: 0.7, ease: "power3.out" }, 0);
+      tl.to(btnText, { opacity: 0, duration: 0.15 }, 0.05);
+      tl.to(btn, { scale: 1, duration: 0.25, ease: "elastic.out(1, 0.6)" }, 0.25);
+      tl.set(icon, { x: 0, y: 0, rotation: 0, opacity: 1 }, 1);
+      tl.to(btnText, { opacity: 1, duration: 0.25 }, 1);
+    }
 
-    toast({
-      title: "Message sent!",
-      description: "We’ll get back to you within 24 hours.",
+    await new Promise((resolve) => setTimeout(resolve, 1100));
+
+    setIsSending(false);
+    toast.success("Message sent successfully!", {
+      description: "We'll get back to you soon.",
+      icon: <CheckCircle className="w-5 h-5" />,
     });
-
-    setTimeout(() => {
-      setSendStatus("idle");
-      formRef.current?.reset();
-    }, 3000);
+    setFormData({ name: "", email: "", message: "" });
   };
 
-  const contactInfo = [
-    {
-      icon: MapPin,
-      title: "Our Address",
-      content: "Covai Tech Park, Kalapatti, Coimbatore",
-    },
-    {
-      icon: Mail,
-      title: "Email",
-      content: "support@mediamaticstudio.com",
-    },
-    {
-      icon: Clock,
-      title: "Hours",
-      content: "Mon–Fri: 9am – 8:30pm",
-    },
-  ];
+  const splitHeading = (text: string) => {
+    return text.split("").map((char, i) => (
+      <span
+        key={i}
+        className="contact-char inline-block"
+        style={{ display: char === " " ? "inline" : "inline-block" }}
+      >
+        {char === " " ? "\u00A0" : char}
+      </span>
+    ));
+  };
 
-return (
-  <section
-    id="contact"
-    ref={sectionRef}
-    className="py-32 relative overflow-hidden"
-    style={{ backgroundColor: "#fdf3b7", color: "rgb(83,19,27)" }}
-  >
-    {/* Decorative rings */}
-    <div className="absolute top-20 right-20 w-72 h-72 rounded-full border border-[rgba(83,19,27,0.15)]" />
-    <div className="absolute bottom-20 left-20 w-48 h-48 rounded-full border border-[rgba(83,19,27,0.15)]" />
+  return (
+    <section id="contact" ref={sectionRef} className="min-h-screen bg-background py-20 md:py-28 relative overflow-hidden">
+      {/* Background */}
+      <div className="absolute inset-0 opacity-[0.025]" style={{
+        backgroundImage: `
+          radial-gradient(circle at 2px 2px, hsl(var(--foreground)) 1px, transparent 0)
+        `,
+        backgroundSize: "50px 50px",
+      }} />
 
-    <div className="container mx-auto px-6 relative z-10">
-      {/* Header */}
-      <div className="mb-16">
-        <span className="text-xs uppercase tracking-[0.3em] opacity-60 block mb-4">
-          Get In Touch
-        </span>
-        <h2 className="contact-heading text-[clamp(2.5rem,6vw,5rem)] leading-[1.1] font-bold">
-          Let’s{" "}
-          <span className="italic font-normal opacity-70">Connect</span>
-        </h2>
-      </div>
+      <div className="container mx-auto px-6 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-14 md:mb-20" style={{ perspective: "1000px" }}>
+          <span className="block text-[10px] uppercase tracking-[0.25em] text-foreground/40 font-semibold mb-4">
+            Get In Touch
+          </span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight">
+            {splitHeading("Contact Us")}
+          </h2>
+        </div>
 
-      <div className="grid lg:grid-cols-2 gap-16 mb-24">
-        {/* Form */}
-        <form
-          ref={formRef}
-          onSubmit={handleSubmit}
-          className="contact-form space-y-8"
-        >
-          {["Name", "Email", "Subject"].map((label, i) => (
-            <div key={i}>
-              <label className="text-sm opacity-60 block mb-2">
-                {label}
-              </label>
-              <input
-                required
-                className="w-full bg-transparent border-b-2 border-[rgba(83,19,27,0.3)] py-4 text-xl focus:border-[rgb(83,19,27)] outline-none"
-              />
-            </div>
-          ))}
-
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto">
+          {/* Form */}
           <div>
-            <label className="text-sm opacity-60 block mb-2">
-              Message
-            </label>
-            <textarea
-              rows={4}
-              required
-              className="w-full bg-transparent border-b-2 border-[rgba(83,19,27,0.3)] py-4 text-xl focus:border-[rgb(83,19,27)] outline-none resize-none"
-            />
+            <p className="contact-item text-base md:text-lg text-foreground/50 mb-8">
+              Have a project in mind? Let's create something amazing together.
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div className="contact-item">
+                <label className="block text-[12px] font-bold text-foreground/60 mb-2 uppercase tracking-[0.15em]">
+                  Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  className="w-full px-5 py-4 bg-transparent border-2 border-foreground/15 rounded-xl focus:border-foreground focus:outline-none transition-all text-foreground placeholder:text-foreground/25 font-medium text-sm"
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div className="contact-item">
+                <label className="block text-[12px] font-bold text-foreground/60 mb-2 uppercase tracking-[0.15em]">
+                  Email
+                </label>
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  className="w-full px-5 py-4 bg-transparent border-2 border-foreground/15 rounded-xl focus:border-foreground focus:outline-none transition-all text-foreground placeholder:text-foreground/25 font-medium text-sm"
+                  placeholder="your@email.com"
+                />
+              </div>
+
+              <div className="contact-item">
+                <label className="block text-[12px] font-bold text-foreground/60 mb-2 uppercase tracking-[0.15em]">
+                  Message
+                </label>
+                <textarea
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  required
+                  rows={5}
+                  className="w-full px-5 py-4 bg-transparent border-2 border-foreground/15 rounded-xl focus:border-foreground focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/25 font-medium text-sm"
+                  placeholder="Tell us about your project..."
+                />
+              </div>
+
+              <button
+                ref={sendBtnRef}
+                type="submit"
+                disabled={isSending}
+                className="contact-item group w-full py-4 px-6 bg-foreground text-background rounded-xl font-bold flex items-center justify-center gap-3 hover:shadow-strong transition-all duration-300 disabled:opacity-70 overflow-hidden relative text-sm uppercase tracking-wider"
+              >
+                <span className="btn-text">{isSending ? "Sending..." : "Send Message"}</span>
+                <Send className="send-icon w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </button>
+            </form>
           </div>
 
-          <button
-            ref={buttonRef}
-            type="submit"
-            disabled={sendStatus === "sending"}
-            className={`inline-flex items-center justify-center px-10 py-5 rounded-full font-semibold uppercase tracking-wider transition-all min-w-[220px]
-              ${
-                sendStatus === "success"
-                  ? "bg-green-500 text-white"
-                  : "bg-[rgb(83,19,27)] text-[#fdf3b7] hover:scale-105"
-              }`}
-          >
-            {sendStatus === "success" ? (
-              <span className="flex items-center gap-2">
-                <Check className="w-5 h-5" /> Sent
-              </span>
-            ) : (
-              "Send Message"
-            )}
-          </button>
-        </form>
-
-        {/* Info */}
-        <div className="contact-info space-y-8 lg:pl-16">
-          {contactInfo.map((info, i) => (
-            <div
-              key={i}
-              className="contact-info-card flex items-start gap-6 p-6 rounded-2xl border border-[rgba(83,19,27,0.2)] hover:bg-[rgba(83,19,27,0.05)] transition"
-            >
-              <div className="w-14 h-14 rounded-xl bg-[rgba(83,19,27,0.1)] flex items-center justify-center">
-                <info.icon className="w-6 h-6" />
+          {/* Info Cards */}
+          <div className="info-cards-container flex flex-col justify-center gap-5">
+            <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
+              <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
+                <Mail className="w-5 h-5 text-foreground" strokeWidth={1.5} />
               </div>
               <div>
-                <h4 className="text-xl font-semibold mb-1">
-                  {info.title}
-                </h4>
-                <p className="opacity-70">{info.content}</p>
+                <h3 className="font-bold text-foreground mb-1 text-sm uppercase tracking-wider">Email Us</h3>
+                <a href="mailto:support@mediamaticstudio.com" className="text-foreground/50 hover:text-foreground transition-colors text-sm flex items-center gap-1">
+                  support@mediamaticstudio.com <ArrowUpRight className="w-3 h-3" />
+                </a>
               </div>
             </div>
-          ))}
+
+            <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
+              <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
+                <Phone className="w-5 h-5 text-foreground" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="font-bold text-foreground mb-1 text-sm uppercase tracking-wider">Call Us</h3>
+                <p className="text-foreground/50 text-sm">+91 96295 93615</p>
+                <p className="text-foreground/35 text-xs mt-0.5">US Toll Free: (+1) (888) 219 5755</p>
+              </div>
+            </div>
+
+            <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
+              <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
+                <MapPin className="w-5 h-5 text-foreground" strokeWidth={1.5} />
+              </div>
+              <div>
+                <h3 className="font-bold text-foreground mb-1 text-sm uppercase tracking-wider">Visit Us</h3>
+                <p className="text-foreground/50 text-xs leading-relaxed">
+                  COVAI TECH PARK, Site No: 90,<br />
+                  Kovai Thiru Nagar, Kalapatty Village,<br />
+                  Coimbatore – 641 014
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* MAP SECTION */}
-      <div
-        className="map-section rounded-3xl overflow-hidden border border-[rgba(83,19,27,0.2)] shadow-lg"
-        data-aos="fade-up"
-        data-aos-delay="200"
-      >
-        <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3915.883535925273!2d77.04237169999999!3d11.047357800000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba859e917e14165%3A0x862614d85d3a08f9!2sMediamatic%20Studio%20-%20Complete%20Digital%20Solution!5e0!3m2!1sen!2sin!4v1756126340458!5m2!1sen!2sin"
-          width="100%"
-          height="500"
-          style={{ border: 0 }}
-          allowFullScreen
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-        />
-      </div>
-    </div>
-  </section>
-);
-
+    </section>
+  );
 };

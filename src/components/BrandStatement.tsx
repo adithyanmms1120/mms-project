@@ -125,6 +125,7 @@ export const BrandStatement = () => {
     <section
       ref={sectionRef}
       className="relative bg-primary py-32 md:py-48 overflow-hidden"
+      id ="brandstatements"
     >
       {/* Decorative Background */}
       <div className="absolute inset-0 pointer-events-none">

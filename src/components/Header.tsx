@@ -7,29 +7,28 @@ import logo from "@/assets/mediamatic-logo.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* ---------------- NAV LINKS ---------------- */
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About", href: "#about" },
-  { label: "Services", href: "#services" },
+  { label: "Services", href: "#services", hasDropdown: true },
   { label: "Studio", href: "#studio" },
-  { label: "Brand Statement", href: "/brand-statement", isPage: true },
+  {label: "Brandstatements", href: "#brandstatements" },
   { label: "Contact", href: "#contact" },
 ];
 
-/* ---------------- SERVICES DROPDOWN ---------------- */
 const serviceLinks = [
-  { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Website Development", href: "/services/web-development" },
+  { label: "Content Management", href: "/services/contentmanagement" },
   { label: "2D & 3D Animation", href: "/services/animation" },
-  { label: "Content Management", href: "/services/content" },
-  { label: "Web Hosting", href: "/services/hosting" },
+  { label: "Web Development", href: "/services/web-development" },
+  { label: "Digital Marketing", href: "/services/digital-marketing" },
+  { label: "Web Hosting", href: "/services/webhosting" },
 ];
 
 export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isDarkSection, setIsDarkSection] = useState(false);
-  const [serviceOpenMobile, setServiceOpenMobile] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [serviceOpen, setServiceOpen] = useState(false);
+  const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
 
   const headerRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -38,35 +37,25 @@ export const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  /* ---------------- HEADER ENTRY ANIMATION ---------------- */
+  // Header entry animation
   useEffect(() => {
     gsap.fromTo(
       headerRef.current,
       { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+      { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 0.5 }
     );
   }, []);
 
-  /* ---------------- DARK SECTION DETECTION ---------------- */
+  // Scroll detection
   useEffect(() => {
-    ScrollTrigger.getAll().forEach(t => t.kill());
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
-    const sections = document.querySelectorAll("#about, #contact");
-
-    sections.forEach(section => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top 80px",
-        end: "bottom 80px",
-        onEnter: () => setIsDarkSection(true),
-        onLeave: () => setIsDarkSection(false),
-        onEnterBack: () => setIsDarkSection(true),
-        onLeaveBack: () => setIsDarkSection(false),
-      });
-    });
-  }, [location.pathname]);
-
-  /* ---------------- MOBILE MENU ANIMATION ---------------- */
+  // Mobile menu animation
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
 
@@ -81,19 +70,28 @@ export const Header = () => {
     );
 
     gsap.fromTo(
-      linksRef.current?.querySelectorAll("a") || [],
+      linksRef.current?.querySelectorAll("a, button") || [],
       { x: 80, opacity: 0 },
       { x: 0, opacity: 1, stagger: 0.08, delay: 0.3 }
     );
   }, [isOpen]);
 
-  /* ---------------- NAV HANDLER ---------------- */
   const handleNavClick = (href: string, isPage?: boolean) => {
     setIsOpen(false);
-    setServiceOpenMobile(false);
+    setMobileServiceOpen(false);
 
     if (isPage || href.startsWith("/")) {
       navigate(href);
+      return;
+    }
+
+    // If on a different page, navigate home first
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.querySelector(href);
+        el?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
       return;
     }
 
@@ -101,71 +99,84 @@ export const Header = () => {
     el?.scrollIntoView({ behavior: "smooth" });
   };
 
-  /* ---------------- DYNAMIC COLORS ---------------- */
-  const textColor = isDarkSection ? "text-primary-foreground" : "text-foreground";
-  const textMuted = isDarkSection
-    ? "text-primary-foreground/70"
-    : "text-foreground/70";
-  const hoverColor = isDarkSection
-    ? "hover:text-primary-foreground"
-    : "hover:text-foreground";
-  const buttonStyle = isDarkSection
-    ? "bg-primary-foreground text-primary"
-    : "bg-foreground text-background";
-
   return (
     <>
       <header
         ref={headerRef}
-        className="fixed top-0 left-0 right-0 z-50 transition-colors duration-500"
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          isScrolled
+            ? "bg-background/95 backdrop-blur-lg shadow-soft py-3"
+            : "bg-transparent py-5"
+        }`}
       >
-        <div className="container mx-auto px-6 py-4">
+        <div className="container mx-auto px-6">
           <nav className="flex items-center justify-between">
-            {/* LOGO */}
+            {/* Logo */}
             <a
               href="#home"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 handleNavClick("#home");
               }}
+              className="flex items-center gap-3"
             >
-              <img src={logo} alt="MediaMatic Studio" className="h-12" />
+              <img src={logo} alt="MediaMatic Studio" className="h-10 md:h-12" />
+              <span className="hidden sm:block font-display text-xl font-bold text-foreground">
+                MediaMatic
+              </span>
             </a>
 
-            {/* DESKTOP NAV */}
-            <div className="hidden md:flex items-center gap-8">
-              {navLinks.map(link =>
-                link.label === "Services" ? (
-                  <div key={link.label} className="relative group">
-                    <button className={`${textMuted} ${hoverColor} flex items-center gap-1 uppercase text-sm`}>
-                      Services <ChevronDown size={14} />
+            {/* Desktop Nav */}
+            <div className="hidden lg:flex items-center gap-8">
+              {navLinks.map((link) =>
+                link.hasDropdown ? (
+                  <div
+                    key={link.label}
+                    className="relative group"
+                    onMouseEnter={() => setServiceOpen(true)}
+                    onMouseLeave={() => setServiceOpen(false)}
+                  >
+                    <button className="flex items-center gap-1 text-foreground/70 hover:text-foreground transition-colors uppercase text-sm font-medium tracking-wide">
+                      {link.label}
+                      <ChevronDown
+                        size={14}
+                        className={`transition-transform duration-300 ${
+                          serviceOpen ? "rotate-180" : ""
+                        }`}
+                      />
                     </button>
 
-                    <div className="absolute left-0 top-full mt-4 w-64 rounded-xl bg-background shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition">
-                      {serviceLinks.map(service => (
-                        <a
-                          key={service.label}
-                          href={service.href}
-                          onClick={e => {
-                            e.preventDefault();
-                            handleNavClick(service.href, true);
-                          }}
-                          className="block px-5 py-3 text-sm hover:bg-muted"
-                        >
-                          {service.label}
-                        </a>
-                      ))}
+                    {/* Dropdown */}
+                    <div
+                      className={`service-dropdown ${serviceOpen ? "active" : ""}`}
+                    >
+                      <div className="py-2">
+                        {serviceLinks.map((service) => (
+                          <a
+                            key={service.label}
+                            href={service.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setServiceOpen(false);
+                              handleNavClick(service.href, true);
+                            }}
+                            className="block px-5 py-3 text-sm text-foreground/70 hover:text-foreground hover:bg-muted/50 transition-colors"
+                          >
+                            {service.label}
+                          </a>
+                        ))}
+                      </div>
                     </div>
                   </div>
                 ) : (
                   <a
                     key={link.label}
                     href={link.href}
-                    onClick={e => {
+                    onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick(link.href, link.isPage);
+                      handleNavClick(link.href);
                     }}
-                    className={`${textMuted} ${hoverColor} uppercase text-sm`}
+                    className="text-foreground/70 hover:text-foreground transition-colors uppercase text-sm font-medium tracking-wide animated-underline"
                   >
                     {link.label}
                   </a>
@@ -173,22 +184,22 @@ export const Header = () => {
               )}
             </div>
 
-            {/* CTA */}
+            {/* CTA Button */}
             <a
               href="#contact"
-              onClick={e => {
+              onClick={(e) => {
                 e.preventDefault();
                 handleNavClick("#contact");
               }}
-              className={`hidden md:flex items-center gap-2 ${buttonStyle} px-6 py-3 rounded-full uppercase text-sm hover:scale-105 transition`}
+              className="hidden lg:flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full uppercase text-sm font-semibold hover:shadow-strong hover:scale-105 transition-all duration-300"
             >
               Get Started <ArrowRight size={16} />
             </a>
 
-            {/* MOBILE TOGGLE */}
+            {/* Mobile Toggle */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className={`md:hidden ${textColor}`}
+              className="lg:hidden text-foreground p-2"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -196,34 +207,40 @@ export const Header = () => {
         </div>
       </header>
 
-      {/* MOBILE MENU */}
+      {/* Mobile Menu */}
       {isOpen && (
         <div
           ref={menuRef}
           className="fixed inset-0 z-40 bg-primary flex items-center justify-center"
         >
-          <div ref={linksRef} className="flex flex-col items-center gap-8">
-            {navLinks.map(link =>
-              link.label === "Services" ? (
+          <div ref={linksRef} className="flex flex-col items-center gap-6">
+            {navLinks.map((link) =>
+              link.hasDropdown ? (
                 <div key={link.label} className="text-center">
                   <button
-                    onClick={() => setServiceOpenMobile(!serviceOpenMobile)}
-                    className="text-5xl text-primary-foreground flex items-center gap-2"
+                    onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
+                    className="text-4xl md:text-5xl text-primary-foreground font-display flex items-center gap-2"
                   >
-                    Services <ChevronDown size={22} />
+                    Services
+                    <ChevronDown
+                      size={24}
+                      className={`transition-transform duration-300 ${
+                        mobileServiceOpen ? "rotate-180" : ""
+                      }`}
+                    />
                   </button>
 
-                  {serviceOpenMobile && (
-                    <div className="mt-6 flex flex-col gap-4">
-                      {serviceLinks.map(service => (
+                  {mobileServiceOpen && (
+                    <div className="mt-4 flex flex-col gap-3">
+                      {serviceLinks.map((service) => (
                         <a
                           key={service.label}
                           href={service.href}
-                          onClick={e => {
+                          onClick={(e) => {
                             e.preventDefault();
                             handleNavClick(service.href, true);
                           }}
-                          className="text-xl text-primary-foreground/80"
+                          className="text-lg text-primary-foreground/70 hover:text-primary-foreground transition-colors"
                         >
                           {service.label}
                         </a>
@@ -235,11 +252,11 @@ export const Header = () => {
                 <a
                   key={link.label}
                   href={link.href}
-                  onClick={e => {
+                  onClick={(e) => {
                     e.preventDefault();
-                    handleNavClick(link.href, link.isPage);
+                    handleNavClick(link.href);
                   }}
-                  className="text-5xl text-primary-foreground"
+                  className="text-4xl md:text-5xl text-primary-foreground font-display hover:text-accent transition-colors"
                 >
                   {link.label}
                 </a>

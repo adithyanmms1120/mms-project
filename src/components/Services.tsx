@@ -1,46 +1,75 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Palette, Megaphone, Layers, Sparkles, ArrowUpRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import {
+  FileText,
+  Clapperboard,
+  Monitor,
+  Megaphone,
+  Globe,
+  ArrowRight,
+} from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
-    icon: Palette,
-    title: "Brand Identity",
-    description: "Visual identity systems, logos, and brand guidelines that make lasting impressions.",
-    features: ["Logo Design", "Color Systems", "Typography", "Brand Guidelines"],
+    icon: FileText,
+    title: "Content Management",
+    tagline: "Expert content writers delivering high-quality content.",
+    description:
+      "SEO-friendly content, web copywriting, engaging social media content, technical writing, and brand-building content that connects with your audience.",
+    features: ["Blog Posts", "SEO Articles", "Technical Docs", "Social Media"],
+    href: "/services/contentmanagement",
+  },
+  {
+    icon: Clapperboard,
+    title: "2D & 3D Animation",
+    tagline: "Creative studio that helps you go ahead.",
+    description:
+      "Transform your business ideas into compelling visual stories with high-quality 2D & 3D animation, explainer videos, and branding videos.",
+    features: ["Explainer Videos", "Brand Videos", "Motion Graphics", "VFX"],
+    href: "/services/animation",
+  },
+  {
+    icon: Monitor,
+    title: "Web & App Development",
+    tagline: "Your go-to digital partner.",
+    description:
+      "Mobile apps your customers can't stop using. Websites that don't just look good but bring in customers. Clean, responsive design.",
+    features: ["Mobile Apps", "Websites", "E-Commerce", "Custom Solutions"],
+    href: "/services/web-development",
   },
   {
     icon: Megaphone,
-    title: "Brand Strategy",
-    description: "Strategic positioning and messaging that resonates with your target audience.",
-    features: ["Market Research", "Positioning", "Messaging", "Voice & Tone"],
+    title: "Digital Marketing",
+    tagline: "Explore your company with MediaMatic Studio.",
+    description:
+      "SEO, SMO, SEM, SMM expertise. Data-driven digital marketing solutions that increase conversions, engagement, and visibility.",
+    features: ["SEO", "Social Media", "Email Marketing", "Google Ads"],
+    href: "/services/digital-marketing",
   },
   {
-    icon: Layers,
-    title: "Digital Design",
-    description: "Beautiful, functional interfaces that convert visitors into customers.",
-    features: ["UI/UX Design", "Web Design", "App Design", "Prototyping"],
-  },
-  {
-    icon: Sparkles,
-    title: "Campaign Launch",
-    description: "Launch strategies and creative campaigns that drive engagement.",
-    features: ["Launch Strategy", "Social Media", "Content Creation", "Analytics"],
+    icon: Globe,
+    title: "Web Hosting",
+    tagline: "Your trusted hosting partner.",
+    description:
+      "Top-notch web hosting and domain services. 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts.",
+    features: ["Shared Hosting", "Dedicated", "Domain", "Email"],
+    href: "/services/webhosting",
   },
 ];
 
 export const Services = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const cardsRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Title animation
+      // Heading animation
       gsap.fromTo(
-        ".services-title",
+        ".services-heading",
         { y: 80, opacity: 0 },
         {
           y: 0,
@@ -48,55 +77,29 @@ export const Services = () => {
           duration: 1,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: ".services-title",
+            trigger: ".services-heading",
             start: "top 85%",
-            toggleActions: "play none none reverse",
           },
         }
       );
 
       // Cards stagger animation
-      const cards = cardsRef.current?.querySelectorAll(".service-card");
-      cards?.forEach((card, index) => {
-        gsap.fromTo(
-          card,
-          { 
-            y: 100, 
-            opacity: 0,
-            rotateY: index % 2 === 0 ? -15 : 15,
+      gsap.fromTo(
+        ".service-card",
+        { y: 60, opacity: 0, scale: 0.95 },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          duration: 0.7,
+          stagger: 0.1,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: ".services-grid",
+            start: "top 85%",
           },
-          {
-            y: 0,
-            opacity: 1,
-            rotateY: 0,
-            duration: 1,
-            ease: "power3.out",
-            scrollTrigger: {
-              trigger: card,
-              start: "top 90%",
-              toggleActions: "play none none reverse",
-            },
-          }
-        );
-      });
-
-      // Hover animations
-      cards?.forEach((card) => {
-        const icon = card.querySelector(".service-icon");
-        const arrow = card.querySelector(".service-arrow");
-
-        card.addEventListener("mouseenter", () => {
-          gsap.to(icon, { scale: 1.2, rotation: 10, duration: 0.3 });
-          gsap.to(arrow, { x: 5, y: -5, duration: 0.3 });
-          gsap.to(card, { y: -10, duration: 0.3 });
-        });
-
-        card.addEventListener("mouseleave", () => {
-          gsap.to(icon, { scale: 1, rotation: 0, duration: 0.3 });
-          gsap.to(arrow, { x: 0, y: 0, duration: 0.3 });
-          gsap.to(card, { y: 0, duration: 0.3 });
-        });
-      });
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -106,62 +109,86 @@ export const Services = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-32 bg-background relative overflow-hidden"
+      className="min-h-screen bg-background py-24 md:py-32 relative overflow-hidden"
     >
-      {/* Background decoration */}
-      <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-foreground/5 blur-3xl" />
-      <div className="absolute -bottom-40 -left-40 w-96 h-96 rounded-full bg-foreground/5 blur-3xl" />
+      {/* Background pattern */}
+      <div
+        className="absolute inset-0 opacity-[0.02]"
+        style={{
+          backgroundImage:
+            "repeating-linear-gradient(0deg, transparent, transparent 59px, hsl(var(--foreground)) 59px, hsl(var(--foreground)) 60px)",
+        }}
+      />
 
       <div className="container mx-auto px-6 relative z-10">
-        {/* Section header */}
-        <div className="mb-20">
-          <span className="text-xs uppercase tracking-[0.3em] text-foreground/50 font-body block mb-4">
+        {/* Header */}
+        <div className="text-center mb-16 md:mb-20">
+          <span className="block text-xs uppercase tracking-[0.3em] text-foreground/40 font-semibold mb-4">
             What We Do
           </span>
-          <h2 className="services-title font-display text-[clamp(2.5rem,5vw,4rem)] leading-[1.1] max-w-2xl">
-            Learn how to use the{" "}
-            <span className="italic text-foreground/60">coolest</span>{" "}
-            design principles
+          <h2 className="services-heading font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.1] font-bold text-foreground">
+            Our <span className="italic font-normal text-foreground/60">Services</span>
           </h2>
+          <p className="text-base md:text-lg text-foreground/50 max-w-xl mx-auto mt-6">
+            A complete creative powerhouse for all your branding and digital needs
+          </p>
         </div>
 
-        {/* Services grid */}
-        <div ref={cardsRef} className="grid md:grid-cols-2 gap-8">
+        {/* Services Grid */}
+        <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {services.map((service, index) => (
             <div
               key={index}
-              className="service-card group relative bg-card border border-border rounded-3xl p-10 cursor-pointer transition-shadow duration-500 hover:shadow-2xl"
-              style={{ perspective: "1000px" }}
+              className="service-card group relative bg-card rounded-2xl border-2 border-border hover:border-foreground/20 shadow-soft transition-all duration-300 overflow-hidden"
             >
-              {/* Card number */}
-              <span className="absolute top-8 right-8 text-6xl font-display text-foreground/5">
-                0{index + 1}
-              </span>
+              {/* Card Header */}
+              <div className="p-6 md:p-8">
+                {/* Index */}
+                <span className="absolute top-4 right-4 text-5xl font-display font-bold text-foreground/[0.03]">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
 
-              {/* Icon */}
-              <div className="service-icon inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-foreground text-background mb-8">
-                <service.icon size={28} />
-              </div>
+                {/* Icon */}
+                <div className="w-14 h-14 mb-5 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+                  <service.icon
+                    className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors"
+                    strokeWidth={1.5}
+                  />
+                </div>
 
-              {/* Content */}
-              <h3 className="font-display text-3xl mb-4 flex items-center gap-3">
-                {service.title}
-                <ArrowUpRight className="service-arrow w-6 h-6 text-foreground/40" />
-              </h3>
-              <p className="text-foreground/60 mb-8 font-body text-lg leading-relaxed">
-                {service.description}
-              </p>
+                {/* Title */}
+                <h3 className="text-lg font-bold text-foreground mb-1">
+                  {service.title}
+                </h3>
+                <p className="text-xs text-foreground/50 italic mb-4">
+                  {service.tagline}
+                </p>
 
-              {/* Features */}
-              <div className="flex flex-wrap gap-2">
-                {service.features.map((feature, i) => (
-                  <span
-                    key={i}
-                    className="text-xs uppercase tracking-wider bg-foreground/5 text-foreground/70 px-4 py-2 rounded-full font-body"
-                  >
-                    {feature}
-                  </span>
-                ))}
+                {/* Description */}
+                <p className="text-sm text-foreground/70 leading-relaxed mb-5">
+                  {service.description}
+                </p>
+
+                {/* Features */}
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {service.features.map((feature, i) => (
+                    <span
+                      key={i}
+                      className="text-[10px] uppercase tracking-wider px-3 py-1.5 bg-foreground/5 rounded-full text-foreground/60 font-medium"
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <button
+                  onClick={() => navigate(service.href)}
+                  className="flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent transition-colors group/btn"
+                >
+                  Learn More
+                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+                </button>
               </div>
             </div>
           ))}
