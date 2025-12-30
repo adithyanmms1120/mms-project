@@ -82,35 +82,89 @@ export const Contact = () => {
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const btn = sendBtnRef.current;
-    if (!btn) return;
+  e.preventDefault();
 
-    setIsSending(true);
+  const btn = sendBtnRef.current;
+  if (!btn) return;
 
-    // Animated send effect
-    const icon = btn.querySelector(".send-icon");
-    const btnText = btn.querySelector(".btn-text");
+  setIsSending(true);
 
-    if (icon && btnText) {
-      const tl = gsap.timeline();
-      tl.to(btn, { scale: 0.96, duration: 0.1 });
-      tl.to(icon, { x: 250, y: -100, rotation: 35, opacity: 0, duration: 0.7, ease: "power3.out" }, 0);
-      tl.to(btnText, { opacity: 0, duration: 0.15 }, 0.05);
-      tl.to(btn, { scale: 1, duration: 0.25, ease: "elastic.out(1, 0.6)" }, 0.25);
-      tl.set(icon, { x: 0, y: 0, rotation: 0, opacity: 1 }, 1);
-      tl.to(btnText, { opacity: 1, duration: 0.25 }, 1);
+  /* =====================
+     BUTTON SEND ANIMATION
+  ====================== */
+  const icon = btn.querySelector(".send-icon");
+  const btnText = btn.querySelector(".btn-text");
+
+  if (icon && btnText) {
+    const tl = gsap.timeline();
+    tl.to(btn, { scale: 0.96, duration: 0.1 });
+    tl.to(
+      icon,
+      {
+        x: 250,
+        y: -100,
+        rotation: 35,
+        opacity: 0,
+        duration: 0.7,
+        ease: "power3.out",
+      },
+      0
+    );
+    tl.to(btnText, { opacity: 0, duration: 0.15 }, 0.05);
+    tl.to(btn, {
+      scale: 1,
+      duration: 0.25,
+      ease: "elastic.out(1, 0.6)",
+    }, 0.25);
+    tl.set(icon, { x: 0, y: 0, rotation: 0, opacity: 1 }, 1);
+    tl.to(btnText, { opacity: 1, duration: 0.25 }, 1);
+  }
+
+  /* =====================
+     API CALL → DJANGO
+  ====================== */
+  try {
+    const token = localStorage.getItem("accessToken"); // JWT token
+
+    const response = await fetch(
+      "http://127.0.0.1:8000/api/contact/send/",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(formData),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Failed to send message");
     }
 
-    await new Promise((resolve) => setTimeout(resolve, 1100));
-
-    setIsSending(false);
+    /* =====================
+       SUCCESS
+    ====================== */
     toast.success("Message sent successfully!", {
       description: "We'll get back to you soon.",
       icon: <CheckCircle className="w-5 h-5" />,
     });
+
     setFormData({ name: "", email: "", message: "" });
-  };
+
+  } catch (error) {
+    console.error(error);
+
+    toast.error("Something went wrong", {
+      description: error.message || "Please try again later",
+    });
+  } finally {
+    setIsSending(false);
+  }
+};
+
 
   const splitHeading = (text: string) => {
     return text.split("").map((char, i) => (
@@ -209,6 +263,8 @@ export const Contact = () => {
 
           {/* Info Cards */}
           <div className="info-cards-container flex flex-col justify-center gap-5">
+            <a href="mailto:support@mediamaticstudio.com"
+                               className="block">
             <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
               <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
                 <Mail className="w-5 h-5 text-foreground" strokeWidth={1.5} />
@@ -219,8 +275,8 @@ export const Contact = () => {
                   support@mediamaticstudio.com <ArrowUpRight className="w-3 h-3" />
                 </a>
               </div>
-            </div>
-
+            </div></a>
+            <a href="tel:+919629593615" className="text-foreground/50 text-sm">
             <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
               <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
                 <Phone className="w-5 h-5 text-foreground" strokeWidth={1.5} />
@@ -230,8 +286,14 @@ export const Contact = () => {
                 <p className="text-foreground/50 text-sm">+91 96295 93615</p>
                 <p className="text-foreground/35 text-xs mt-0.5">US Toll Free: (+1) (888) 219 5755</p>
               </div>
-            </div>
-
+            </div></a>
+            
+            <a
+                  href="https://www.google.com/maps?q=COVAI+TECH+PARK,+Kalapatty,+Coimbatore"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block"
+                >
             <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
               <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
                 <MapPin className="w-5 h-5 text-foreground" strokeWidth={1.5} />
@@ -244,7 +306,7 @@ export const Contact = () => {
                   Coimbatore – 641 014
                 </p>
               </div>
-            </div>
+            </div></a>
           </div>
         </div>
       </div>
