@@ -23,13 +23,20 @@ const Animation = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "smooth" });
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
         ".service-hero-content > *",
         { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, stagger: 0.15, duration: 0.8, ease: "power3.out", delay: 0.3 }
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.15,
+          duration: 0.8,
+          ease: "power3.out",
+          delay: 0.2,
+        }
       );
 
       gsap.fromTo(
@@ -41,7 +48,10 @@ const Animation = () => {
           stagger: 0.1,
           duration: 0.6,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".features-list", start: "top 85%" },
+          scrollTrigger: {
+            trigger: ".features-list",
+            start: "top 85%",
+          },
         }
       );
 
@@ -54,7 +64,10 @@ const Animation = () => {
           stagger: 0.2,
           duration: 0.7,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".content-blocks", start: "top 85%" },
+          scrollTrigger: {
+            trigger: ".content-blocks",
+            start: "top 85%",
+          },
         }
       );
     }, sectionRef);
@@ -66,7 +79,10 @@ const Animation = () => {
     <>
       <Helmet>
         <title>2D & 3D Animation Services | MediaMatic Studio</title>
-        <meta name="description" content="Transform your business ideas into compelling visual stories with high-quality 2D & 3D animation, explainer videos, branding videos, and motion graphics." />
+        <meta
+          name="description"
+          content="Transform your ideas into compelling visual stories with professional 2D & 3D animation services."
+        />
       </Helmet>
 
       <div className="min-h-screen bg-background">
@@ -80,11 +96,13 @@ const Animation = () => {
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
+              {/* ✅ FIXED BACK BUTTON */}
               <button
-                onClick={() => navigate("/")}
+                type="button"
+                onClick={() => navigate(-1)}
                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8 transition-colors"
               >
-                <ArrowLeft size={18} /> Back to Home
+                <ArrowLeft size={18} /> Back
               </button>
 
               <div className="service-hero-content max-w-4xl">
@@ -92,64 +110,83 @@ const Animation = () => {
                   <div className="w-14 h-14 rounded-xl bg-primary-foreground/10 flex items-center justify-center">
                     <Clapperboard className="w-7 h-7" />
                   </div>
-                  <span className="text-sm uppercase tracking-[0.2em] text-primary-foreground/60">Service</span>
+                  <span className="text-sm uppercase tracking-[0.2em] text-primary-foreground/60">
+                    Service
+                  </span>
                 </div>
 
                 <h1 className="font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.1] font-bold mb-6">
-                  2D & 3D <span className="italic font-normal text-primary-foreground/70">Animation</span>
+                  2D & 3D{" "}
+                  <span className="italic font-normal text-primary-foreground/70">
+                    Animation
+                  </span>
                 </h1>
 
                 <p className="text-xl text-primary-foreground/80 leading-relaxed max-w-2xl">
-                  Creative studio that helps you go ahead with compelling visual stories.
+                  Creative studio that helps you go ahead with compelling visual
+                  stories.
                 </p>
               </div>
             </div>
           </section>
 
-          {/* Content */}
+          {/* Content Section */}
           <section className="py-20">
             <div className="container mx-auto px-6">
               <div className="grid lg:grid-cols-2 gap-16 max-w-6xl mx-auto">
-                {/* Left - Description */}
+                {/* Left */}
                 <div className="content-blocks space-y-8">
                   <div className="content-block">
-                    <h2 className="font-display text-2xl font-bold mb-4">What We Do</h2>
+                    <h2 className="font-display text-2xl font-bold mb-4">
+                      What We Do
+                    </h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      At MediaMatic Studio, we are dedicated to transforming your business ideas into compelling visual stories. Our team of creative and young professionals specializes in high-quality 2D & 3D animation videos, explainer videos, branding videos, and more.
+                      We transform ideas into stunning visual narratives through
+                      high-quality animation and storytelling.
                     </p>
                   </div>
 
                   <div className="content-block">
-                    <h2 className="font-display text-2xl font-bold mb-4">2D Animation</h2>
+                    <h2 className="font-display text-2xl font-bold mb-4">
+                      2D Animation
+                    </h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      2D animation is the classic form of animation, dating back to the early days of hand-drawn cartoons. This traditional technique is cherished for its simplicity and charm, making it a timeless favourite among audiences of all ages.
+                      Timeless, expressive and powerful animation for brands of
+                      all sizes.
                     </p>
                   </div>
 
                   <div className="content-block">
-                    <h2 className="font-display text-2xl font-bold mb-4">3D Animation</h2>
+                    <h2 className="font-display text-2xl font-bold mb-4">
+                      3D Animation
+                    </h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      In contrast to 2D animation, 3D animation brings characters and environments to life in three-dimensional space. The result is stunningly realistic animations with depth and dimension, immersing viewers in richly detailed worlds.
+                      Realistic, immersive animations that bring your ideas to
+                      life.
                     </p>
                   </div>
                 </div>
 
-                {/* Right - Features */}
+                {/* Right */}
                 <div>
-                  <h3 className="font-display text-xl font-bold mb-8">Our Services Include</h3>
+                  <h3 className="font-display text-xl font-bold mb-8">
+                    Our Services Include
+                  </h3>
+
                   <div className="features-list space-y-4">
                     {features.map((feature, i) => (
                       <div
                         key={i}
                         className="feature-item flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-colors"
                       >
-                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
+                        <CheckCircle className="w-5 h-5 text-accent" />
                         <span className="font-medium">{feature}</span>
                       </div>
                     ))}
                   </div>
 
                   <button
+                    type="button"
                     onClick={() => navigate("/#contact")}
                     className="mt-8 flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:shadow-strong transition-all"
                   >

@@ -1,159 +1,191 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
+import { ChevronLeft, ChevronRight, Maximize2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import CircularGallery from './CircularGallery'; // Import the CircularGallery component
 
-gsap.registerPlugin(ScrollTrigger);
+// Only import images that actually exist
+import img1 from "../assets/studio/IMG-20251224-WA0007.jpg";
+import img2 from "../assets/studio/IMG_0054.jpg";
+import img3 from "../assets/studio/IMG_0067.jpg";
+import img4 from "../assets/studio/IMG_0066.jpg";
 
-const projects = [
-  {
-    title: "Mobile App Redesign",
-    category: "UI/UX Design",
-    year: "2024",
-    color: "from-rose-500/20 to-orange-500/20",
-  },
-  {
-    title: "Visual Identity",
-    category: "Branding",
-    year: "2024",
-    color: "from-blue-500/20 to-purple-500/20",
-  },
-  {
-    title: "Campaign Launch",
-    category: "Marketing",
-    year: "2023",
-    color: "from-green-500/20 to-teal-500/20",
-  },
+// Create array with images and text for CircularGallery
+const galleryItems = [
+  { image: img1, text: "Studio Space 1" },
+  { image: img2, text: "Studio Space 2" },
+  { image: img3, text: "Studio Space 3" },
+  { image: img4, text: "Studio Space 4" },
 ];
 
-export const Studio = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const marqueeRef = useRef<HTMLDivElement>(null);
+export const Studio: React.FC = () => {
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const galleryRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      /* ------------------ Heading reveal ------------------ */
-      gsap.fromTo(
-        ".studio-heading",
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 1,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".studio-heading",
-            start: "top 85%",
-          },
-        }
-      );
+    if (!galleryRef.current) return;
 
-      /* ------------------ Horizontal gallery scroll ------------------ */
-      const track = document.querySelector(".projects-track") as HTMLElement;
-
-      if (track) {
-        const scrollWidth = track.scrollWidth - window.innerWidth;
-
-        gsap.to(track, {
-          x: -scrollWidth,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".projects-wrapper",
-            start: "top top",
-            end: () => `+=${scrollWidth}`,
-            scrub: 1,
-            pin: true,
-            anticipatePin: 1,
-          },
-        });
+    // Animate gallery on mount
+    gsap.fromTo(
+      galleryRef.current,
+      {
+        opacity: 0,
+        y: 50,
+        scale: 0.8,
+      },
+      {
+        opacity: 1,
+        y: 0,
+        scale: 1,
+        duration: 0.6,
+        ease: "power2.out",
       }
-
-      /* ------------------ Marquee animation ------------------ */
-      gsap.to(marqueeRef.current, {
-        xPercent: -50,
-        repeat: -1,
-        duration: 20,
-        ease: "none",
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    );
   }, []);
 
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  // Handle keyboard navigation for fullscreen
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && isFullscreen) setIsFullscreen(false);
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isFullscreen]);
+
   return (
-    <section
-      id="studio"
-      ref={sectionRef}
-      className="bg-background overflow-hidden"
-    >
-      <div className="container mx-auto px-6 pt-32 pb-20">
+    <section className="min-h-screen bg-[#fdf3b7] text-[#53131b] py-12 lg:py-20"
+    id ="studio">
+      <div className="container mx-auto px-4 lg:px-8">
         {/* Header */}
-        <div className="mb-16">
-          <span className="text-xs uppercase tracking-[0.3em] text-foreground/50 font-body block mb-4">
-            Our Work
-          </span>
-          <h2 className="studio-heading font-display text-[clamp(2.5rem,5vw,4rem)] leading-[1.1]">
-            Featured{" "}
-            <span className="italic text-foreground/60">Projects</span>
-          </h2>
-        </div>
-      </div>
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="text-center mb-12 lg:mb-16"
+        >
+          <h1 className="text-3xl lg:text-5xl font-bold mb-4 text-[#53131b]">
+            MediaMatic Studio
+          </h1>
+          <p className="text-lg lg:text-xl text-[#53131b]/80 max-w-2xl mx-auto">
+            Explore our state-of-the-art studio facility where creativity meets innovation
+          </p>
+        </motion.div>
 
-      {/* ------------------ Horizontal Projects Gallery ------------------ */}
-      <div className="projects-wrapper overflow-hidden">
-        <div className="projects-track flex gap-8 px-6">
-          {projects.map((project, index) => (
-            <div
-              key={index}
-              className="project-card group relative aspect-[4/5] min-w-[80vw] md:min-w-[32vw] rounded-3xl overflow-hidden cursor-pointer"
+        {/* Circular Gallery Container */}
+        <div className="relative max-w-6xl mx-auto">
+          <motion.div
+            ref={galleryRef}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className={`relative rounded-3xl overflow-hidden shadow-2xl mb-8 lg:mb-12 ${
+              isFullscreen ? "fixed inset-0 z-50 m-0 rounded-none" : ""
+            }`}
+            style={{ height: isFullscreen ? '100vh' : '600px' }}
+          >
+            <CircularGallery
+              items={galleryItems}
+              bend={3}
+              textColor="#53131b" // Match the site's dark text color
+              borderRadius={0.05}
+              scrollEase={0.02}
+              font="bold 24px sans-serif"
+            />
+            
+            {/* Fullscreen Button */}
+            <Button
+              onClick={toggleFullscreen}
+              className="absolute top-4 right-4 bg-[#fdf3b7]/10 backdrop-blur-sm hover:bg-[#fdf3b7]/20 border border-[#fdf3b7]/20 transition-all z-10"
+              size="icon"
             >
-              {/* Background gradient */}
-              <div
-                className={`absolute inset-0 bg-gradient-to-br ${project.color}`}
-              />
+              <Maximize2 className="h-5 w-5 text-[#fdf3b7]" />
+            </Button>
+          </motion.div>
 
-              {/* Hover overlay */}
-              <div className="absolute inset-0 bg-foreground/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          {/* Fullscreen Overlay (if needed for additional controls) */}
+          {isFullscreen && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="fixed inset-0 bg-[#53131b] z-50 flex flex-col p-4 lg:p-8 pointer-events-none"
+            >
+              <div className="flex justify-between items-center mb-4">
+                <h2 className="text-2xl lg:text-4xl font-bold text-[#fdf3b7]">
+                  Studio Gallery
+                </h2>
+                <Button
+                  onClick={toggleFullscreen}
+                  className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] transition-all pointer-events-auto"
+                >
+                  Exit Fullscreen
+                </Button>
+              </div>
+            </motion.div>
+          )}
 
-              {/* Card content */}
-              <div className="relative h-full p-8 flex flex-col justify-between">
-                <span className="text-xs uppercase tracking-wider text-foreground/60 font-body">
-                  {project.category}
-                </span>
-
-                <div className="transform group-hover:-translate-y-4 transition-transform duration-500">
-                  <h3 className="font-display text-3xl mb-2 group-hover:text-background transition-colors duration-500">
-                    {project.title}
-                  </h3>
-                  <span className="text-sm text-foreground/50 group-hover:text-background/70 transition-colors duration-500 font-body">
-                    {project.year}
-                  </span>
-                </div>
+          {/* Studio Description */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mt-12 lg:mt-16 bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 shadow-xl"
+          >
+            <h3 className="text-2xl lg:text-3xl font-bold mb-4 text-[#fdf3b7]">
+              Our Creative Space
+            </h3>
+            <div className="grid lg:grid-cols-2 gap-6 lg:gap-8">
+              <div>
+                <p className="text-[#fdf3b7]/90 mb-4">
+                  Our studio is designed to foster creativity and collaboration. With 
+                  state-of-the-art equipment and a vibrant atmosphere, we bring ideas 
+                  to life through innovative solutions.
+                </p>
+                <p className="text-[#fdf3b7]/90">
+                  From video production to photography, our space is equipped to handle 
+                  projects of any scale while maintaining the highest quality standards.
+                </p>
+              </div>
+              <div>
+                <ul className="space-y-3">
+                  {[
+                    "4K Video Production Setup",
+                    "Professional Photography Studio",
+                    "Audio Recording Booth",
+                    "Editing Suites",
+                    "Client Meeting Area",
+                    "Equipment Storage"
+                  ].map((feature, index) => (
+                    <motion.li
+                      key={index}
+                      initial={{ opacity: 0, x: -20 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="flex items-center gap-3 text-[#fdf3b7]/90"
+                    >
+                      <div className="w-2 h-2 bg-[#fdf3b7] rounded-full"></div>
+                      {feature}
+                    </motion.li>
+                  ))}
+                </ul>
               </div>
             </div>
-          ))}
+          </motion.div>
         </div>
       </div>
 
-      {/* ------------------ Marquee ------------------ */}
-      <div className="relative overflow-hidden py-10 border-y border-foreground/10 mt-32">
-        <div ref={marqueeRef} className="flex whitespace-nowrap">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="flex items-center gap-8 px-8">
-              <span className="font-display text-6xl text-foreground/10">
-                Design
-              </span>
-              <span className="w-3 h-3 rounded-full bg-foreground/20" />
-              <span className="font-display text-6xl text-foreground/10 italic">
-                Strategy
-              </span>
-              <span className="w-3 h-3 rounded-full bg-foreground/20" />
-              <span className="font-display text-6xl text-foreground/10">
-                Branding
-              </span>
-              <span className="w-3 h-3 rounded-full bg-foreground/20" />
-            </div>
-          ))}
-        </div>
+      {/* Background Pattern */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[-1]">
+        <div className="absolute inset-0 bg-gradient-to-br from-[#53131b]/20 to-[#6a1c2b]/10"></div>
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#fdf3b7]/10 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#fdf3b7]/10 to-transparent"></div>
       </div>
     </section>
   );

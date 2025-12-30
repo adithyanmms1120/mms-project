@@ -1,70 +1,91 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import StatsCard from "@/components/StatsCard";
+import CoreValueCard from "@/components/CoreValueCard";
 import { FaLinkedinIn } from "react-icons/fa";
+import {
+  Shield,
+  Lightbulb,
+  Users,
+  CheckCircle,
+  Search,
+  Target,
+  Rocket,
+  BarChart3,
+  Globe,
+  Building2,
+  Users2,
+  Server,
+  Zap,
+  LineChart,
+} from "lucide-react";
 
 import aboutVideo from "../assets/hero_optim.mp4";
-import ceoImg from "../assets/zulfikar.png";
-import cooImg from "../assets/thasleema.png";
-import adminImg from "../assets/reshma.png";
+import ceoImg from "../assets/ZU-01.png";
+import cooImg from "../assets/TH-01.png";
+import adminImg from "../assets/Re-01.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* =======================
-   Animated Text Component
-======================= */
-interface AnimatedTextProps {
-  text: string;
-  className?: string;
-}
+export const About = () => {
+  const heroRef = useRef<HTMLDivElement | null>(null);
+  const videoWrapRef = useRef<HTMLDivElement | null>(null);
+  const targetRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
-const AnimatedText: React.FC<AnimatedTextProps> = ({ text, className = "" }) => {
-  const words = text.split(" ");
-
-  return (
-    <p className={`reveal-text ${className}`}>
-      {words.map((word, i) => (
-        <span
-          key={i}
-          className="inline-block overflow-hidden align-top mr-[0.3em] pb-[0.2em]"
-        >
-          <span className="reveal-word inline-block translate-y-full opacity-0">
-            {word}
-          </span>
-        </span>
-      ))}
-    </p>
-  );
-};
-
-/* =======================
-        About Section
-======================= */
-export const About: React.FC = () => {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const leftColRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLDivElement | null>(null);
-  const rightContentRef = useRef<HTMLDivElement | null>(null);
-
+  // Check for mobile view
   useEffect(() => {
-    if (!sectionRef.current) return;
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  /* =========================
+      VIDEO FULL → CARD
+  ========================= */
+  useEffect(() => {
+    if (isMobile) {
+      // On mobile, ensure video plays automatically
+      if (videoRef.current) {
+        videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
+      }
+      return;
+    }
+    
+    if (!heroRef.current || !videoWrapRef.current || !targetRef.current || !contentRef.current)
+      return;
 
     const ctx = gsap.context(() => {
-      /* 1️⃣ PIN LEFT COLUMN */
-      ScrollTrigger.create({
-        trigger: sectionRef.current!,
-        start: "top top",
-        end: "bottom bottom",
-        pin: leftColRef.current!,
-        pinSpacing: false,
+      const heroBox = heroRef.current!.getBoundingClientRect();
+      const targetBox = targetRef.current!.getBoundingClientRect();
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: "top top",
+          end: "+=700",
+          scrub: true,
+          pin: true,
+        },
       });
 
-      /* 2️⃣ VIDEO RESIZE */
-      gsap.fromTo(
-        videoRef.current!,
+      tl.fromTo(
+        videoWrapRef.current,
         {
-          width: "100vw",
-          height: "100vh",
+          width: heroBox.width,
+          height: heroBox.height,
           borderRadius: 0,
           x: 0,
           y: 0,
@@ -72,143 +93,627 @@ export const About: React.FC = () => {
         {
           width: 420,
           height: 260,
-          borderRadius: 20,
-          x: 60,
-          y: 60,
+          borderRadius: 24,
+          x: targetBox.left - heroBox.left,
+          y: targetBox.top - heroBox.top,
           ease: "none",
-          scrollTrigger: {
-            trigger: sectionRef.current!,
-            start: "top top",
-            end: "top -30%",
-            scrub: true,
-          },
         }
-      );
-
-      /* 3️⃣ TEXT REVEAL */
-      const paragraphs =
-        rightContentRef.current?.querySelectorAll<HTMLElement>(".reveal-text");
-
-      paragraphs?.forEach((para) => {
-        const words = para.querySelectorAll(".reveal-word");
-
-        gsap.to(words, {
-          y: 0,
-          opacity: 1,
-          stagger: 0.02,
-          scrollTrigger: {
-            trigger: para,
-            start: "top 90%",
-            end: "bottom 70%",
-            scrub: true,
-          },
-        });
-      });
-
-      /* 4️⃣ BLOCK ANIMATIONS */
-      gsap.utils
-        .toArray<HTMLElement>(".content-block-anim")
-        .forEach((block) => {
-          gsap.from(block, {
-            y: 100,
-            opacity: 0,
-            scrollTrigger: {
-              trigger: block,
-              start: "top 95%",
-              end: "top 70%",
-              scrub: true,
-            },
-          });
-        });
-
-      /* 5️⃣ LEADERSHIP CARDS */
-      gsap.from(".leader-card", {
-        y: 100,
-        opacity: 0,
-        stagger: 0.2,
-        scrollTrigger: {
-          trigger: ".leaders-grid",
-          start: "top 80%",
-        },
-      });
-    }, sectionRef);
+      ).to(contentRef.current, { opacity: 1 }, "-=0.2");
+    }, heroRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
-  /* =======================
-        DATA
-======================= */
+  /* =========================
+          DATA
+  ========================= */
   const values = [
-    { title: "Integrity", desc: "Doing what’s right, even when no one is watching." },
-    { title: "Innovation", desc: "Opening doors to new possibilities." },
-    { title: "Teamwork", desc: "Collaborating to achieve greatness." },
-    { title: "Reliability", desc: "Delivering measurable results." },
+    { icon: Shield, title: "Integrity", description: "Doing what's right, always." },
+    { icon: Lightbulb, title: "Innovation", description: "Opening doors to new ideas." },
+    { icon: Users, title: "Teamwork", description: "Together we grow." },
+    { icon: CheckCircle, title: "Reliability", description: "Delivering results." },
   ];
 
   const leaders = [
-    { name: "Zulfikar S.", role: "Founder & CEO", img: ceoImg, link: "#" },
-    { name: "Thasleema N.", role: "Co-Founder & COO", img: cooImg, link: "#" },
-    { name: "Reshma S.", role: "Director of Admin", img: adminImg, link: "#" },
+    { 
+      name: "Zulfikar S.", 
+      role: "Founder & CEO", 
+      img: ceoImg, 
+      link: "https://www.linkedin.com/in/szulfikar"
+    },
+    { 
+      name: "Thasleema N.", 
+      role: "Co-Founder & COO", 
+      img: cooImg, 
+      link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/" 
+    },
+    { 
+      name: "Reshma S.", 
+      role: "Director of Admin", 
+      img: adminImg, 
+      link: "https://www.linkedin.com/in/reshma-s-1b7218276/" 
+    },
   ];
 
-  /* =======================
-        JSX
-======================= */
+  const stats = [
+    { value: "5+", label: "Global Virtual Offices" },
+    { value: "500+", label: "Web & App Projects" },
+    { value: "100+", label: "Corporate Video Shoots" },
+    { value: "2000+", label: "Hosting Clients" },
+  ];
+
+  const vision2026 = [
+    { icon: Globe, value: "5+", label: "Global Virtual Office" },
+    { icon: Building2, value: "5+", label: "PAN India Channel Partners" },
+    { icon: Users2, value: "100+", label: "Corporate Video Shoots" },
+    { icon: Rocket, value: "500+", label: "Web & App Projects" },
+    { icon: Users, value: "100+", label: "Technical Team" },
+    { icon: Server, value: "2000+", label: "Hosting Clients" },
+  ];
+
+  const coreValues2026 = [
+    { 
+      icon: Shield, 
+      title: "Integrity & Transparency", 
+      description: "Integrity is doing what's right, even when no one is watching" 
+    },
+    { 
+      icon: Lightbulb, 
+      title: "Innovation & Adaptability", 
+      description: "Innovation opens doors, adaptability keeps them open" 
+    },
+    { 
+      icon: Users, 
+      title: "Collaboration & Teamwork", 
+      description: "Teamwork turns dreams into reality" 
+    },
+    { 
+      icon: CheckCircle, 
+      title: "Reliability & Accountability", 
+      description: "True integrity is delivering not just words, but results" 
+    },
+  ];
+
+  const workStages = [
+    { 
+      icon: Search, 
+      title: "Discovery Phase", 
+      description: "We delve deep into understanding your business goals, target audience, and market landscape to identify opportunities and challenges." 
+    },
+    { 
+      icon: Target,  // Fixed: Changed from TargetIcon to Target
+      title: "Strategy Development", 
+      description: "We develop customized strategies tailored to your specific needs and objectives with comprehensive tactics and timelines." 
+    },
+    { 
+      icon: Zap, 
+      title: "Implementation & Execution", 
+      description: "Our expert team executes each component with precision using cutting-edge tools and techniques." 
+    },
+    { 
+      icon: LineChart, 
+      title: "Monitoring & Optimization", 
+      description: "Continuous tracking of KPIs and metrics with necessary adjustments to optimize results and maximize ROI." 
+    },
+  ];
+
+  /* =========================
+        ANIMATION VARIANTS
+  ========================= */
+  const fadeUp = {
+    hidden: { opacity: 0, y: 30 },
+    visible: (i = 0) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.15, duration: 0.6, ease: "easeOut" },
+    }),
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 50, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut" as const
+      }
+    },
+    hover: {
+      y: -12,
+      scale: 1.02,
+      boxShadow: "0 20px 40px rgba(0, 0, 0, 0.2)",
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut" as const
+      }
+    }
+  };
+
+  const leadershipCardVariants = {
+    hidden: { opacity: 0, y: 40, scale: 0.95 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut" as const
+      }
+    },
+    hover: {
+      y: -15,
+      scale: 1.03,
+      boxShadow: "0 25px 50px rgba(253, 243, 183, 0.15)",
+      transition: {
+        duration: 0.4,
+        ease: "easeInOut" as const
+      }
+    }
+  };
+
+  const stageCardVariants = {
+    hidden: { opacity: 0, y: 50, x: -20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      x: 0,
+      transition: {
+        duration: 0.7,
+        ease: "easeOut" as const,
+        delay: i * 0.1  // Fixed: changed delay to be calculated from i
+      }
+    }),
+    hover: {
+      y: -10,
+      x: 5,
+      transition: {
+        duration: 0.3,
+        ease: "easeInOut" as const
+      }
+    }
+  };
+
   return (
-    <section
-      ref={sectionRef}
-      id="about"
-      data-theme="dark"
-      className="relative bg-[#5a0f1b] text-[#fdf3b7]"
-    >
-      <div className="flex min-h-screen">
-
-        {/* LEFT */}
-        <div ref={leftColRef} className="w-[45vw] h-screen relative">
-          <div ref={videoRef} className="absolute inset-0 overflow-hidden">
-            <video
-              src={aboutVideo}
-              autoPlay
-              muted
-              loop
-              playsInline
-              className="w-full h-full object-cover opacity-80"
-            />
-          </div>
-        </div>
-
-        {/* RIGHT */}
-        <div ref={rightContentRef} className="w-[55vw] px-16 pt-[100vh]">
-          <h2 className="text-5xl font-bold mb-8">MediaMatic Studio</h2>
-
-          <AnimatedText text="MediaMatic Studio Pvt. Ltd. is a one-stop solution for branding and digital experiences." />
-          <br />
-          <AnimatedText text="We connect ideas with audiences worldwide." />
-
-          <div className="mt-32 grid grid-cols-2 gap-6 leaders-grid">
-            {leaders.map((l, i) => (
-              <div
-                key={i}
-                className="leader-card relative h-[360px] rounded-3xl overflow-hidden"
+    <section className="bg-[#53131b] text-[#fdf3b7]" id="about">
+      {/* ================= HERO ================= */}
+      <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "min-h-screen"} overflow-hidden bg-[#53131b]`}>
+        {/* VIDEO - Mobile responsive behavior */}
+        {isMobile ? (
+          /* MOBILE VIDEO LAYOUT */
+          <div className="container mx-auto px-4 pt-8">
+            <div className="text-[#fdf3b7] text-center mb-8">
+              <motion.span 
+                className="text-sm font-semibold tracking-wider"
+                variants={fadeUp} 
+                initial="hidden" 
+                animate="visible"
               >
-                <img
-                  src={l.img}
-                  alt={l.name}
-                  className="absolute inset-0 w-full h-full object-cover"
-                />
-                <div className="absolute bottom-0 p-6 bg-gradient-to-t from-black/80">
-                  <h4 className="text-xl font-bold">{l.name}</h4>
-                  <p className="text-xs uppercase opacity-80">{l.role}</p>
-                  <a href={l.link} className="inline-flex mt-3 gap-2 text-sm">
-                    <FaLinkedinIn /> Connect
-                  </a>
+                About Us
+              </motion.span>
+              
+              <motion.h1
+                className="text-3xl font-extrabold mt-2 mb-4"
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                custom={1}
+              >
+                MediaMatic Studio
+              </motion.h1>
+              
+              <motion.p
+                className="text-base mb-6 max-w-xl mx-auto"
+                variants={fadeUp}
+                initial="hidden"
+                animate="visible"
+                custom={2}
+              >
+                MediaMatic Studio Pvt. Ltd., (MMS) could be a perfect one-stop solution to manage all your Branding Activities.
+              </motion.p>
+            </div>
+            
+            {/* MOBILE VIDEO PLAYER - Simple version */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, ease: "easeOut" }}
+              className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl"
+            >
+              <video
+                ref={videoRef}
+                src={aboutVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-auto aspect-video object-cover"
+              />
+            </motion.div>
+            
+            {/* Content below video on mobile */}
+            <motion.div
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+              custom={3}
+              className="mt-8 text-center"
+            >
+              <Button asChild className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] hover:text-[#53131b] shadow-lg hover:shadow-xl transition-all">
+                <Link to="/studio">
+                  Visit Our Studio <ArrowRight className="ml-2" size={20} />
+                </Link>
+              </Button>
+              
+              <div className="mt-12">
+                <motion.p
+                  className="text-base text-[#fdf3b7]/90 mb-4"
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={4}
+                >
+                  Since our journey began in 2017, we have been passionate about delivering exceptional services focused on connecting ideas to audiences globally.
+                </motion.p>
+                
+                <motion.p
+                  className="text-base text-[#fdf3b7]/90"
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={5}
+                >
+                  Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
+                </motion.p>
+              </div>
+              
+              {/* Scroll indicator for mobile */}
+              <motion.div
+                animate={{ y: [0, 10, 0] }}
+                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                className="mt-12 flex flex-col items-center"
+              >
+                <span className="text-sm text-[#fdf3b7]/70 mb-2">Scroll to explore more</span>
+                <ChevronDown className="text-[#fdf3b7]" />
+              </motion.div>
+            </motion.div>
+          </div>
+        ) : (
+          /* DESKTOP LAYOUT */
+          <>
+            {/* VIDEO */}
+            <div 
+              ref={videoWrapRef} 
+              className="absolute inset-0 z-10 overflow-hidden"
+            >
+              <video
+                ref={videoRef}
+                src={aboutVideo}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
+
+            {/* HERO CONTENT */}
+            <motion.div
+              ref={contentRef}
+              initial={{ opacity: 0 }}
+              className="relative z-20 container mx-auto px-8 h-screen grid lg:grid-cols-2 items-center gap-16"
+            >
+              {/* TEXT */}
+              <div className="text-[#fdf3b7]">
+                <motion.span 
+                  className="text-sm font-semibold tracking-wider"
+                  variants={fadeUp} 
+                  initial="hidden" 
+                  animate="visible"
+                >
+                  About Us
+                </motion.span>
+
+                <motion.h1
+                  className="text-5xl font-extrabold mt-4 mb-6"
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={1}
+                >
+                  MediaMatic Studio
+                </motion.h1>
+
+                <motion.p
+                  className="text-lg mb-4 max-w-xl"
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={2}
+                >
+                  MediaMatic Studio Pvt. Ltd., (MMS) could be a perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, the one thing we have been hugely passionate about is always delivering exceptional services focused on connecting ideas to audiences globally.
+                </motion.p>
+
+                <motion.p
+                  className="text-lg mb-8 max-w-xl"
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={3}
+                >
+                  Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
+                </motion.p>
+
+                <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
+                  <Button asChild className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] hover:text-[#53131b] shadow-lg hover:shadow-xl transition-all">
+                    <Link to="/studio">
+                      Visit Our Studio <ArrowRight className="ml-2" size={20} />
+                    </Link>
+                  </Button>
+                </motion.div>
+              </div>
+
+              {/* VIDEO TARGET */}
+              <div ref={targetRef} className="hidden lg:block h-[260px]" />
+            </motion.div>
+          </>
+        )}
+      </div>
+
+      {/* ================= MAIN CONTENT ================= */}
+      <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-20">
+        {/* Company Story */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="mb-16 lg:mb-24"
+        >
+          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+            <div>
+              <h2 className="text-2xl lg:text-4xl font-bold mb-6 text-[#fdf3b7]">
+                Our Legacy
+              </h2>
+              <div className="space-y-4 text-[#fdf3b7]/90">
+                <p className="text-base lg:text-lg">
+                  MediaMatic Studio, incorporated in 2017 – one of India's eminent start-up Branding firms supporting the arena in fields of Branding Services.
+                </p>
+                <p className="text-base lg:text-lg">
+                  MediaMatic Studio is one of the best leading 2D & 3D Animation, Corporate Shoot, Website & App Development & Designing, Digital Marketing, Content Management, Company in Coimbatore, majorly supporting clients in USA, Canada, UK, Europe, Middle East, Australia and India.
+                </p>
+              </div>
+            </div>
+            <motion.div
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              whileHover="hover"
+              className="bg-gradient-to-br from-[#53131b] via-[#6a1c2b] to-[#53131b] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
+            >
+              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Mission Timeline</h3>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 group">
+                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2017</span>
+                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Start-Up</span>
+                </div>
+                <div className="flex items-center gap-4 group">
+                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2023</span>
+                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Registered as Proprietorship Firm</span>
+                </div>
+                <div className="flex items-center gap-4 group">
+                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2024</span>
+                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Registered as Private Limited Company</span>
+                </div>
+                <div className="flex items-center gap-4 group">
+                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2025</span>
+                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Aiming to be one of the Global Fortune Company by 2030</span>
                 </div>
               </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* STATS */}
+        <div className="mb-16 lg:mb-24">
+          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+            Our Current Stats
+          </h3>
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12">
+            {stats.map((s, i) => (
+              <motion.div
+                key={s.label}
+                variants={fadeUp}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                custom={i}
+              >
+                <StatsCard {...s} index={i} />
+              </motion.div>
             ))}
           </div>
         </div>
 
+        {/* VISION 2026 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="mb-16 lg:mb-24"
+        >
+          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+            Our 2026 Vision
+          </h3>
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+            {vision2026.map((item, i) => (
+              <motion.div
+                key={item.label}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                custom={i}
+                whileHover="hover"
+                className="bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-4 lg:p-6 rounded-2xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="p-2 bg-[#fdf3b7]/10 rounded-lg group-hover:bg-[#fdf3b7]/20 transition-colors">
+                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
+                  </div>
+                  <span className="text-xl lg:text-2xl font-bold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{item.value}</span>
+                </div>
+                <p className="text-sm lg:text-base text-[#fdf3b7]/80 group-hover:text-[#fdf3b7] transition-colors">{item.label}</p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* CORE VALUES 2026 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="mb-16 lg:mb-24"
+        >
+          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+            MMS CORE VALUE - 2026
+          </h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {coreValues2026.map((value, i) => (
+              <motion.div
+                key={value.title}
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                custom={i}
+                whileHover="hover"
+                className="group"
+              >
+                <div className="h-full bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 hover:shadow-2xl transition-all">
+                  <div className="p-3 bg-gradient-to-br from-[#fdf3b7]/10 to-[#fdf3b7]/5 rounded-xl w-fit mb-4 group-hover:from-[#fdf3b7]/20 group-hover:to-[#fdf3b7]/10 transition-all">
+                    <value.icon className="w-6 h-6 lg:w-8 lg:h-8 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
+                  </div>
+                  <h4 className="text-lg lg:text-xl font-bold mb-3 text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{value.title}</h4>
+                  <p className="text-[#fdf3b7]/80 text-sm lg:text-base group-hover:text-[#fdf3b7]/90 transition-colors">{value.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* WORK STRATEGY */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="mb-16 lg:mb-24"
+        >
+          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+            Our Strategy of Work
+          </h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {workStages.map((stage, i) => (
+              <motion.div
+                key={stage.title}
+                variants={stageCardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                custom={i}
+                whileHover="hover"
+                className="group"
+              >
+                <div className="h-full bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#fdf3b7] via-[#fdf3b7]/50 to-transparent group-hover:from-[#fdf3b7] group-hover:via-[#fdf3b7]/70 group-hover:to-transparent transition-all"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#fdf3b7]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="ml-4 relative z-10">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-gradient-to-br from-[#fdf3b7]/10 to-[#fdf3b7]/5 rounded-lg group-hover:from-[#fdf3b7]/20 group-hover:to-[#fdf3b7]/10 group-hover:scale-110 transition-all duration-300">
+                        <stage.icon className="w-5 h-5 lg:w-6 lg:h-6 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
+                      </div>
+                      <span className="text-sm font-semibold text-[#fdf3b7]/50 group-hover:text-[#fdf3b7] transition-colors">Stage {i + 1}</span>
+                    </div>
+                    <h4 className="text-lg lg:text-xl font-bold mb-3 text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{stage.title}</h4>
+                    <p className="text-[#fdf3b7]/80 text-sm lg:text-base group-hover:text-[#fdf3b7]/90 transition-colors">{stage.description}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* LEADERSHIP - Fixed to redirect on entire card click */}
+        <div className="mb-8">
+          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+            Our Leadership
+          </h3>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {leaders.map((l, i) => (
+              <motion.div
+                key={l.name}
+                variants={leadershipCardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                custom={i}
+                whileHover="hover"
+                className="relative h-72 lg:h-96 rounded-3xl overflow-hidden group"
+              >
+                <a 
+                  href={l.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="block w-full h-full"
+                  onClick={(e) => {
+                    // Prevent the click from bubbling to parent elements
+                    e.stopPropagation();
+                  }}
+                >
+                  <div className="absolute inset-0">
+                    <img 
+                      src={l.img} 
+                      alt={l.name} 
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#53131b]/95 via-[#53131b]/70 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#fdf3b7]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  </div>
+                  
+                  <div className="absolute bottom-0 p-6 text-[#fdf3b7] w-full">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <h4 className="font-bold text-xl lg:text-2xl mb-1">{l.name}</h4>
+                        <p className="text-sm lg:text-base uppercase opacity-80 mb-4">{l.role}</p>
+                      </div>
+                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#fdf3b7]/10 hover:bg-[#fdf3b7]/20 backdrop-blur-sm border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all">
+                        <FaLinkedinIn className="w-5 h-5 text-[#fdf3b7]" />
+                      </div>
+                    </div>
+                    
+                    <div className="inline-flex items-center gap-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span>Connect on LinkedIn</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </div>
+                  </div>
+                  
+                  {/* Glow effect on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fdf3b7]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </a>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

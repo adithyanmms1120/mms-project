@@ -22,6 +22,7 @@ import path from "path";
 export default defineConfig({
   base: "/remapdemo/",
   plugins: [react()],
+  assetsInclude: ["**/*.JPG", "**/*.JPEG"],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
