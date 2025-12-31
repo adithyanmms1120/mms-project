@@ -2,7 +2,8 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, Video, Radio, Globe, Code, Palette, Settings } from "lucide-react";
-
+import letterIGif from "../assets/letter-i.gif";
+import letterOGif from "../assets/letter-o.gif";
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero = () => {
@@ -270,10 +271,10 @@ export const Hero = () => {
                   }}
                 >
                   <img
-                    src="src/assets/letter-i.gif"
-                    alt="Animated I"
-                    className="w-full h-full object-contain"
-                  />
+  src={letterIGif} // Change from "src/assets/..." to the imported variable
+  alt="Animated I"
+  className="w-full h-full object-contain"
+/>
                 </div>
               </span>
               c
@@ -295,10 +296,10 @@ export const Hero = () => {
                   }}
                 >
                   <img
-                    src="src/assets/letter-o.gif"
-                    alt="Animated O"
-                    className="w-full h-full object-contain"
-                  />
+  src={letterOGif} // Change from "src/assets/..." to the imported variable
+  alt="Animated O"
+  className="w-full h-full object-contain"
+/>
                 </div>
               </span>
             </span>
