@@ -25,9 +25,9 @@ export const BrandStatement = () => {
             x: 0,
             opacity: 1,
             rotateY: 0,
-            duration: 0.8,
+            duration: 1.2,
             stagger: 0.05,
-            ease: "power4.out",
+            ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 70%",
@@ -44,10 +44,10 @@ export const BrandStatement = () => {
             x: 0,
             opacity: 1,
             rotateY: 0,
-            duration: 0.8,
+            duration: 1.2,
             stagger: 0.05,
             delay: 0.3,
-            ease: "power4.out",
+            ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
               start: "top 70%",
@@ -63,7 +63,7 @@ export const BrandStatement = () => {
         {
           scale: 1,
           opacity: 0.1,
-          duration: 1.5,
+          duration: 2,
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
@@ -76,13 +76,13 @@ export const BrandStatement = () => {
       if (cardsRef.current) {
         gsap.fromTo(
           cardsRef.current.children,
-          { y: 80, opacity: 0 },
+          { y: 50, opacity: 0 },
           {
             y: 0,
             opacity: 1,
-            duration: 0.9,
-            stagger: 0.15,
-            ease: "power3.out",
+            duration: 1,
+            stagger: 0.1,
+            ease: "power2.out",
             scrollTrigger: {
               trigger: cardsRef.current,
               start: "top 75%",
@@ -125,7 +125,7 @@ export const BrandStatement = () => {
     <section
       ref={sectionRef}
       className="relative bg-primary py-32 md:py-48 overflow-hidden"
-      id ="brandstatements"
+      id="brandstatements"
     >
       {/* Decorative Background */}
       <div className="absolute inset-0 pointer-events-none">
@@ -154,21 +154,9 @@ export const BrandStatement = () => {
           </h2>
         </div>
 
-        {/* BRANDING CONTENT */}
-        <div className="max-w-4xl mx-auto mt-16 text-primary-foreground/80 space-y-6 text-lg leading-relaxed">
-          <p>
-            <strong>Branding</strong> is the strategic process of creating and managing
-            the identity of a business, product, or service.
-          </p>
-          <p>
-            It defines how an organization connects with its target audience through
-            logos, colors, design systems, websites, and overall customer experience.
-          </p>
-          <p>
-            Branding is both an art and a science—shaping perceptions, building trust,
-            and helping brands stand out in competitive markets.
-          </p>
-        </div>
+        {/* BRANDING CONTENT REMOVED AS REQUESTED */}
+
+        {/* BRANDING CARDS */}
 
         {/* BRANDING CARDS */}
         <div
@@ -196,18 +184,18 @@ export const BrandStatement = () => {
         </div>
 
         {/* WHY BRANDING MATTERS */}
-        <div ref={whyRef} className="max-w-3xl mx-auto mt-24 text-left">
+        <div ref={whyRef} className="max-w-3xl mx-auto mt-24 text-left px-4 md:px-0">
           <h3 className="text-3xl font-bold text-primary-foreground mb-6">
             Why Branding Matters
           </h3>
-          <ul className="space-y-4 text-primary-foreground/80 text-lg">
+          <ul className="space-y-4 text-primary-foreground text-lg md:text-xl font-medium">
             <li>• Builds recognition and trust</li>
             <li>• Creates emotional connections with audiences</li>
             <li>• Supports premium pricing and loyalty</li>
             <li>• Helps businesses stand out in competitive markets</li>
           </ul>
 
-          <p className="mt-8 italic text-primary-foreground/70">
+          <p className="mt-8 italic text-primary-foreground/90 text-lg md:text-xl">
             “Branding is the process of defining and communicating a business identity
             and value proposition, shaping perceptions and building long-term loyalty.”
           </p>

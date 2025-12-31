@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+
 import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import StatsCard from "@/components/StatsCard";
@@ -45,10 +45,10 @@ export const About = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
     };
-    
+
     checkMobile();
     window.addEventListener("resize", checkMobile);
-    
+
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
@@ -63,7 +63,7 @@ export const About = () => {
       }
       return;
     }
-    
+
     if (!heroRef.current || !videoWrapRef.current || !targetRef.current || !contentRef.current)
       return;
 
@@ -115,23 +115,23 @@ export const About = () => {
   ];
 
   const leaders = [
-    { 
-      name: "Zulfikar S.", 
-      role: "Founder & CEO", 
-      img: ceoImg, 
+    {
+      name: "Zulfikar S.",
+      role: "Founder & CEO",
+      img: ceoImg,
       link: "https://www.linkedin.com/in/szulfikar"
     },
-    { 
-      name: "Thasleema N.", 
-      role: "Co-Founder & COO", 
-      img: cooImg, 
-      link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/" 
+    {
+      name: "Thasleema N.",
+      role: "Co-Founder & COO",
+      img: cooImg,
+      link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/"
     },
-    { 
-      name: "Reshma S.", 
-      role: "Director of Admin", 
-      img: adminImg, 
-      link: "https://www.linkedin.com/in/reshma-s-1b7218276/" 
+    {
+      name: "Reshma S.",
+      role: "Director of Admin",
+      img: adminImg,
+      link: "https://www.linkedin.com/in/reshma-s-1b7218276/"
     },
   ];
 
@@ -152,48 +152,48 @@ export const About = () => {
   ];
 
   const coreValues2026 = [
-    { 
-      icon: Shield, 
-      title: "Integrity & Transparency", 
-      description: "Integrity is doing what's right, even when no one is watching" 
+    {
+      icon: Shield,
+      title: "Integrity & Transparency",
+      description: "Integrity is doing what's right, even when no one is watching"
     },
-    { 
-      icon: Lightbulb, 
-      title: "Innovation & Adaptability", 
-      description: "Innovation opens doors, adaptability keeps them open" 
+    {
+      icon: Lightbulb,
+      title: "Innovation & Adaptability",
+      description: "Innovation opens doors, adaptability keeps them open"
     },
-    { 
-      icon: Users, 
-      title: "Collaboration & Teamwork", 
-      description: "Teamwork turns dreams into reality" 
+    {
+      icon: Users,
+      title: "Collaboration & Teamwork",
+      description: "Teamwork turns dreams into reality"
     },
-    { 
-      icon: CheckCircle, 
-      title: "Reliability & Accountability", 
-      description: "True integrity is delivering not just words, but results" 
+    {
+      icon: CheckCircle,
+      title: "Reliability & Accountability",
+      description: "True integrity is delivering not just words, but results"
     },
   ];
 
   const workStages = [
-    { 
-      icon: Search, 
-      title: "Discovery Phase", 
-      description: "We delve deep into understanding your business goals, target audience, and market landscape to identify opportunities and challenges." 
+    {
+      icon: Search,
+      title: "Discovery Phase",
+      description: "We delve deep into understanding your business goals, target audience, and market landscape to identify opportunities and challenges."
     },
-    { 
+    {
       icon: Target,  // Fixed: Changed from TargetIcon to Target
-      title: "Strategy Development", 
-      description: "We develop customized strategies tailored to your specific needs and objectives with comprehensive tactics and timelines." 
+      title: "Strategy Development",
+      description: "We develop customized strategies tailored to your specific needs and objectives with comprehensive tactics and timelines."
     },
-    { 
-      icon: Zap, 
-      title: "Implementation & Execution", 
-      description: "Our expert team executes each component with precision using cutting-edge tools and techniques." 
+    {
+      icon: Zap,
+      title: "Implementation & Execution",
+      description: "Our expert team executes each component with precision using cutting-edge tools and techniques."
     },
-    { 
-      icon: LineChart, 
-      title: "Monitoring & Optimization", 
-      description: "Continuous tracking of KPIs and metrics with necessary adjustments to optimize results and maximize ROI." 
+    {
+      icon: LineChart,
+      title: "Monitoring & Optimization",
+      description: "Continuous tracking of KPIs and metrics with necessary adjustments to optimize results and maximize ROI."
     },
   ];
 
@@ -284,15 +284,15 @@ export const About = () => {
           /* MOBILE VIDEO LAYOUT */
           <div className="container mx-auto px-4 pt-8">
             <div className="text-[#fdf3b7] text-center mb-8">
-              <motion.span 
+              <motion.span
                 className="text-sm font-semibold tracking-wider"
-                variants={fadeUp} 
-                initial="hidden" 
+                variants={fadeUp}
+                initial="hidden"
                 animate="visible"
               >
                 About Us
               </motion.span>
-              
+
               <motion.h1
                 className="text-3xl font-extrabold mt-2 mb-4"
                 variants={fadeUp}
@@ -302,7 +302,7 @@ export const About = () => {
               >
                 MediaMatic Studio
               </motion.h1>
-              
+
               <motion.p
                 className="text-base mb-6 max-w-xl mx-auto"
                 variants={fadeUp}
@@ -313,7 +313,7 @@ export const About = () => {
                 MediaMatic Studio Pvt. Ltd., (MMS) could be a perfect one-stop solution to manage all your Branding Activities.
               </motion.p>
             </div>
-            
+
             {/* MOBILE VIDEO PLAYER - Simple version */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -331,7 +331,7 @@ export const About = () => {
                 className="w-full h-auto aspect-video object-cover"
               />
             </motion.div>
-            
+
             {/* Content below video on mobile */}
             <motion.div
               variants={fadeUp}
@@ -341,11 +341,11 @@ export const About = () => {
               className="mt-8 text-center"
             >
               <Button asChild className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] hover:text-[#53131b] shadow-lg hover:shadow-xl transition-all">
-                <Link to="/studio">
+                <a href="#studio">
                   Visit Our Studio <ArrowRight className="ml-2" size={20} />
-                </Link>
+                </a>
               </Button>
-              
+
               <div className="mt-12">
                 <motion.p
                   className="text-base text-[#fdf3b7]/90 mb-4"
@@ -356,7 +356,7 @@ export const About = () => {
                 >
                   Since our journey began in 2017, we have been passionate about delivering exceptional services focused on connecting ideas to audiences globally.
                 </motion.p>
-                
+
                 <motion.p
                   className="text-base text-[#fdf3b7]/90"
                   variants={fadeUp}
@@ -367,7 +367,7 @@ export const About = () => {
                   Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
                 </motion.p>
               </div>
-              
+
               {/* Scroll indicator for mobile */}
               <motion.div
                 animate={{ y: [0, 10, 0] }}
@@ -383,8 +383,8 @@ export const About = () => {
           /* DESKTOP LAYOUT */
           <>
             {/* VIDEO */}
-            <div 
-              ref={videoWrapRef} 
+            <div
+              ref={videoWrapRef}
               className="absolute inset-0 z-10 overflow-hidden"
             >
               <video
@@ -406,10 +406,10 @@ export const About = () => {
             >
               {/* TEXT */}
               <div className="text-[#fdf3b7]">
-                <motion.span 
+                <motion.span
                   className="text-sm font-semibold tracking-wider"
-                  variants={fadeUp} 
-                  initial="hidden" 
+                  variants={fadeUp}
+                  initial="hidden"
                   animate="visible"
                 >
                   About Us
@@ -447,9 +447,9 @@ export const About = () => {
 
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
                   <Button asChild className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] hover:text-[#53131b] shadow-lg hover:shadow-xl transition-all">
-                    <Link to="/studio">
+                    <a href="#studio">
                       Visit Our Studio <ArrowRight className="ml-2" size={20} />
-                    </Link>
+                    </a>
                   </Button>
                 </motion.div>
               </div>
@@ -670,7 +670,7 @@ export const About = () => {
                 whileHover="hover"
                 className="relative h-72 lg:h-96 rounded-3xl overflow-hidden group"
               >
-                <a 
+                <a
                   href={l.link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -681,15 +681,15 @@ export const About = () => {
                   }}
                 >
                   <div className="absolute inset-0">
-                    <img 
-                      src={l.img} 
-                      alt={l.name} 
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" 
+                    <img
+                      src={l.img}
+                      alt={l.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#53131b]/95 via-[#53131b]/70 to-transparent"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#fdf3b7]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   </div>
-                  
+
                   <div className="absolute bottom-0 p-6 text-[#fdf3b7] w-full">
                     <div className="flex justify-between items-start">
                       <div>
@@ -700,13 +700,13 @@ export const About = () => {
                         <FaLinkedinIn className="w-5 h-5 text-[#fdf3b7]" />
                       </div>
                     </div>
-                    
+
                     <div className="inline-flex items-center gap-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span>Connect on LinkedIn</span>
                       <ExternalLink className="w-3 h-3" />
                     </div>
                   </div>
-                  
+
                   {/* Glow effect on hover */}
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fdf3b7]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </a>

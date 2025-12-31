@@ -88,23 +88,32 @@ export const Header = () => {
     setIsOpen(false);
     setMobileServiceOpen(false);
 
+    // External links
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    // Internal sub-pages (Services, etc.)
     if (isSubPage || href.startsWith("/")) {
-      const base = import.meta.env.BASE_URL || "/";
-      window.open(`${base.replace(/\/$/, "")}${href}`, "_blank", "noopener,noreferrer");
+      navigate(href);
       return;
     }
 
     if (href === "#") return;
 
+    // Anchor links
     if (location.pathname !== "/") {
       navigate("/");
       setTimeout(() => {
-        document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-      }, 120);
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
       return;
     }
 
-    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -185,9 +194,14 @@ export const Header = () => {
               )}
 
               {/* Pay Now */}
-              <button className="ml-4 px-6 py-2 rounded-full font-semibold text-black bg-gradient-to-r from-yellow-400 to-yellow-300 hover:from-yellow-300 hover:to-yellow-400 transition shadow-md">
+              <a
+                href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-4 px-6 py-2 rounded-full font-semibold text-black bg-gradient-to-r from-yellow-400 to-yellow-300 hover:from-yellow-300 hover:to-yellow-400 transition shadow-md inline-block text-center"
+              >
                 Pay Now
-              </button>
+              </a>
             </div>
 
             {/* Mobile Toggle */}
@@ -248,9 +262,14 @@ export const Header = () => {
               )
             )}
 
-            <button className="mt-6 px-8 py-3 rounded-full bg-yellow-400 text-black font-semibold">
+            <a
+              href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-6 px-8 py-3 rounded-full bg-yellow-400 text-black font-semibold inline-block"
+            >
               Pay Now
-            </button>
+            </a>
           </div>
         </div>
       )}

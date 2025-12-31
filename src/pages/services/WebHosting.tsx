@@ -81,10 +81,10 @@ const WebHosting = () => {
 
             <div className="container mx-auto px-6 relative z-10">
               <button
-               onClick={() => navigate(-1)}
+                onClick={() => navigate(-1)}
                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8 transition-colors"
               >
-                <ArrowLeft size={18} /> Back to Home
+                <ArrowLeft size={18} /> Back
               </button>
 
               <div className="service-hero-content max-w-4xl">

@@ -78,7 +78,7 @@ export const Services = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".services-heading",
-            start: "top 85%",
+            start: "top 70%", // Trigger earlier
           },
         }
       );
@@ -96,7 +96,7 @@ export const Services = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".services-grid",
-            start: "top 85%",
+            start: "top 75%", // Trigger earlier
           },
         }
       );

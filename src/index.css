@@ -5,8 +5,10 @@
 @layer base {
   :root {
     /* Primary colors - Warm golden and burgundy */
-    --background: 43 100% 83%; /* #fdf3b7 */
-    --foreground: 352 63% 20%; /* rgb(83, 19, 27) */
+    --background: 51 93% 85%;
+    /* #fdf3b7 */
+    --foreground: 352 63% 20%;
+    /* rgb(83, 19, 27) */
 
     --card: 43 100% 83%;
     --card-foreground: 352 63% 20%;
@@ -14,7 +16,8 @@
     --popover: 43 100% 83%;
     --popover-foreground: 352 63% 20%;
 
-    --primary: 352 63% 20%; /* Burgundy */
+    --primary: 352 63% 20%;
+    /* Burgundy */
     --primary-foreground: 43 100% 83%;
 
     --secondary: 43 80% 75%;
@@ -38,11 +41,11 @@
     /* Custom design tokens */
     --font-display: 'Poppins', system-ui, sans-serif;
     --font-body: 'Poppins', system-ui, sans-serif;
-    
+
     /* Gradients */
     --gradient-hero: linear-gradient(135deg, hsl(43 100% 83%) 0%, hsl(40 90% 75%) 100%);
     --gradient-accent: linear-gradient(135deg, hsl(352 63% 20%) 0%, hsl(352 63% 30%) 100%);
-    
+
     /* Shadows */
     --shadow-soft: 0 4px 20px -4px hsl(352 63% 20% / 0.15);
     --shadow-strong: 0 20px 60px -15px hsl(352 63% 20% / 0.3);
@@ -104,17 +107,23 @@
     font-family: var(--font-body);
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
   }
 }
 
 @layer components {
+
   /* Text reveal animation */
   .text-reveal {
     @apply overflow-hidden;
   }
-  
+
   .text-reveal-inner {
     @apply inline-block;
     transform: translateY(100%);
@@ -170,13 +179,14 @@
   }
 
   /* Stagger children */
-  .stagger-children > * {
+  .stagger-children>* {
     opacity: 0;
     transform: translateY(30px);
   }
 }
 
 @layer utilities {
+
   /* Clip path animations */
   .clip-reveal {
     clip-path: inset(0 100% 0 0);
@@ -194,24 +204,51 @@
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0px) rotate(0deg); }
-  50% { transform: translateY(-20px) rotate(2deg); }
+
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(2deg);
+  }
 }
 
 @keyframes marquee {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
 }
 
 @keyframes reveal-up {
-  0% { transform: translateY(100%); opacity: 0; }
-  100% { transform: translateY(0); opacity: 1; }
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 @keyframes fade-in-up {
-  0% { opacity: 0; transform: translateY(40px); }
-  100% { opacity: 1; transform: translateY(0); }
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
+
 .service-dropdown {
   position: absolute;
   top: 100%;
@@ -219,7 +256,7 @@
   min-width: 240px;
   background: hsl(var(--background));
   border-radius: 12px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   opacity: 0;
   transform: translateY(10px);
   pointer-events: none;
@@ -231,4 +268,10 @@
   opacity: 1;
   transform: translateY(0);
   pointer-events: auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --gif-invert: 1;
+  }
 }
