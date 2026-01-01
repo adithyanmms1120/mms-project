@@ -100,7 +100,7 @@ const DigitalMarketing = () => {
                 </h1>
 
                 <p className="text-xl text-primary-foreground/80 leading-relaxed max-w-2xl">
-                  Explore your company with MediaMatic Studio and watch your business grow exponentially.
+                  Expand your reach with MediaMatic Studio and watch your business grow exponentially.
                 </p>
               </div>
             </div>
@@ -115,21 +115,21 @@ const DigitalMarketing = () => {
                   <div className="content-block">
                     <h2 className="font-display text-2xl font-bold mb-4">What We Do</h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      MediaMatic Studio is the right place to settle your mind and be confident that your digital marketing and SEO needs will be properly taken care of. We have expertise in all digital networking channels including Instagram, YouTube, Google, and email marketing.
+                      MediaMatic Studio is your trusted partner to ensure that your digital marketing and SEO needs are expertly managed. We have expertise in all digital networking channels including Instagram, YouTube, Google, and email marketing.
                     </p>
                   </div>
 
                   <div className="content-block">
                     <h2 className="font-display text-2xl font-bold mb-4">SEO Excellence</h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      We know the right keywords, backlinks, and formats to use for your content to rank high on Google and other search engines. We are experts in SEO (Search Engine Optimization), the only brand that can intelligently leverage SEO to get your content perfect ranking.
+                      We know the right keywords, backlinks, and formats to use for your content to rank high on Google and other search engines. We are experts in SEO (Search Engine Optimization) and a partner that intelligently leverages SEO to achieve optimal rankings for your content.
                     </p>
                   </div>
 
                   <div className="content-block">
                     <h2 className="font-display text-2xl font-bold mb-4">Why Choose Us</h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      We provide data-driven digital marketing solutions that increase conversions, engagement, and visibility. With expertise in SEO, SMO, SEM, SMM, our team creates tactics specific to your target audience. Measurable growth and long-term success are guaranteed.
+                      We provide data-driven digital marketing solutions that increase conversions, engagement, and visibility. With expertise in SEO, SMO, SEM, SMM, our team creates tactics specific to your target audience. We aim for measurable growth and long-term success.
                     </p>
                   </div>
                 </div>
@@ -149,12 +149,19 @@ const DigitalMarketing = () => {
                     ))}
                   </div>
 
-                  <button
-                    onClick={() => navigate("/#contact")}
-                    className="mt-8 flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:shadow-strong transition-all"
-                  >
-                    Get Started <ArrowRight size={18} />
-                  </button>
+ <button
+                  onClick={() => {
+                    navigate("/");
+                    setTimeout(() => {
+                      document
+                        .getElementById("contact")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }, 150);
+                  }}
+                  className="mt-10 inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold"
+                >
+                  Get Started <ArrowRight size={18} />
+                </button>
                 </div>
               </div>
             </div>

@@ -116,19 +116,19 @@ export const About = () => {
 
   const leaders = [
     {
-      name: "Zulfikar S.",
+      name: "Zulfikar S",
       role: "Founder & CEO",
       img: ceoImg,
       link: "https://www.linkedin.com/in/szulfikar"
     },
     {
-      name: "Thasleema N.",
+      name: "Thasleema N",
       role: "Co-Founder & COO",
       img: cooImg,
       link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/"
     },
     {
-      name: "Reshma S.",
+      name: "Reshma S",
       role: "Director of Admin",
       img: adminImg,
       link: "https://www.linkedin.com/in/reshma-s-1b7218276/"
@@ -136,10 +136,10 @@ export const About = () => {
   ];
 
   const stats = [
-    { value: "5+", label: "Global Virtual Offices" },
-    { value: "500+", label: "Web & App Projects" },
-    { value: "100+", label: "Corporate Video Shoots" },
-    { value: "2000+", label: "Hosting Clients" },
+    { value: "2+", label: "Branch office " },
+    { value: "118+", label: "Web & App Projects" },
+    { value: "75+", label: "Corporate Video Shoots" },
+    { value: "124+", label: "Digital Marketing" },
   ];
 
   const vision2026 = [
@@ -155,22 +155,22 @@ export const About = () => {
     {
       icon: Shield,
       title: "Integrity & Transparency",
-      description: "Integrity is doing what's right, even when no one is watching"
+      description: "Integrity is doing what's right, even when no one is watching."
     },
     {
       icon: Lightbulb,
       title: "Innovation & Adaptability",
-      description: "Innovation opens doors, adaptability keeps them open"
+      description: "Innovation opens doors, adaptability keeps them open."
     },
     {
       icon: Users,
       title: "Collaboration & Teamwork",
-      description: "Teamwork turns dreams into reality"
+      description: "Teamwork turns dreams into reality."
     },
     {
       icon: CheckCircle,
       title: "Reliability & Accountability",
-      description: "True integrity is delivering not just words, but results"
+      description: "True integrity is delivering not just words, but results."
     },
   ];
 
@@ -178,22 +178,22 @@ export const About = () => {
     {
       icon: Search,
       title: "Discovery Phase",
-      description: "We delve deep into understanding your business goals, target audience, and market landscape to identify opportunities and challenges."
+      description: "During this initial stage, we delve deep into understanding the client's business goals, target audience, and market landscape. We conduct thorough research and analysis to identify opportunities and challenges, laying the foundation for a successful campaign."
     },
     {
       icon: Target,  // Fixed: Changed from TargetIcon to Target
       title: "Strategy Development",
-      description: "We develop customized strategies tailored to your specific needs and objectives with comprehensive tactics and timelines."
+      description: "With insights gathered from the discovery phase, we develop a customized strategy tailored to your specific needs and objectives. This comprehensive plan outlines the key tactics, channels, and timelines needed to achieve client's business goals effectively"
     },
     {
       icon: Zap,
       title: "Implementation & Execution",
-      description: "Our expert team executes each component with precision using cutting-edge tools and techniques."
+      description: "Once the strategy is finalized and approved, we roll up our sleeves and put the plan into action. Our expert team utilizes cutting-edge tools and techniques to execute each component of the strategy with precision and efficiency, whether it's optimizing your website for search engines, crafting engaging social media content, or designing captivating visuals."
     },
     {
       icon: LineChart,
       title: "Monitoring & Optimization",
-      description: "Continuous tracking of KPIs and metrics with necessary adjustments to optimize results and maximize ROI."
+      description: "Continuous monitoring and optimization are essential to ensuring the success and effectiveness of our projects. We closely track key performance indicators (KPIs) and metrics, analysing data to identify areas for improvement and making necessary adjustments to optimize results. This interactive process allows us to adapt to changes in the market and maximize the return on our client investment."
     },
   ];
 
@@ -205,7 +205,7 @@ export const About = () => {
     visible: (i = 0) => ({
       opacity: 1,
       y: 0,
-      transition: { delay: i * 0.15, duration: 0.6, ease: "easeOut" },
+      transition: { delay: i * 0.15, duration: 0.6, ease: "easeOut" as const },
     }),
   };
 
@@ -310,7 +310,7 @@ export const About = () => {
                 animate="visible"
                 custom={2}
               >
-                MediaMatic Studio Pvt. Ltd., (MMS) could be a perfect one-stop solution to manage all your Branding Activities.
+                MediaMatic Studio Pvt. Ltd. (MMS) is your perfect one-stop solution to manage all your Branding Activities.
               </motion.p>
             </div>
 
@@ -432,7 +432,7 @@ export const About = () => {
                   animate="visible"
                   custom={2}
                 >
-                  MediaMatic Studio Pvt. Ltd., (MMS) could be a perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, the one thing we have been hugely passionate about is always delivering exceptional services focused on connecting ideas to audiences globally.
+                  MediaMatic Studio Pvt. Ltd. (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to delivering exceptional services focused on connecting ideas to audiences globally.
                 </motion.p>
 
                 <motion.p
@@ -478,10 +478,10 @@ export const About = () => {
               </h2>
               <div className="space-y-4 text-[#fdf3b7]/90">
                 <p className="text-base lg:text-lg">
-                  MediaMatic Studio, incorporated in 2017 – one of India's eminent start-up Branding firms supporting the arena in fields of Branding Services.
+                  MediaMatic Studio, incorporated in 2017 – one of India's eminent startup branding firms, supporting various industries in the field of branding services.
                 </p>
                 <p className="text-base lg:text-lg">
-                  MediaMatic Studio is one of the best leading 2D & 3D Animation, Corporate Shoot, Website & App Development & Designing, Digital Marketing, Content Management, Company in Coimbatore, majorly supporting clients in USA, Canada, UK, Europe, Middle East, Australia and India.
+                  MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website & App Development, Digital Marketing, and Content Management company in Coimbatore, serving clients in the USA, Canada, UK, Europe, Middle East, Australia, and India.
                 </p>
               </div>
             </div>
@@ -493,7 +493,7 @@ export const About = () => {
               whileHover="hover"
               className="bg-gradient-to-br from-[#53131b] via-[#6a1c2b] to-[#53131b] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
             >
-              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Mission Timeline</h3>
+              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Journey</h3>
               <div className="space-y-4">
                 <div className="flex items-center gap-4 group">
                   <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
@@ -513,7 +513,7 @@ export const About = () => {
                 <div className="flex items-center gap-4 group">
                   <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
                   <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2025</span>
-                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Aiming to be one of the Global Fortune Company by 2030</span>
+                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Aiming to be a Global Fortune company by 2030.</span>
                 </div>
               </div>
             </motion.div>
@@ -585,7 +585,7 @@ export const About = () => {
           className="mb-16 lg:mb-24"
         >
           <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            MMS CORE VALUE - 2026
+            MMS Core Values 
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {coreValues2026.map((value, i) => (
@@ -684,7 +684,13 @@ export const About = () => {
                     <img
                       src={l.img}
                       alt={l.name}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                     className="
+  w-full h-full
+  object-contain md:object-cover
+  group-hover:md:scale-110
+  transition-transform duration-700
+"
+
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#53131b]/95 via-[#53131b]/70 to-transparent"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#fdf3b7]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>

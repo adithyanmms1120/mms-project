@@ -118,7 +118,7 @@ export const Studio: React.FC = () => {
               "Professional Lighting",
               "Editing Suites",
               "Green Screen",
-              "Makeup & Styling"
+              
             ].map((feature, i) => (
               <motion.div
                 key={i}

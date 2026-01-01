@@ -122,7 +122,7 @@ const WebHosting = () => {
                   <div className="content-block">
                     <h2 className="font-display text-2xl font-bold mb-4">Our Commitment</h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      We're committed to providing 24/7 customer support, a 99.9% uptime guarantee, and service excellence to help you focus on growing your online presence. Your success is our priority.
+                      We are committed to providing 24/7 customer support, a 99.9% uptime guarantee, and service excellence to help you focus on growing your online presence. Your success is our priority.
                     </p>
                   </div>
 
@@ -155,12 +155,19 @@ const WebHosting = () => {
                     ))}
                   </div>
 
-                  <button
-                    onClick={() => navigate("/#contact")}
-                    className="mt-8 flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:shadow-strong transition-all"
-                  >
-                    Get Started <ArrowRight size={18} />
-                  </button>
+ <button
+                  onClick={() => {
+                    navigate("/");
+                    setTimeout(() => {
+                      document
+                        .getElementById("contact")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }, 150);
+                  }}
+                  className="mt-10 inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold"
+                >
+                  Get Started <ArrowRight size={18} />
+                </button>
                 </div>
               </div>
             </div>

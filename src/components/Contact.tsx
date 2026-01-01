@@ -3,6 +3,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Send, Mail, Phone, MapPin, CheckCircle, ArrowUpRight, ChevronDown, Search, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { createPortal } from "react-dom";
+
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -37,6 +39,10 @@ export const Contact = () => {
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [searchTerm, setSearchTerm] = useState("");
+  const countryBtnRef = useRef<HTMLButtonElement>(null);
+
+const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -56,6 +62,19 @@ export const Contact = () => {
     country.dial_code.includes(searchTerm) ||
     country.code.toLowerCase().includes(searchTerm.toLowerCase())
   );
+  useEffect(() => {
+  if (showCountryDropdown && countryBtnRef.current) {
+    const rect = countryBtnRef.current.getBoundingClientRect();
+
+    setDropdownStyle({
+      position: "fixed",
+      top: rect.bottom + 8,
+      left: rect.left,
+      width: Math.max(rect.width, 280),
+      zIndex: 9999,
+    });
+  }
+}, [showCountryDropdown]);
 
   // Close dropdown when clicking outside or on escape
   useEffect(() => {
@@ -82,67 +101,70 @@ export const Contact = () => {
   }, []);
 
   // GSAP animations (unchanged, but ensure it's efficient)
-  useEffect(() => {
-    const section = sectionRef.current;
-    if (!section) return;
+useEffect(() => {
+  const section = sectionRef.current;
+  if (!section) return;
 
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".contact-char",
-        { opacity: 0, y: 50, rotateX: -90 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 0.5,
-          stagger: 0.02,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 70%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
+  const ctx = gsap.context(() => {
 
-      gsap.fromTo(
-        ".contact-item",
-        { opacity: 0, y: 40 },
-        {
-          opacity: 1,
-          y: 0,
-          duration: 0.6,
-          stagger: 0.08,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 60%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
+    gsap.fromTo(
+      ".contact-char",
+      { opacity: 0, y: 50, rotateX: -90 },
+      {
+        opacity: 1,
+        y: 0,
+        rotateX: 0,
+        duration: 0.5,
+        stagger: 0.02,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 70%",
+          once: true,
+        },
+      }
+    );
 
-      gsap.fromTo(
-        ".info-card",
-        { opacity: 0, x: 50, scale: 0.95 },
-        {
-          opacity: 1,
-          x: 0,
-          scale: 1,
-          duration: 0.6,
-          stagger: 0.12,
-          ease: "back.out(1.4)",
-          scrollTrigger: {
-            trigger: ".info-cards-container",
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        }
-      );
-    }, section);
+    gsap.fromTo(
+      ".contact-item",
+      { opacity: 0, y: 40 },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        stagger: 0.08,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: section,
+          start: "top 60%",
+          once: true,
+        },
+      }
+    );
 
-    return () => ctx.revert();
-  }, []);
+    gsap.fromTo(
+      ".info-card",
+      { opacity: 0, x: 50, scale: 0.95 },
+      {
+        opacity: 1,
+        x: 0,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.12,
+        ease: "back.out(1.4)",
+        scrollTrigger: {
+          trigger: ".info-cards-container",
+          start: "top 80%",
+          once: true,
+        },
+      }
+    );
+
+  }, section);
+
+  return () => ctx.revert();
+}, []);
+
 
   // Validation functions (improved phone validation for flexibility)
   const validateForm = (): boolean => {
@@ -430,12 +452,12 @@ export const Contact = () => {
                     {/* Country Code Selector */}
                     <div className="relative flex-shrink-0">
                       <button
+                        ref={countryBtnRef}
                         type="button"
                         onClick={() => setShowCountryDropdown(!showCountryDropdown)}
                         className="flex items-center gap-2 px-4 py-4 bg-transparent border-2 border-foreground/30 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[120px] justify-between"
-                        aria-expanded={showCountryDropdown}
-                        aria-haspopup="listbox"
                       >
+
                         <span className="flex items-center gap-2">
                           <span className="text-lg">{selectedCountry.flag}</span>
                           <span className="text-sm">{selectedCountry.dial_code}</span>
@@ -444,59 +466,60 @@ export const Contact = () => {
                       </button>
 
                       {/* Dropdown Menu - Improved positioning and responsiveness */}
-                      {showCountryDropdown && (
-                        <div
-                          className="absolute top-full left-0 mt-2 min-w-[280px] md:min-w-[320px] max-w-[90vw] bg-[#fdf3b7] border-2 border-[#53131b]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(83,19,27,0.3)] z-[60] overflow-hidden text-left"
-                          role="listbox"
-                          aria-label="Select country"
-                        >
-                          {/* Search Input */}
-                          <div className="p-3 border-b border-[#53131b]/10 bg-[#fdf3b7] sticky top-0 z-10">
-                            <div className="relative">
-                              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#53131b]/50" />
-                              <input
-                                type="text"
-                                value={searchTerm}
-                                onChange={(e) => setSearchTerm(e.target.value)}
-                                placeholder="Search country..."
-                                className="w-full pl-10 pr-4 py-3 bg-[#53131b]/5 border border-[#53131b]/10 rounded-lg text-[#53131b] placeholder:text-[#53131b]/50 text-sm focus:outline-none focus:border-[#53131b]/30 transition-all font-medium"
-                                autoFocus
-                                onClick={(e) => e.stopPropagation()}
-                              />
-                            </div>
-                          </div>
+                      {showCountryDropdown &&
+  dropdownStyle &&
+  createPortal(
+    <div
+      ref={dropdownRef}
+      style={dropdownStyle}
+      className="bg-[#fdf3b7] border-2 border-[#53131b]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(83,19,27,0.3)] overflow-hidden text-left"
+      role="listbox"
+    >
+      {/* Search */}
+      <div className="p-3 border-b border-[#53131b]/10 bg-[#fdf3b7] sticky top-0 z-10">
+        <div className="relative">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#53131b]/50" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search country..."
+            className="w-full pl-10 pr-4 py-3 bg-[#53131b]/5 border border-[#53131b]/10 rounded-lg text-[#53131b] text-sm focus:outline-none"
+            autoFocus
+          />
+        </div>
+      </div>
 
-                          {/* Country List */}
-                          <div className="overflow-y-auto max-h-[300px] bg-[#fdf3b7] scrollbar-thin scrollbar-thumb-[#53131b]/20 scrollbar-track-transparent">
-                            {filteredCountries.length > 0 ? (
-                              filteredCountries.map((country) => (
-                                <button
-                                  key={country.code}
-                                  type="button"
-                                  onClick={() => selectCountry(country)}
-                                  className={`w-full px-4 py-3 flex items-center gap-4 hover:bg-[#53131b]/10 transition-colors text-left border-b border-[#53131b]/5 last:border-0 ${selectedCountry.code === country.code ? 'bg-[#53131b]/10 font-medium' : ''
-                                    }`}
-                                  role="option"
-                                  aria-selected={selectedCountry.code === country.code}
-                                >
-                                  <span className="text-lg font-bold w-8 text-center flex-shrink-0 text-[#53131b]">{country.flag}</span>
-                                  <div className="flex-1 min-w-0">
-                                    <div className="text-[#53131b] text-sm truncate font-semibold">{country.name}</div>
-                                    <div className="text-[#53131b]/60 text-xs font-mono mt-0.5">{country.dial_code}</div>
-                                  </div>
-                                  {selectedCountry.code === country.code && (
-                                    <CheckCircle className="w-4 h-4 text-[#53131b]" />
-                                  )}
-                                </button>
-                              ))
-                            ) : (
-                              <div className="p-6 text-center text-[#53131b]/50 text-sm">
-                                No countries found
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      )}
+      {/* List */}
+      <div className="max-h-[300px] overflow-y-auto">
+        {filteredCountries.length ? (
+          filteredCountries.map((country) => (
+            <button
+              key={country.code}
+              type="button"
+              onClick={() => selectCountry(country)}
+              className="w-full px-4 py-3 flex items-center gap-4 hover:bg-[#53131b]/10 text-left"
+            >
+              <span className="text-lg w-8">{country.flag}</span>
+              <div className="flex-1">
+                <div className="text-sm font-semibold">{country.name}</div>
+                <div className="text-xs opacity-60">{country.dial_code}</div>
+              </div>
+              {selectedCountry.code === country.code && (
+                <CheckCircle className="w-4 h-4" />
+              )}
+            </button>
+          ))
+        ) : (
+          <div className="p-6 text-center text-sm opacity-60">
+            No countries found
+          </div>
+        )}
+      </div>
+    </div>,
+    document.body
+  )}
+
                     </div>
 
                     {/* Phone Number Input */}
@@ -508,10 +531,10 @@ export const Contact = () => {
                         className={`w-full px-5 py-4 bg-transparent border-2 rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/30 focus:border-foreground"
                           }`}
                         placeholder="123 456 7890"
-                        maxLength={20} // Adjusted for flexibility
+                        maxLength={12} // Adjusted for flexibility
                       />
                       <div className="mt-1 text-xs text-foreground/40">
-                        {formData.phone ? `${formData.phone.replace(/\D/g, '').length}/15 digits` : "Enter phone number (optional)"}
+                        {formData.phone ? `${formData.phone.replace(/\D/g, '').length}/10 digits` : "Enter phone number (optional)"}
                       </div>
                     </div>
                   </div>

@@ -8,9 +8,13 @@ import {
   Facebook,
   Youtube,
 } from "lucide-react";
+import { useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/mediamatic-logo.png";
+import { Label } from "recharts";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* ================= DATA ================= */
 
 const socialLinks = [
   { icon: Instagram, href: "https://www.instagram.com/mediamaticstudio/" },
@@ -20,9 +24,30 @@ const socialLinks = [
   { icon: Youtube, href: "https://www.youtube.com/@mediamaticstudio" },
 ];
 
+const usefulLinks = [
+  { label: "Home", href: "#home" },
+  { label: "About Us", href: "#about" },
+  { label: "Brand Management", href: "#brandstatements" },
+  { label: "Services", href: "#services" },
+  { label: "Sudio-Hub", href: "#studio" },
+];
+
+const serviceLinks = [
+  { label: "Content Management", href: "/services/contentmanagement" },
+  { label: "2D & 3D Animation", href: "/services/animation" },
+  { label: "Web Development", href: "/services/web-development" },
+  { label: "Digital Marketing", href: "/services/digital-marketing" },
+  { label: "Web Hosting", href: "/services/webhosting" },
+];
+
+/* ================= COMPONENT ================= */
+
 export const Footer = () => {
   const footerRef = useRef<HTMLElement>(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  /* GSAP Animation */
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -45,6 +70,33 @@ export const Footer = () => {
     return () => ctx.revert();
   }, []);
 
+  /* SAME NAV LOGIC AS HEADER */
+  const handleNavClick = (href: string, isSubPage?: boolean) => {
+    if (href.startsWith("http")) {
+      window.open(href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    if (isSubPage || href.startsWith("/")) {
+      navigate(href);
+      return;
+    }
+
+    if (href === "#") return;
+
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const el = document.querySelector(href);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+      return;
+    }
+
+    const el = document.querySelector(href);
+    if (el) el.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <footer
       ref={footerRef}
@@ -53,13 +105,10 @@ export const Footer = () => {
     >
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-16 pb-16">
+
           {/* LOGO + SOCIAL */}
           <div className="footer-item space-y-8">
-            <img
-              src={logo}
-              alt="MediaMatic Studio"
-              className="w-44"
-            />
+            <img src={logo} alt="MediaMatic Studio" className="w-44" />
 
             <div className="flex gap-4">
               {socialLinks.map((social, i) => (
@@ -69,7 +118,10 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full border flex items-center justify-center transition hover:scale-105"
-                  style={{ borderColor: "rgb(83, 19, 27)", color: "rgb(83, 19, 27)" }}
+                  style={{
+                    borderColor: "rgb(83, 19, 27)",
+                    color: "rgb(83, 19, 27)",
+                  }}
                 >
                   <social.icon size={18} />
                 </a>
@@ -77,18 +129,18 @@ export const Footer = () => {
             </div>
           </div>
 
+          {/* USEFUL LINKS */}
           <div className="footer-item">
             <h4 className="font-semibold mb-6">Useful Links</h4>
             <ul className="space-y-3 opacity-80">
-              {[
-                { label: "Home", id: "home" },
-                { label: "About us", id: "about" },
-                { label: "Brand Management", id: "brand-management" },
-                { label: "Services", id: "services" },
-              ].map((link) => (
-                <li key={link.id}>
+              {usefulLinks.map((link) => (
+                <li key={link.label}>
                   <a
-                    href={`#${link.id}`}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(link.href);
+                    }}
                     className="hover:opacity-100 transition"
                   >
                     {link.label}
@@ -98,16 +150,24 @@ export const Footer = () => {
             </ul>
           </div>
 
-
           {/* OUR SERVICES */}
           <div className="footer-item">
             <h4 className="font-semibold mb-6">Our Services</h4>
             <ul className="space-y-3 opacity-80">
-              <li>Content Management</li>
-              <li>2D & 3D Animation</li>
-              <li>Web Development</li>
-              <li>Digital Marketing</li>
-              <li>Web Hosting</li>
+              {serviceLinks.map((service) => (
+                <li key={service.label}>
+                  <a
+                    href={service.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(service.href, true);
+                    }}
+                    className="hover:opacity-100 transition"
+                  >
+                    {service.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -117,26 +177,36 @@ export const Footer = () => {
               <h4 className="font-semibold mb-2 opacity-100">
                 Corporate Office
               </h4>
-              <p>
+              <a
+                href="https://www.google.com/maps?q=COVAI+TECH+PARK+Kalapatty+Coimbatore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline block"
+              >
                 COVAI TECH PARK, Site No: 90,
                 <br />
                 Kovai Thiru Nagar, Kalapatty Village,
                 <br />
                 Coimbatore – 641 014
-              </p>
+              </a>
             </div>
 
             <div>
               <h4 className="font-semibold mb-2 opacity-100">
                 Branch Office
               </h4>
-              <p>
+              <a
+                href="https://www.google.com/maps?q=Dr.+Jaganathanagar+Civil+Aerodrome+Coimbatore"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline block"
+              >
                 Civil Aerodrome Post, No. 97,
                 <br />
                 Dr. Jaganathanagar,
                 <br />
                 Coimbatore – 641 014
-              </p>
+              </a>
             </div>
 
             <div className="space-y-1">
@@ -152,14 +222,12 @@ export const Footer = () => {
       {/* BOTTOM BAR */}
       <div
         className="py-4 text-center text-sm"
-        style={{
-          backgroundColor: "#fdf3b7",
-          color: "rgb(83, 19, 27)",
-        }}
+        style={{ backgroundColor: "#fdf3b7", color: "rgb(83, 19, 27)" }}
       >
         © Copyright MediaMatic. All Rights Reserved
         <br />
-        Developed & Designed by <span className="font-semibold">MediaMatic Studio</span>
+        Developed & Designed by{" "}
+        <span className="font-semibold">MediaMatic Studio</span>
       </div>
     </footer>
   );

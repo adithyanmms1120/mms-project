@@ -21,11 +21,11 @@ const navLinks = [
 ];
 
 const serviceLinks = [
+  { label: "Website Development & Designing", href: "/services/web-development" },
+  { label: "Web Hosting Service", href: "/services/webhosting" },
+  { label: "Digital Marketing", href: "/services/digital-marketing" },
   { label: "Content Management", href: "/services/contentmanagement" },
   { label: "2D & 3D Animation Videos", href: "/services/animation" },
-  { label: "Website Development & Designing", href: "/services/web-development" },
-  { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Web Hosting Service", href: "/services/webhosting" },
 ];
 
 /* ================= COMPONENT ================= */

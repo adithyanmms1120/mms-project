@@ -100,7 +100,7 @@ const ContentManagement = () => {
                 </h1>
 
                 <p className="text-xl text-primary-foreground/80 leading-relaxed max-w-2xl">
-                  Expert content writers delivering high-quality content writing services tailored to your needs.
+                  Expert content writers delivering high-quality content writing services.
                 </p>
               </div>
             </div>
@@ -114,43 +114,83 @@ const ContentManagement = () => {
                 <div className="content-blocks space-y-8">
                   <div className="content-block">
                     <h2 className="font-display text-2xl font-bold mb-4">What We Do</h2>
+                    <p className="text-foreground/70 leading-relaxed mb-4">
+                      At MediaMatic Studio, we specialize in providing the best content writing services tailored to our client's needs. Our team of experienced writers excels in crafting high-quality, SEO-friendly content, web copywriting, and engaging social media content that will captivate target audience and drive results.
+                    </p>
                     <p className="text-foreground/70 leading-relaxed">
-                      At MediaMatic Studio, we specialize in providing the best content writing services tailored to our client's needs. Our team of experienced writers excels in crafting high-quality, SEO-friendly content, web copywriting, and engaging social media content that will captivate your target audience and drive results.
+                      Whether you're looking for marketing copywriting, technical content, blog posts, or brand-building content, we've got you covered. At MediaMatic Studio, we don’t just create content; we craft stories that connect our client's brand with its target audience.
                     </p>
                   </div>
 
                   <div className="content-block">
-                    <h2 className="font-display text-2xl font-bold mb-4">Our Approach</h2>
+                    <h2 className="font-display text-2xl font-bold mb-4">Creative & Customized Content</h2>
+                    <p className="text-foreground/70 leading-relaxed mb-4">
+                      From blog posts and social media content to SEO articles and technical documentation, we provide tailored solutions for every business need.
+                    </p>
                     <p className="text-foreground/70 leading-relaxed">
-                      We emphasize client satisfaction as much as possible. We connect with our clients to understand their vision, brand voice, and the target audience—the most important factors that will allow us to deliver the most relatable content.
+                      At MediaMatic Studio, we emphasize client satisfaction as much as possible. We connect with our clients to understand their vision, brand voice, and the target audience—the most important factors that will allow us to deliver the most relatable content. Whether you have just started and want to establish a strong presence or are an already established brand looking to extend your digital footprint, we provide customized solutions to meet your specific needs.
                     </p>
                   </div>
 
                   <div className="content-block">
-                    <p className="text-lg italic text-foreground/60 border-l-4 border-accent pl-6">
-                      "At MediaMatic Studio, we don't just create content; we craft stories that connect your brand with its target audience."
+                    <h2 className="font-display text-2xl font-bold mb-4">Our Mission</h2>
+                    <p className="text-lg text-foreground/60 border-l-4 border-accent pl-6 italic">
+                      Our mission is simple: to deliver compelling, high-quality content that drives results. Whether you're a start-up or an established brand, we help you communicate your message effectively and convert interest into sales.
                     </p>
                   </div>
                 </div>
 
-                {/* Right - Features */}
-                <div>
-                  <h3 className="font-display text-xl font-bold mb-8">Our Services Include</h3>
-                  <div className="features-list space-y-4">
-                    {features.map((feature, i) => (
-                      <div
-                        key={i}
-                        className="feature-item flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-colors"
-                      >
-                        <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
-                        <span className="font-medium">{feature}</span>
+                {/* Right - Features & Why Choose Us */}
+                <div className="space-y-12">
+                  <div>
+                    <h3 className="font-display text-xl font-bold mb-8">Our Services Include</h3>
+                    <div className="features-list space-y-4">
+                      {features.map((feature, i) => (
+                        <div
+                          key={i}
+                          className="feature-item flex items-center gap-4 p-4 bg-card rounded-xl border border-border hover:border-primary/30 transition-colors"
+                        >
+                          <CheckCircle className="w-5 h-5 text-accent flex-shrink-0" />
+                          <span className="font-medium">{feature}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="content-block">
+                    <h3 className="font-display text-xl font-bold mb-6">Why Choose Us?</h3>
+                    <div className="space-y-6">
+                      <div className="bg-card p-5 rounded-xl border border-border">
+                        <h4 className="font-semibold text-lg mb-2">Expert Team</h4>
+                        <p className="text-foreground/70">
+                          A dedicated team of writers, editors, and strategists who take pride in producing top-tier content.
+                        </p>
                       </div>
-                    ))}
+                      <div className="bg-card p-5 rounded-xl border border-border">
+                        <h4 className="font-semibold text-lg mb-2">Attention to Detail</h4>
+                        <p className="text-foreground/70">
+                          Every piece of content is meticulously written, edited, and proofread to ensure perfection.
+                        </p>
+                      </div>
+                      <div className="bg-card p-5 rounded-xl border border-border">
+                        <h4 className="font-semibold text-lg mb-2">Client-Centric Approach</h4>
+                        <p className="text-foreground/70">
+                          We take the time to understand your brand, voice, and audience to deliver content that truly resonates.
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
                   <button
-                    onClick={() => navigate("/#contact")}
-                    className="mt-8 flex items-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full font-semibold hover:shadow-strong transition-all"
+                    onClick={() => {
+                      navigate("/");
+                      setTimeout(() => {
+                        document
+                          .getElementById("contact")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }, 150);
+                    }}
+                    className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold hover:bg-primary/90 transition-colors"
                   >
                     Get Started <ArrowRight size={18} />
                   </button>

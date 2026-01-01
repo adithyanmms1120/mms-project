@@ -164,10 +164,10 @@ export const BrandStatement = () => {
           className="grid md:grid-cols-3 gap-6 mt-20"
         >
           {[
-            ["Brand Identity", "Visual and verbal expression of the brand."],
-            ["Brand Positioning", "How the brand differentiates itself in the market."],
+            ["Brand Identity", "The visual and verbal expression of your brand."],
+            ["Brand Positioning", "How your brand differentiates itself in the market."],
             ["Brand Promise", "The value customers can consistently expect."],
-            ["Brand Personality", "Human traits like innovative, trustworthy, fun."],
+            ["Brand Personality", "Human traits like innovative, trustworthy, and fun."],
             ["Brand Experience", "How audiences feel at every touchpoint."],
           ].map(([title, desc], i) => (
             <div
