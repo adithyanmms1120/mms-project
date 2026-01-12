@@ -41,7 +41,7 @@ export const Contact = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const countryBtnRef = useRef<HTMLButtonElement>(null);
 
-const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
+  const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -63,18 +63,18 @@ const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(n
     country.code.toLowerCase().includes(searchTerm.toLowerCase())
   );
   useEffect(() => {
-  if (showCountryDropdown && countryBtnRef.current) {
-    const rect = countryBtnRef.current.getBoundingClientRect();
+    if (showCountryDropdown && countryBtnRef.current) {
+      const rect = countryBtnRef.current.getBoundingClientRect();
 
-    setDropdownStyle({
-      position: "fixed",
-      top: rect.bottom + 8,
-      left: rect.left,
-      width: Math.max(rect.width, 280),
-      zIndex: 9999,
-    });
-  }
-}, [showCountryDropdown]);
+      setDropdownStyle({
+        position: "fixed",
+        top: rect.bottom + 8,
+        left: rect.left,
+        width: Math.max(rect.width, 280),
+        zIndex: 9999,
+      });
+    }
+  }, [showCountryDropdown]);
 
   // Close dropdown when clicking outside or on escape
   useEffect(() => {
@@ -101,69 +101,69 @@ const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(n
   }, []);
 
   // GSAP animations (unchanged, but ensure it's efficient)
-useEffect(() => {
-  const section = sectionRef.current;
-  if (!section) return;
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
 
-  const ctx = gsap.context(() => {
+    const ctx = gsap.context(() => {
 
-    gsap.fromTo(
-      ".contact-char",
-      { opacity: 0, y: 50, rotateX: -90 },
-      {
-        opacity: 1,
-        y: 0,
-        rotateX: 0,
-        duration: 0.5,
-        stagger: 0.02,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 70%",
-          once: true,
-        },
-      }
-    );
+      gsap.fromTo(
+        ".contact-char",
+        { opacity: 0, y: 50, rotateX: -90 },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.5,
+          stagger: 0.02,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 70%",
+            once: true,
+          },
+        }
+      );
 
-    gsap.fromTo(
-      ".contact-item",
-      { opacity: 0, y: 40 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.6,
-        stagger: 0.08,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: section,
-          start: "top 60%",
-          once: true,
-        },
-      }
-    );
+      gsap.fromTo(
+        ".contact-item",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.6,
+          stagger: 0.08,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: section,
+            start: "top 60%",
+            once: true,
+          },
+        }
+      );
 
-    gsap.fromTo(
-      ".info-card",
-      { opacity: 0, x: 50, scale: 0.95 },
-      {
-        opacity: 1,
-        x: 0,
-        scale: 1,
-        duration: 0.6,
-        stagger: 0.12,
-        ease: "back.out(1.4)",
-        scrollTrigger: {
-          trigger: ".info-cards-container",
-          start: "top 80%",
-          once: true,
-        },
-      }
-    );
+      gsap.fromTo(
+        ".info-card",
+        { opacity: 0, x: 50, scale: 0.95 },
+        {
+          opacity: 1,
+          x: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.12,
+          ease: "back.out(1.4)",
+          scrollTrigger: {
+            trigger: ".info-cards-container",
+            start: "top 80%",
+            once: true,
+          },
+        }
+      );
 
-  }, section);
+    }, section);
 
-  return () => ctx.revert();
-}, []);
+    return () => ctx.revert();
+  }, []);
 
 
   // Validation functions (improved phone validation for flexibility)
@@ -467,58 +467,58 @@ useEffect(() => {
 
                       {/* Dropdown Menu - Improved positioning and responsiveness */}
                       {showCountryDropdown &&
-  dropdownStyle &&
-  createPortal(
-    <div
-      ref={dropdownRef}
-      style={dropdownStyle}
-      className="bg-[#fdf3b7] border-2 border-[#53131b]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(83,19,27,0.3)] overflow-hidden text-left"
-      role="listbox"
-    >
-      {/* Search */}
-      <div className="p-3 border-b border-[#53131b]/10 bg-[#fdf3b7] sticky top-0 z-10">
-        <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#53131b]/50" />
-          <input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search country..."
-            className="w-full pl-10 pr-4 py-3 bg-[#53131b]/5 border border-[#53131b]/10 rounded-lg text-[#53131b] text-sm focus:outline-none"
-            autoFocus
-          />
-        </div>
-      </div>
+                        dropdownStyle &&
+                        createPortal(
+                          <div
+                            ref={dropdownRef}
+                            style={dropdownStyle}
+                            className="bg-card border-2 border-foreground/20 rounded-xl shadow-strong overflow-hidden text-left"
+                            role="listbox"
+                          >
+                            {/* Search */}
+                            <div className="p-3 border-b border-foreground/10 bg-card sticky top-0 z-10">
+                              <div className="relative">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/50" />
+                                <input
+                                  type="text"
+                                  value={searchTerm}
+                                  onChange={(e) => setSearchTerm(e.target.value)}
+                                  placeholder="Search country..."
+                                  className="w-full pl-10 pr-4 py-3 bg-foreground/5 border border-foreground/10 rounded-lg text-foreground text-sm focus:outline-none"
+                                  autoFocus
+                                />
+                              </div>
+                            </div>
 
-      {/* List */}
-      <div className="max-h-[300px] overflow-y-auto">
-        {filteredCountries.length ? (
-          filteredCountries.map((country) => (
-            <button
-              key={country.code}
-              type="button"
-              onClick={() => selectCountry(country)}
-              className="w-full px-4 py-3 flex items-center gap-4 hover:bg-[#53131b]/10 text-left"
-            >
-              <span className="text-lg w-8">{country.flag}</span>
-              <div className="flex-1">
-                <div className="text-sm font-semibold">{country.name}</div>
-                <div className="text-xs opacity-60">{country.dial_code}</div>
-              </div>
-              {selectedCountry.code === country.code && (
-                <CheckCircle className="w-4 h-4" />
-              )}
-            </button>
-          ))
-        ) : (
-          <div className="p-6 text-center text-sm opacity-60">
-            No countries found
-          </div>
-        )}
-      </div>
-    </div>,
-    document.body
-  )}
+                            {/* List */}
+                            <div className="max-h-[300px] overflow-y-auto">
+                              {filteredCountries.length ? (
+                                filteredCountries.map((country) => (
+                                  <button
+                                    key={country.code}
+                                    type="button"
+                                    onClick={() => selectCountry(country)}
+                                    className="w-full px-4 py-3 flex items-center gap-4 hover:bg-foreground/10 text-left"
+                                  >
+                                    <span className="text-lg w-8">{country.flag}</span>
+                                    <div className="flex-1">
+                                      <div className="text-sm font-semibold">{country.name}</div>
+                                      <div className="text-xs opacity-60">{country.dial_code}</div>
+                                    </div>
+                                    {selectedCountry.code === country.code && (
+                                      <CheckCircle className="w-4 h-4" />
+                                    )}
+                                  </button>
+                                ))
+                              ) : (
+                                <div className="p-6 text-center text-sm opacity-60">
+                                  No countries found
+                                </div>
+                              )}
+                            </div>
+                          </div>,
+                          document.body
+                        )}
 
                     </div>
 

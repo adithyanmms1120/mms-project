@@ -124,7 +124,7 @@ export const BrandStatement = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-primary py-32 md:py-48 overflow-hidden"
+      className="relative bg-[#53131b] py-32 md:py-48 overflow-hidden"
       id="brandstatements"
     >
       {/* Decorative Background */}
@@ -134,71 +134,113 @@ export const BrandStatement = () => {
             key={i}
             className="brand-bg-element absolute top-1/2 left-1/2 
             -translate-x-1/2 -translate-y-1/2 rounded-full 
-            border border-primary-foreground/10"
+            border border-[#fdf3b7]/10"
             style={{ width: size, height: size }}
           />
         ))}
       </div>
 
-      <div className="container mx-auto px-6 relative z-10 text-center">
+      <div className="container mx-auto px-6 relative z-10">
         {/* HEADLINE */}
-        <div ref={line1Ref} className="overflow-hidden mb-4">
-          <h2 className="font-display text-[clamp(3rem,12vw,9rem)] font-bold leading-[0.9] text-primary-foreground">
-            {renderTextWithChars("YOUR BRAND")}
-          </h2>
+        <div className="text-center mb-20 space-y-4">
+          <div ref={line1Ref} className="overflow-hidden">
+            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] text-[#fdf3b7] tracking-tight">
+              {renderTextWithChars("YOUR BRAND")}
+            </h2>
+          </div>
+          <div ref={line2Ref} className="overflow-hidden">
+            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] italic text-[#fdf3b7]/80 tracking-tight">
+              {renderTextWithChars("WE MANAGE")}
+            </h2>
+          </div>
+          <p className="max-w-xl mx-auto text-lg md:text-xl text-[#fdf3b7]/60 mt-8 font-light">
+            Crafting identities that resonate, communicate, and endure.
+          </p>
         </div>
 
-        <div ref={line2Ref} className="overflow-hidden">
-          <h2 className="font-display text-[clamp(3rem,12vw,9rem)] font-bold leading-[0.9] italic text-primary-foreground/80">
-            {renderTextWithChars("WE MANAGE")}
-          </h2>
-        </div>
-
-        {/* BRANDING CONTENT REMOVED AS REQUESTED */}
-
-        {/* BRANDING CARDS */}
-
-        {/* BRANDING CARDS */}
+        {/* BRANDING CARDS - NEW LAYOUT */}
         <div
           ref={cardsRef}
-          className="grid md:grid-cols-3 gap-6 mt-20"
+          className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr"
         >
           {[
-            ["Brand Identity", "The visual and verbal expression of your brand."],
-            ["Brand Positioning", "How your brand differentiates itself in the market."],
-            ["Brand Promise", "The value customers can consistently expect."],
-            ["Brand Personality", "Human traits like innovative, trustworthy, and fun."],
-            ["Brand Experience", "How audiences feel at every touchpoint."],
-          ].map(([title, desc], i) => (
+            {
+              title: "Brand Identity",
+              desc: "The visual and verbal expression of your brand, from logos to tone of voice.",
+              delay: 0
+            },
+            {
+              title: "Brand Positioning",
+              desc: "Strategically defining how your brand differentiates itself in the competitive market landscape.",
+              delay: 0.1
+            },
+            {
+              title: "Brand Promise",
+              desc: "The consistent value and experience customers can expect from every interaction.",
+              delay: 0.2
+            },
+            {
+              title: "Brand Personality",
+              desc: "Human traits like innovative, trustworthy, or playful that define your brand's character.",
+              delay: 0.3
+            },
+            {
+              title: "Brand Experience",
+              desc: "The holistic journey and emotional connection audiences feel at every touchpoint.",
+              delay: 0.4,
+              className: "md:col-span-2 lg:col-span-1"
+            },
+          ].map((item, i) => (
             <div
               key={i}
-              className="bg-primary-foreground/5 backdrop-blur rounded-2xl p-8 
-              border border-primary-foreground/10 text-left"
+              className={`group bg-[#fdf3b7]/5 hover:bg-[#fdf3b7]/10 rounded-[2rem] p-8 md:p-10 
+              border border-[#fdf3b7]/10 shadow-sm hover:shadow-2xl 
+              transition-all duration-500 flex flex-col justify-between ${item.className || ''}`}
             >
-              <h3 className="text-2xl font-semibold text-primary-foreground mb-3">
-                {title}
-              </h3>
-              <p className="text-primary-foreground/70">{desc}</p>
+              <div>
+                <h3 className="text-2xl font-bold text-[#fdf3b7] mb-4 tracking-tight">
+                  {item.title}
+                </h3>
+              </div>
+              <p className="text-[#fdf3b7]/70 leading-relaxed font-medium">
+                {item.desc}
+              </p>
             </div>
           ))}
         </div>
 
-        {/* WHY BRANDING MATTERS */}
-        <div ref={whyRef} className="max-w-3xl mx-auto mt-24 text-left px-4 md:px-0">
-          <h3 className="text-3xl font-bold text-primary-foreground mb-6">
-            Why Branding Matters
-          </h3>
-          <ul className="space-y-4 text-primary-foreground text-lg md:text-xl font-medium">
-            <li>• Builds recognition and trust</li>
-            <li>• Creates emotional connections with audiences</li>
-            <li>• Supports premium pricing and loyalty</li>
-            <li>• Helps businesses stand out in competitive markets</li>
-          </ul>
+        {/* WHY BRANDING MATTERS - REDESIGNED */}
+        <div ref={whyRef} className="mt-32 grid lg:grid-cols-2 gap-16 items-center">
+          <div className="relative">
+            <div className="absolute -left-4 -top-4 w-20 h-20 bg-[#fdf3b7]/5 rounded-full blur-2xl" />
+            <h3 className="text-4xl md:text-5xl font-bold text-[#fdf3b7] mb-8 relative z-10 leading-tight">
+              Why Branding <br />
+              <span className="italic opacity-80 decoration-4 underline decoration-[#fdf3b7]/20">Matters</span>
+            </h3>
+            <p className="text-xl md:text-2xl text-[#fdf3b7]/80 font-light italic leading-relaxed border-l-4 border-[#fdf3b7]/20 pl-6 my-8">
+              “Branding is the process of defining and communicating a business identity
+              and value proposition, shaping perceptions and building long-term loyalty.”
+            </p>
+          </div>
 
-          <p className="mt-8 italic text-primary-foreground/90 text-lg md:text-xl">
-            “Branding is the process of defining and communicating a business identity
-            and value proposition, shaping perceptions and building long-term loyalty.”
-          </p>
+          <div className="bg-[#fdf3b7] text-[#53131b] p-10 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+            {/* Decorative circle inside card */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
+
+            <ul className="space-y-6 relative z-10">
+              {[
+                "Builds recognition and trust",
+                "Creates emotional connections",
+                "Supports premium pricing",
+                "Stands out in competitive markets"
+              ].map((item, idx) => (
+                <li key={idx} className="flex items-center gap-4 text-lg md:text-xl font-medium">
+                  <div className="w-2 h-2 rounded-full bg-[#53131b] flex-shrink-0" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </section>

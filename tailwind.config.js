@@ -7,15 +7,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        border: "hsl(var(--border))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        border: "var(--border)",
+        background: "var(--background)",
+        foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "var(--primary)",
+          foreground: "var(--primary-foreground)",
         },
-        gold: "hsl(var(--gold))",  // Custom color used in your code (e.g., for gold accents)
-        // Add more custom colors as needed (e.g., muted, accent)
+        gold: "var(--gold)",
       },
     },
   },

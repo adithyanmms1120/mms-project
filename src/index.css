@@ -4,92 +4,92 @@
 
 @layer base {
   :root {
-    /* Primary colors - Warm golden and burgundy */
-    --background: 51 93% 85%;
-    /* #fdf3b7 */
-    --foreground: 352 63% 20%;
-    /* rgb(83, 19, 27) */
+    /* User provided colors */
+    --primary-dark: #53131b;
+    /* Updated to match text/theme */
+    --primary-mid: #7a2530;
+    --primary-light: #9a5a2a;
 
-    --card: 43 100% 83%;
-    --card-foreground: 352 63% 20%;
+    --cream-bg: #faf3e0;
+    /* Updated bg */
+    --card-bg: #fff8eb;
+    /* Slightly lighter than bg for contrast */
 
-    --popover: 43 100% 83%;
-    --popover-foreground: 352 63% 20%;
+    --text-light: #faf3e0;
+    /* Restored to light cream for contrast on dark backgrounds */
+    --text-muted: rgba(83, 19, 27, 0.65);
+    --text-dark: #53131b;
+    /* Updated text */
 
-    --primary: 352 63% 20%;
-    /* Burgundy */
-    --primary-foreground: 43 100% 83%;
+    --border-soft: rgba(83, 19, 27, 0.15);
+    --input-bg: #fff6df;
+    /* Updated input bg */
 
-    --secondary: 43 80% 75%;
-    --secondary-foreground: 352 63% 20%;
+    --btn-bg: #53131b;
+    --btn-hover: #7a2530;
 
-    --muted: 43 60% 70%;
-    --muted-foreground: 352 63% 35%;
+    --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.15);
 
-    --accent: 352 63% 25%;
-    --accent-foreground: 43 100% 83%;
+    /* Mapped system colors */
+    --background: var(--cream-bg);
+    --foreground: var(--text-dark);
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 43 100% 83%;
+    --card: var(--card-bg);
+    --card-foreground: var(--text-dark);
 
-    --border: 352 30% 40%;
-    --input: 352 30% 40%;
-    --ring: 352 63% 20%;
+    --popover: var(--card-bg);
+    --popover-foreground: var(--text-dark);
+
+    --primary: var(--btn-bg);
+    --primary-foreground: var(--text-light);
+
+    --secondary: var(--primary-light);
+    --secondary-foreground: var(--text-dark);
+
+    --muted: var(--input-bg);
+    --muted-foreground: var(--text-dark);
+
+    --accent: var(--primary-mid);
+    --accent-foreground: var(--text-light);
+
+    --destructive: #ef4444;
+    --destructive-foreground: white;
+
+    --border: var(--border-soft);
+    --input: var(--input-bg);
+    --ring: var(--primary-dark);
 
     --radius: 0.75rem;
 
-    /* Custom design tokens */
+    /* Custom tokens */
+    --gold: var(--primary-light);
+
     --font-display: 'Poppins', system-ui, sans-serif;
     --font-body: 'Poppins', system-ui, sans-serif;
 
     /* Gradients */
-    --gradient-hero: linear-gradient(135deg, hsl(43 100% 83%) 0%, hsl(40 90% 75%) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(352 63% 20%) 0%, hsl(352 63% 30%) 100%);
+    --gradient-hero: linear-gradient(135deg, var(--cream-bg) 0%, var(--card-bg) 100%);
+    --gradient-accent: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-mid) 100%);
 
     /* Shadows */
-    --shadow-soft: 0 4px 20px -4px hsl(352 63% 20% / 0.15);
-    --shadow-strong: 0 20px 60px -15px hsl(352 63% 20% / 0.3);
-    --shadow-glow: 0 0 40px hsl(43 100% 83% / 0.3);
+    /* --shadow-soft is defined above */
+    --shadow-strong: 0 20px 60px -15px rgba(91, 29, 38, 0.3);
+    --shadow-glow: 0 0 40px rgba(154, 90, 42, 0.3);
 
     /* Sidebar */
-    --sidebar-background: 352 63% 20%;
-    --sidebar-foreground: 43 100% 83%;
-    --sidebar-primary: 43 100% 83%;
-    --sidebar-primary-foreground: 352 63% 20%;
-    --sidebar-accent: 352 63% 25%;
-    --sidebar-accent-foreground: 43 100% 83%;
-    --sidebar-border: 352 40% 30%;
-    --sidebar-ring: 43 100% 83%;
+    --sidebar-background: var(--primary-dark);
+    --sidebar-foreground: var(--text-light);
+    --sidebar-primary: var(--primary-light);
+    --sidebar-primary-foreground: var(--text-dark);
+    --sidebar-accent: var(--primary-mid);
+    --sidebar-accent-foreground: var(--text-light);
+    --sidebar-border: var(--border-soft);
+    --sidebar-ring: var(--primary-light);
   }
 
+  /* Dark mode overrides removed to enforce consistent theme */
   .dark {
-    --background: 352 63% 8%;
-    --foreground: 43 100% 83%;
-
-    --card: 352 63% 12%;
-    --card-foreground: 43 100% 83%;
-
-    --popover: 352 63% 12%;
-    --popover-foreground: 43 100% 83%;
-
-    --primary: 43 100% 83%;
-    --primary-foreground: 352 63% 20%;
-
-    --secondary: 352 50% 20%;
-    --secondary-foreground: 43 100% 83%;
-
-    --muted: 352 40% 25%;
-    --muted-foreground: 43 60% 70%;
-
-    --accent: 352 50% 25%;
-    --accent-foreground: 43 100% 83%;
-
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 43 100% 83%;
-
-    --border: 352 40% 25%;
-    --input: 352 40% 25%;
-    --ring: 43 100% 83%;
+    /* Optional: Provide dark mode alternations if needed, for now using root defaults */
   }
 }
 
@@ -254,7 +254,7 @@
   top: 100%;
   left: 0;
   min-width: 240px;
-  background: hsl(var(--background));
+  background: var(--background);
   border-radius: 12px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
   opacity: 0;

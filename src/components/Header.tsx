@@ -54,12 +54,24 @@ export const Header = () => {
     );
   }, []);
 
-  /* Scroll for background change only (removed hide/show) */
+  /* Scroll logic for visibility and background */
+  const [isVisible, setIsVisible] = useState(true);
+
   useEffect(() => {
     const onScroll = () => {
-      const y = window.scrollY;
-      setIsScrolled(y > 60);
-      lastScrollY.current = y;
+      const currentScrollY = window.scrollY;
+
+      // Determine direction
+      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        // Scrolling down & past header
+        setIsVisible(false);
+      } else {
+        // Scrolling up or at top
+        setIsVisible(true);
+      }
+
+      setIsScrolled(currentScrollY > 60);
+      lastScrollY.current = currentScrollY;
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -112,8 +124,17 @@ export const Header = () => {
       return;
     }
 
+    // Offset for fixed header
     const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) {
+      const offset = 80;
+      const elementPosition = el.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth"
+      });
+    }
   };
 
   return (
@@ -121,7 +142,8 @@ export const Header = () => {
       <header
         ref={headerRef}
         className={`fixed inset-x-0 top-0 z-50 transition-all duration-500
-        ${isScrolled ? "bg-background/90 backdrop-blur-xl shadow-lg" : "bg-transparent"}`}
+        ${isVisible ? "translate-y-0" : "-translate-y-full"}
+        ${isScrolled ? "bg-background shadow-lg" : "bg-transparent"}`}
       >
         <div className="container mx-auto px-6">
           <nav className="flex items-center justify-between h-20">

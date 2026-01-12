@@ -100,8 +100,7 @@ export const Footer = () => {
   return (
     <footer
       ref={footerRef}
-      className="pt-20"
-      style={{ backgroundColor: "#fdf3b7", color: "rgb(83, 19, 27)" }}
+      className="pt-20 bg-background text-foreground"
     >
       <div className="container mx-auto px-6">
         <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-16 pb-16">
@@ -117,11 +116,7 @@ export const Footer = () => {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border flex items-center justify-center transition hover:scale-105"
-                  style={{
-                    borderColor: "rgb(83, 19, 27)",
-                    color: "rgb(83, 19, 27)",
-                  }}
+                  className="w-10 h-10 rounded-full border border-foreground text-foreground flex items-center justify-center transition hover:scale-105"
                 >
                   <social.icon size={18} />
                 </a>
@@ -221,8 +216,7 @@ export const Footer = () => {
 
       {/* BOTTOM BAR */}
       <div
-        className="py-4 text-center text-sm"
-        style={{ backgroundColor: "#fdf3b7", color: "rgb(83, 19, 27)" }}
+        className="py-4 text-center text-sm bg-background text-foreground"
       >
         © Copyright MediaMatic. All Rights Reserved
         <br />

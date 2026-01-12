@@ -14,7 +14,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-    {
+  {
     icon: Monitor,
     title: "Web & App Development",
     tagline: "Your go-to digital partner.",
@@ -23,7 +23,7 @@ const services = [
     features: ["Mobile Apps", "Websites", "E-Commerce", "Custom Solutions"],
     href: "/services/web-development",
   },
-    {
+  {
     icon: Globe,
     title: "Web Hosting",
     tagline: "Your trusted hosting partner.",
@@ -32,7 +32,7 @@ const services = [
     features: ["Shared Hosting", "Dedicated", "Domain", "Email"],
     href: "/services/webhosting",
   },
-    {
+  {
     icon: Megaphone,
     title: "Digital Marketing",
     tagline: "Expand your reach with MediaMatic Studio.",
@@ -50,7 +50,7 @@ const services = [
     features: ["Blog Posts", "SEO Articles", "Technical Docs", "Social Media"],
     href: "/services/contentmanagement",
   },
-    {
+  {
     icon: Clapperboard,
     title: "2D & 3D Animation",
     tagline: "A creative studio that helps you move forward.",
