@@ -14,34 +14,16 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-  {
-    icon: Monitor,
-    title: "Web & App Development",
-    tagline: "Your go-to digital partner.",
+    {
+    icon: Clapperboard,
+    title: "2D & 3D Animation",
+    tagline: "A creative studio that helps you move forward.",
     description:
-      "Mobile apps your customers can't stop using. Websites that don't just look good but bring in customers. Clean, responsive design.",
-    features: ["Mobile Apps", "Websites", "E-Commerce", "Custom Solutions"],
-    href: "/services/web-development",
+      "Transform your business ideas into compelling visual stories with high-quality 2D & 3D animation, explainer videos, and branding videos.",
+    features: ["Explainer Videos", "Brand Videos", "Motion Graphics", "VFX"],
+    href: "/services/animation",
   },
-  {
-    icon: Globe,
-    title: "Web Hosting",
-    tagline: "Your trusted hosting partner.",
-    description:
-      "Top-notch web hosting and domain services. 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts.",
-    features: ["Shared Hosting", "Dedicated", "Domain", "Email"],
-    href: "/services/webhosting",
-  },
-  {
-    icon: Megaphone,
-    title: "Digital Marketing",
-    tagline: "Expand your reach with MediaMatic Studio.",
-    description:
-      "SEO, SMO, SEM, SMM expertise. Data-driven digital marketing solutions that increase conversions, engagement, and visibility.",
-    features: ["SEO", "Social Media", "Email Marketing", "Google Ads"],
-    href: "/services/digital-marketing",
-  },
-  {
+    {
     icon: FileText,
     title: "Content Management",
     tagline: "Expert content writers delivering high-quality content.",
@@ -51,14 +33,35 @@ const services = [
     href: "/services/contentmanagement",
   },
   {
-    icon: Clapperboard,
-    title: "2D & 3D Animation",
-    tagline: "A creative studio that helps you move forward.",
+    icon: Monitor,
+    title: "Website Development & Designing",
+    tagline: "Your go-to digital partner.",
     description:
-      "Transform your business ideas into compelling visual stories with high-quality 2D & 3D animation, explainer videos, and branding videos.",
-    features: ["Explainer Videos", "Brand Videos", "Motion Graphics", "VFX"],
-    href: "/services/animation",
+      "Mobile apps your customers can't stop using. Websites that don't just look good but bring in customers. Clean, responsive design.",
+    features: ["Mobile Apps", "Websites", "E-Commerce", "Custom Solutions"],
+    href: "/services/web-development",
   },
+    {
+    icon: Megaphone,
+    title: "Digital Marketing",
+    tagline: "Expand your reach with MediaMatic Studio.",
+    description:
+      "SEO, SMO, SEM, SMM expertise. Data-driven digital marketing solutions that increase conversions, engagement, and visibility.",
+    features: ["SEO", "Social Media", "Email Marketing", "Google Ads"],
+    href: "/services/digital-marketing",
+  },
+  {
+    icon: Globe,
+    title: "Web Hosting Services",
+    tagline: "Your trusted hosting partner.",
+    description:
+      "Top-notch web hosting and domain services. 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts.",
+    features: ["Shared Hosting", "Dedicated", "Domain", "Email"],
+    href: "/services/webhosting",
+  },
+
+
+
 
 ];
 

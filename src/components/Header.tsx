@@ -21,11 +21,12 @@ const navLinks = [
 ];
 
 const serviceLinks = [
-  { label: "Website Development & Designing", href: "/services/web-development" },
-  { label: "Web Hosting Service", href: "/services/webhosting" },
-  { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Content Management", href: "/services/contentmanagement" },
   { label: "2D & 3D Animation Videos", href: "/services/animation" },
+  { label: "Content Management", href: "/services/contentmanagement" },
+  { label: "Website Development & Designing", href: "/services/web-development" },
+  { label: "Digital Marketing", href: "/services/digital-marketing" },
+  { label: "Web Hosting Service", href: "/services/webhosting" },
+
 ];
 
 /* ================= COMPONENT ================= */
@@ -60,23 +61,28 @@ export const Header = () => {
   useEffect(() => {
     const onScroll = () => {
       const currentScrollY = window.scrollY;
+      const isHomePage = location.pathname === "/" || location.pathname === "/remapdemo/"; // Adjust for basename if needed
 
-      // Determine direction
-      if (currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        // Scrolling down & past header
+      // Determine direction for hiding
+      if (isHomePage && currentScrollY > lastScrollY.current && currentScrollY > 100) {
+        // Scrolling down & past header (ONLY ON HOME PAGE)
         setIsVisible(false);
       } else {
-        // Scrolling up or at top
+        // Scrolling up, at top, or on SUB-PAGES
         setIsVisible(true);
       }
 
-      setIsScrolled(currentScrollY > 60);
+      // Background logic: Always solid on sub-pages, scroll-dependent on Home
+      setIsScrolled(currentScrollY > 60 || !isHomePage);
       lastScrollY.current = currentScrollY;
     };
 
+    // Run once on mount and route change
+    onScroll();
+
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [location.pathname]);
 
   /* Mobile menu animation */
   useEffect(() => {

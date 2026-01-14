@@ -11,6 +11,7 @@ import WebDevelopment from "./pages/services/WebsiteDevelopment";
 import Animation from "./pages/services/Animation";
 import Content from "./pages/services/ContentManagement";
 import Hosting from "./pages/services/WebHosting";
+import { Header } from "./components/Header";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -21,6 +22,7 @@ const App = () => (
 
       {/* 🔥 THIS LINE FIXES EVERYTHING */}
       <BrowserRouter basename="/remapdemo">
+        <Header />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services/digital-marketing" element={<DigitalMarketing />} />

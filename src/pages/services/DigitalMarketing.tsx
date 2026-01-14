@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Megaphone, CheckCircle, ArrowRight } from "lucide-react";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
 
@@ -70,7 +69,6 @@ const DigitalMarketing = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <Header />
 
         <main ref={sectionRef}>
           {/* Hero Section */}
@@ -149,19 +147,19 @@ const DigitalMarketing = () => {
                     ))}
                   </div>
 
- <button
-                  onClick={() => {
-                    navigate("/");
-                    setTimeout(() => {
-                      document
-                        .getElementById("contact")
-                        ?.scrollIntoView({ behavior: "smooth" });
-                    }, 150);
-                  }}
-                  className="mt-10 inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold"
-                >
-                  Get Started <ArrowRight size={18} />
-                </button>
+                  <button
+                    onClick={() => {
+                      navigate("/");
+                      setTimeout(() => {
+                        document
+                          .getElementById("contact")
+                          ?.scrollIntoView({ behavior: "smooth" });
+                      }, 150);
+                    }}
+                    className="mt-10 inline-flex items-center gap-2 bg-primary text-primary-foreground px-8 py-3 rounded-full font-semibold"
+                  >
+                    Get Started <ArrowRight size={18} />
+                  </button>
                 </div>
               </div>
             </div>

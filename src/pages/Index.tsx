@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { About } from "@/components/About";
 import { Services } from "@/components/Services";
@@ -24,7 +23,6 @@ const Index = () => {
 
   return (
     <main className="overflow-x-hidden">
-      <Header />
       <Hero />
       <About />
       <Services />

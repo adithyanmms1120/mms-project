@@ -319,7 +319,7 @@ export const About = () => {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl"
+              className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-black/5"
             >
               <video
                 ref={videoRef}
@@ -328,6 +328,7 @@ export const About = () => {
                 muted
                 loop
                 playsInline
+                preload="auto"
                 className="w-full h-auto aspect-video object-cover"
               />
             </motion.div>
@@ -394,6 +395,7 @@ export const About = () => {
                 muted
                 loop
                 playsInline
+                preload="auto"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -585,7 +587,7 @@ export const About = () => {
           className="mb-16 lg:mb-24"
         >
           <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            MMS Core Values 
+            MMS Core Values
           </h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {coreValues2026.map((value, i) => (
@@ -684,7 +686,7 @@ export const About = () => {
                     <img
                       src={l.img}
                       alt={l.name}
-                     className="
+                      className="
   w-full h-full
   object-contain md:object-cover
   group-hover:md:scale-110

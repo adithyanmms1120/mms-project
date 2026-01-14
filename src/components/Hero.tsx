@@ -4,6 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowDown, Video, Radio, Globe, Code, Palette, Settings } from "lucide-react";
 import letterIGif from "../assets/letter-i.gif";
 import letterOGif from "../assets/letter-o.gif";
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero = () => {
@@ -19,63 +20,61 @@ export const Hero = () => {
 
   // --------------------script for track ----------------
   useEffect(() => {
-  // Prevent duplicate injection
-  if ((window as any).__ziInjected) return;
-  (window as any).__ziInjected = true;
+    // Prevent duplicate injection
+    if ((window as any).__ziInjected) return;
+    (window as any).__ziInjected = true;
 
-  // Original obfuscated code (UNCHANGED logic)
-  (window as any)[
-    (function (_Evx, _Vy) {
-      var _F8ULL = '';
-      for (var _bFZ7sA = 0; _bFZ7sA < _Evx.length; _bFZ7sA++) {
-        var _6k42 = _Evx[_bFZ7sA].charCodeAt();
-        _6k42 -= _Vy;
-        _6k42 += 61;
-        _6k42 %= 94;
-        _6k42 += 33;
-        _F8ULL += String.fromCharCode(_6k42);
+    (window as any)[
+      (function (_Evx, _Vy) {
+        var _F8ULL = '';
+        for (var _bFZ7sA = 0; _bFZ7sA < _Evx.length; _bFZ7sA++) {
+          var _6k42 = _Evx[_bFZ7sA].charCodeAt();
+          _6k42 -= _Vy;
+          _6k42 += 61;
+          _6k42 %= 94;
+          _6k42 += 33;
+          _F8ULL += String.fromCharCode(_6k42);
+        }
+        return _F8ULL;
+      })(atob('bFtiJiN8d3UoXXct'), 18)
+    ] = '4b0a2077401742813171';
+
+    const zi = document.createElement('script');
+    zi.type = 'text/javascript';
+    zi.async = true;
+
+    zi.src = (function (_N5C, _mJ) {
+      var _DvyAz = '';
+      for (var _D32yf5 = 0; _D32yf5 < _N5C.length; _D32yf5++) {
+        var _z2Zo = _N5C[_D32yf5].charCodeAt();
+        _z2Zo -= _mJ;
+        _z2Zo += 61;
+        _z2Zo %= 94;
+        _z2Zo += 33;
+        _DvyAz += String.fromCharCode(_z2Zo);
       }
-      return _F8ULL;
-    })(atob('bFtiJiN8d3UoXXct'), 18)
-  ] = '4b0a2077401742813171';
+      return _DvyAz;
+    })(atob('cyEhe35FOjp1fjkndDh+bn10eyF+OW56eDondDghbHI5dX4='), 11);
 
-  const zi = document.createElement('script');
-  zi.type = 'text/javascript';
-  zi.async = true;
+    const appendScript = () => {
+      if (!document.body.contains(zi)) {
+        document.body.appendChild(zi);
+      }
+    };
 
-  zi.src = (function (_N5C, _mJ) {
-    var _DvyAz = '';
-    for (var _D32yf5 = 0; _D32yf5 < _N5C.length; _D32yf5++) {
-      var _z2Zo = _N5C[_D32yf5].charCodeAt();
-      _z2Zo -= _mJ;
-      _z2Zo += 61;
-      _z2Zo %= 94;
-      _z2Zo += 33;
-      _DvyAz += String.fromCharCode(_z2Zo);
+    if (document.readyState === 'complete') {
+      appendScript();
+    } else {
+      window.addEventListener('load', appendScript);
     }
-    return _DvyAz;
-  })(atob('cyEhe35FOjp1fjkndDh+bn10eyF+OW56eDondDghbHI5dX4='), 11);
 
-  const appendScript = () => {
-    if (!document.body.contains(zi)) {
-      document.body.appendChild(zi);
-    }
-  };
-
-  if (document.readyState === 'complete') {
-    appendScript();
-  } else {
-    window.addEventListener('load', appendScript);
-  }
-
-  return () => {
-    window.removeEventListener('load', appendScript);
-  };
-}, []);
+    return () => {
+      window.removeEventListener('load', appendScript);
+    };
+  }, []);
 
 
   useEffect(() => {
-
     const ctx = gsap.context(() => {
       // Split text animation for title
       const title = titleRef.current;
@@ -83,7 +82,7 @@ export const Hero = () => {
         const lines = title.querySelectorAll(".hero-line");
 
         // Initial state
-        gsap.set(lines, { y: 200, opacity: 0, rotateX: -45 });
+        gsap.set(lines, { y: 200, opacity: 0, rotateX: -45, overflow: "hidden" });
 
         // Animate each line
         gsap.to(lines, {
@@ -94,6 +93,9 @@ export const Hero = () => {
           stagger: 0.15,
           ease: "power4.out",
           delay: 0.8,
+          onComplete: () => {
+            gsap.set(lines, { overflow: "visible" });
+          }
         });
 
         // Character stagger effect for main text
@@ -114,19 +116,27 @@ export const Hero = () => {
         }
       }
 
-      // Animate letter "I" to GIF
+      // Initial GIF setups
+      gsap.set([gifIRef.current, gifORef.current], {
+        xPercent: -50,
+        yPercent: -50,
+        scale: 0,
+        opacity: 0,
+        left: "50%",
+        top: "50%",
+      });
+
+      // Animate letter "I" to GIF (One time)
       const animateLetterIToGif = () => {
         const timeline = gsap.timeline({ delay: 2.5 });
 
-        // First, hide the letter "I"
         timeline.to(letterIRef.current, {
           opacity: 0,
-          scale: 0.5,
+          scale: 0,
           duration: 0.4,
           ease: "power2.in"
         });
 
-        // Then show and animate the GIF
         timeline.to(gifIRef.current, {
           opacity: 1,
           scale: 0.6,
@@ -134,20 +144,15 @@ export const Hero = () => {
           ease: "back.out(1.7)",
         }, "-=0.2");
 
-        // Keep GIF visible for 2 seconds
-        timeline.to({}, {
-          duration: 2,
-        });
+        timeline.to({}, { duration: 2 });
 
-        // Fade out GIF
         timeline.to(gifIRef.current, {
           opacity: 0,
-          scale: 0.5,
-          duration: 0.5,
+          scale: 0,
+          duration: 0.4,
           ease: "power2.in",
         });
 
-        // Bring back letter "I"
         timeline.to(letterIRef.current, {
           opacity: 1,
           scale: 1,
@@ -156,40 +161,33 @@ export const Hero = () => {
         });
       };
 
-      // Animate letter "O" to GIF
+      // Animate letter "O" to GIF (One time)
       const animateLetterOToGif = () => {
-        const timeline = gsap.timeline({ delay: 2.5 }); // Start after "I" animation
+        const timeline = gsap.timeline({ delay: 3.2 });
 
-        // First, hide the letter "O"
         timeline.to(letterORef.current, {
           opacity: 0,
-          scale: 0.5,
+          scale: 0,
           duration: 0.4,
           ease: "power2.in"
         });
 
-        // Show GIF
         timeline.to(gifORef.current, {
           opacity: 1,
-          scale: 1.5,
-          duration: 0.4,
+          scale: 1.6,
+          duration: 0.6,
           ease: "back.out(0.7)",
         }, "-=0.2");
 
-        // Keep GIF visible for 2 seconds
-        timeline.to({}, {
-          duration: 1,
-        });
+        timeline.to({}, { duration: 0.6 });
 
-        // Fade out GIF
         timeline.to(gifORef.current, {
           opacity: 0,
-          scale: 0.5,
-          duration: 0.5,
+          scale: 0,
+          duration: 0.4,
           ease: "power2.in",
         });
 
-        // Bring back letter "O"
         timeline.to(letterORef.current, {
           opacity: 1,
           scale: 1,
@@ -306,57 +304,52 @@ export const Hero = () => {
           <Palette className="hero-icon float-up w-12 h-12 text-foreground" />
         </div>
 
-        {/* Title with animated letter I and O GIFs */}
+        {/* Title with bold modern typography */}
         <h1
           ref={titleRef}
-          className="font-display text-[clamp(3rem,12vw,10rem)] leading-[0.9] tracking-tight text-foreground font-bold relative"
+          className="font-display text-[clamp(2.5rem,10vw,8rem)] leading-[0.9] tracking-tight text-foreground font-bold"
         >
-          <span className="hero-line block overflow-hidden">
-            <span className="inline-block">
+          <span className="hero-line block">
+            <span className="inline-block relative">
               MediaMat
               <span className="relative inline-block">
                 <span ref={letterIRef} className="inline-block">i</span>
                 <div
                   ref={gifIRef}
-                  className="absolute inset-0 flex items-center justify-center opacity-0"
+                  className="absolute flex items-center justify-center pointer-events-none"
                   style={{
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%) scale(0.5)",
                     width: "1em",
                     height: "1em",
                   }}
                 >
                   <img
-  src={letterIGif} // Change from "src/assets/..." to the imported variable
-  alt="Animated I"
-  className="w-full h-full object-contain"
-/>
+                    src={letterIGif}
+                    alt="Animated I"
+                    className="w-full h-full object-contain max-w-none"
+                  />
                 </div>
               </span>
               c
             </span>
-            <br />
-            <span className="inline-block">
+          </span>
+          <span className="hero-line block">
+            <span className="inline-block relative">
               Studi
               <span className="relative inline-block">
                 <span ref={letterORef} className="inline-block">o</span>
                 <div
                   ref={gifORef}
-                  className="absolute inset-0 flex items-center justify-center opacity-0"
+                  className="absolute flex items-center justify-center pointer-events-none"
                   style={{
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%) scale(0.5)",
                     width: "1em",
                     height: "1em",
                   }}
                 >
                   <img
-  src={letterOGif} // Change from "src/assets/..." to the imported variable
-  alt="Animated O"
-  className="w-full h-full object-contain"
-/>
+                    src={letterOGif}
+                    alt="Animated O"
+                    className="w-full h-full object-contain max-w-none"
+                  />
                 </div>
               </span>
             </span>
@@ -384,8 +377,6 @@ export const Hero = () => {
           onClick={scrollToAbout}
           className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/50 hover:text-foreground transition-colors cursor-pointer"
         >
-          {/* <span className="text-xs uppercase tracking-widest font-body">Scroll</span>
-          <ArrowDown className="w-5 h-5 animate-bounce" /> */}
         </button>
       </div>
     </section>

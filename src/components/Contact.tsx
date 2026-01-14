@@ -40,6 +40,8 @@ export const Contact = () => {
   const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
   const [searchTerm, setSearchTerm] = useState("");
   const countryBtnRef = useRef<HTMLButtonElement>(null);
+  const [locationType, setLocationType] = useState<"corporate" | "branch">("corporate");
+
 
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
@@ -63,17 +65,30 @@ export const Contact = () => {
     country.code.toLowerCase().includes(searchTerm.toLowerCase())
   );
   useEffect(() => {
-    if (showCountryDropdown && countryBtnRef.current) {
-      const rect = countryBtnRef.current.getBoundingClientRect();
+    const updatePosition = () => {
+      if (showCountryDropdown && countryBtnRef.current) {
+        const rect = countryBtnRef.current.getBoundingClientRect();
+        setDropdownStyle({
+          position: "fixed",
+          top: rect.bottom + 8,
+          left: rect.left,
+          width: Math.max(rect.width, 280),
+          zIndex: 9999,
+        });
+      }
+    };
 
-      setDropdownStyle({
-        position: "fixed",
-        top: rect.bottom + 8,
-        left: rect.left,
-        width: Math.max(rect.width, 280),
-        zIndex: 9999,
-      });
+    updatePosition();
+
+    if (showCountryDropdown) {
+      window.addEventListener('scroll', updatePosition, true);
+      window.addEventListener('resize', updatePosition);
     }
+
+    return () => {
+      window.removeEventListener('scroll', updatePosition, true);
+      window.removeEventListener('resize', updatePosition);
+    };
   }, [showCountryDropdown]);
 
   // Close dropdown when clicking outside or on escape
@@ -106,7 +121,6 @@ export const Contact = () => {
     if (!section) return;
 
     const ctx = gsap.context(() => {
-
       gsap.fromTo(
         ".contact-char",
         { opacity: 0, y: 50, rotateX: -90 },
@@ -120,7 +134,7 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: section,
             start: "top 70%",
-            once: true,
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -137,7 +151,7 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: section,
             start: "top 60%",
-            once: true,
+            toggleActions: "play none none reverse",
           },
         }
       );
@@ -155,16 +169,14 @@ export const Contact = () => {
           scrollTrigger: {
             trigger: ".info-cards-container",
             start: "top 80%",
-            once: true,
+            toggleActions: "play none none reverse",
           },
         }
       );
-
     }, section);
 
     return () => ctx.revert();
   }, []);
-
 
   // Validation functions (improved phone validation for flexibility)
   const validateForm = (): boolean => {
@@ -472,19 +484,19 @@ export const Contact = () => {
                           <div
                             ref={dropdownRef}
                             style={dropdownStyle}
-                            className="bg-card border-2 border-foreground/20 rounded-xl shadow-strong overflow-hidden text-left"
+                            className="bg-[#faf3e0] border-2 border-[#53131b]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(83,19,27,0.3)] overflow-hidden text-left"
                             role="listbox"
                           >
                             {/* Search */}
-                            <div className="p-3 border-b border-foreground/10 bg-card sticky top-0 z-10">
+                            <div className="p-3 border-b border-[#53131b]/10 bg-[#faf3e0] sticky top-0 z-10">
                               <div className="relative">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-foreground/50" />
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#53131b]/50" />
                                 <input
                                   type="text"
                                   value={searchTerm}
                                   onChange={(e) => setSearchTerm(e.target.value)}
                                   placeholder="Search country..."
-                                  className="w-full pl-10 pr-4 py-3 bg-foreground/5 border border-foreground/10 rounded-lg text-foreground text-sm focus:outline-none"
+                                  className="w-full pl-10 pr-4 py-3 bg-[#53131b]/5 border border-[#53131b]/10 rounded-lg text-[#53131b] text-sm focus:outline-none"
                                   autoFocus
                                 />
                               </div>
@@ -498,7 +510,7 @@ export const Contact = () => {
                                     key={country.code}
                                     type="button"
                                     onClick={() => selectCountry(country)}
-                                    className="w-full px-4 py-3 flex items-center gap-4 hover:bg-foreground/10 text-left"
+                                    className="w-full px-4 py-3 flex items-center gap-4 hover:bg-[#53131b]/5 text-left"
                                   >
                                     <span className="text-lg w-8">{country.flag}</span>
                                     <div className="flex-1">
@@ -595,54 +607,137 @@ export const Contact = () => {
           </div>
 
           {/* Info Cards */}
-          <div className="info-cards-container flex flex-col justify-center gap-5">
-            <a href="mailto:support@mediamaticstudio.com" className="block">
-              <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
-                <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
-                  <Mail className="w-5 h-5 text-foreground" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground mb-1 text-sm uppercase tracking-wider">Email Us</h3>
-                  <span className="text-foreground/50 group-hover:text-foreground transition-colors text-sm flex items-center gap-1">
-                    support@mediamaticstudio.com <ArrowUpRight className="w-3 h-3" />
-                  </span>
-                </div>
-              </div>
-            </a>
+          <div>
+            <div className="flex gap-3 mb-6">
+              <button
+                onClick={() => setLocationType("corporate")}
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition
+                ${locationType === "corporate"
+                    ? "bg-foreground text-background"
+                    : "border border-foreground/30 text-foreground/60 hover:text-foreground"}
+              `}
+              >
+                Corporate
+              </button>
 
-            <a href={`tel:${selectedCountry.dial_code}919629593615`} className="text-foreground/50 text-sm">
-              <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
-                <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
-                  <Phone className="w-5 h-5 text-foreground" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground mb-1 text-sm uppercase tracking-wider">Call Us</h3>
-                  <p className="text-foreground/50 text-sm">{selectedCountry.dial_code} 96295 93615</p>
-                  <p className="text-foreground/35 text-xs mt-0.5">US Toll Free: (+1) (888) 219 5755</p>
-                </div>
-              </div>
-            </a>
+              <button
+                onClick={() => setLocationType("branch")}
+                className={`px-5 py-2 rounded-full text-sm font-semibold transition
+                ${locationType === "branch"
+                    ? "bg-foreground text-background"
+                    : "border border-foreground/30 text-foreground/60 hover:text-foreground"}
+              `}
+              >
+                Branch
+              </button>
+            </div>
 
-            <a
-              href="https://www.google.com/maps?q=COVAI+TECH+PARK,+Kalapatty,+Coimbatore"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block"
-            >
-              <div className="info-card p-5 md:p-6 bg-transparent rounded-2xl border-2 border-foreground/10 flex items-start gap-4 hover:border-foreground/25 transition-colors group">
-                <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center flex-shrink-0 group-hover:bg-foreground/5 transition-colors">
-                  <MapPin className="w-5 h-5 text-foreground" strokeWidth={1.5} />
-                </div>
-                <div>
-                  <h3 className="font-bold text-foreground mb-1 text-sm uppercase tracking-wider">Visit Us</h3>
-                  <p className="text-foreground/50 text-xs leading-relaxed">
-                    COVAI TECH PARK, Site No: 90,<br />
-                    Kovai Thiru Nagar, Kalapatty Village,<br />
-                    Coimbatore – 641 014
-                  </p>
-                </div>
-              </div>
-            </a>
+            <div className="info-cards-container flex flex-col justify-center gap-5">
+              {locationType === "corporate" ? (
+                <>
+                  {/* CORPORATE DETAILS */}
+                  <a href="mailto:support@mediamaticstudio.com" className="block">
+                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4 hover:border-foreground/25 transition group">
+                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
+                        <Mail className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm uppercase tracking-wider">Email Us</h3>
+                        <span className="text-foreground/50 text-sm flex items-center gap-1">
+                          support@mediamaticstudio.com <ArrowUpRight className="w-3 h-3" />
+                        </span>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a href={`tel:919629593615`}>
+                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4 hover:border-foreground/25 transition group">
+                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
+                        <Phone className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm uppercase tracking-wider">Call Us</h3>
+                        <p className="text-foreground/50 text-sm">
+                          +91  96295 93615
+                        </p>
+                        <p className="text-foreground/35 text-xs">US Toll Free: (+1) 888 219 5755</p>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a
+                    href="https://www.google.com/maps?q=COVAI+TECH+PARK,+Kalapatty,+Coimbatore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4 hover:border-foreground/25 transition group">
+                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
+                        <MapPin className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm uppercase tracking-wider">Visit Us</h3>
+                        <p className="text-foreground/50 text-xs">
+                          COVAI TECH PARK, Site No: 90,<br />
+                          Kovai Thiru Nagar, Kalapatty Village,<br />
+                          Coimbatore – 641 014
+                        </p>
+                      </div>
+                    </div>
+                  </a>
+                </>
+              ) : (
+                <>
+                  {/* BRANCH DETAILS */}
+                  <a href="mailto:branch@mediamaticstudio.com">
+                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4 hover:border-foreground/25 transition group">
+                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
+                        <Mail className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm uppercase tracking-wider">Email</h3>
+                        <p className="text-foreground/50 text-sm">support@mediamaticstudio.com</p>
+                      </div>
+                    </div>
+                  </a>
+
+                  <a href="tel:+919600506094">
+                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4 hover:border-foreground/25 transition group">
+                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
+                        <Phone className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-sm uppercase tracking-wider">Contact</h3>
+                        <p className="text-foreground/50 text-sm">+91 9600506094</p>
+                        <p className="text-foreground/50 text-sm">0422-4772362</p>
+                      </div>
+                    </div>
+                  </a>
+                  <a
+                    href="https://www.google.com/maps?q=Dr.+Jaganathanagar+Civil+Aerodrome+Coimbatore"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4">
+                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
+                        <MapPin className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div >
+                        <h3 className="font-bold text-sm uppercase tracking-wider" >Address</h3>
+                        <p className="text-foreground/50 text-xs">
+
+                          Civil Aerodrome Post, No. 97,
+                          <br />
+                          Dr. Jaganathanagar,
+                          <br />
+                          Coimbatore – 641 014
+
+                        </p>
+                      </div>
+                    </div></a>
+                </>
+              )}
+            </div>
+
           </div>
         </div>
       </div>

@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
 import logo from "@/assets/mediamatic-logo.png";
-import { Label } from "recharts";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -29,15 +28,15 @@ const usefulLinks = [
   { label: "About Us", href: "#about" },
   { label: "Brand Management", href: "#brandstatements" },
   { label: "Services", href: "#services" },
-  { label: "Sudio-Hub", href: "#studio" },
+  { label: "Studio Hub", href: "#studio" },
 ];
 
 const serviceLinks = [
-  { label: "Content Management", href: "/services/contentmanagement" },
   { label: "2D & 3D Animation", href: "/services/animation" },
-  { label: "Web Development", href: "/services/web-development" },
+  { label: "Content Management", href: "/services/contentmanagement" },
+  { label: "Web Development & Designing", href: "/services/web-development" },
   { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Web Hosting", href: "/services/webhosting" },
+  { label: "Web Hosting Services  ", href: "/services/webhosting" },
 ];
 
 /* ================= COMPONENT ================= */
@@ -103,13 +102,13 @@ export const Footer = () => {
       className="pt-20 bg-background text-foreground"
     >
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-4 md:grid-cols-2 gap-16 pb-16">
+        <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-16 pb-16 justify-items-center text-center">
 
           {/* LOGO + SOCIAL */}
-          <div className="footer-item space-y-8">
+          <div className="footer-item space-y-8 flex flex-col items-center">
             <img src={logo} alt="MediaMatic Studio" className="w-44" />
 
-            <div className="flex gap-4">
+            <div className="flex gap-4 justify-center">
               {socialLinks.map((social, i) => (
                 <a
                   key={i}
@@ -164,52 +163,6 @@ export const Footer = () => {
                 </li>
               ))}
             </ul>
-          </div>
-
-          {/* OFFICE DETAILS */}
-          <div className="footer-item text-sm space-y-5 opacity-80">
-            <div>
-              <h4 className="font-semibold mb-2 opacity-100">
-                Corporate Office
-              </h4>
-              <a
-                href="https://www.google.com/maps?q=COVAI+TECH+PARK+Kalapatty+Coimbatore"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline block"
-              >
-                COVAI TECH PARK, Site No: 90,
-                <br />
-                Kovai Thiru Nagar, Kalapatty Village,
-                <br />
-                Coimbatore – 641 014
-              </a>
-            </div>
-
-            <div>
-              <h4 className="font-semibold mb-2 opacity-100">
-                Branch Office
-              </h4>
-              <a
-                href="https://www.google.com/maps?q=Dr.+Jaganathanagar+Civil+Aerodrome+Coimbatore"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:underline block"
-              >
-                Civil Aerodrome Post, No. 97,
-                <br />
-                Dr. Jaganathanagar,
-                <br />
-                Coimbatore – 641 014
-              </a>
-            </div>
-
-            <div className="space-y-1">
-              <p>Office Direct: 0422-4772362</p>
-              <p>Office Mobile: +91 96295 93615</p>
-              <p>US Toll Free: (+1) (888) 219 5755</p>
-              <p>Email: support@mediamaticstudio.com</p>
-            </div>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import img1 from "../assets/studio/IMG-20251224-WA0007.jpg";
 import img2 from "../assets/studio/IMG_0054.jpg";
 import img3 from "../assets/studio/IMG_0067.jpg";
-import img4 from "../assets/studio/IMG_0066.jpg";
+import img4 from "../assets/studio/mms-corporate.jpg";
 
 const galleryItems = [
   { image: img1, text: "Production Suite", size: "md:col-span-2 md:row-span-2" },

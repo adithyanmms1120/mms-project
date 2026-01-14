@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Clapperboard, CheckCircle, ArrowRight } from "lucide-react";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
 
@@ -95,7 +94,6 @@ const Animation = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <Header />
 
         <main ref={sectionRef}>
           {/* HERO */}

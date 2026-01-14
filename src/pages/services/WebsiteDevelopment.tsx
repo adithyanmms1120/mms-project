@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Monitor, CheckCircle, ArrowRight } from "lucide-react";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Helmet } from "react-helmet";
 
@@ -85,7 +84,6 @@ const WebDevelopment = () => {
       </Helmet>
 
       <div className="min-h-screen bg-background">
-        <Header />
 
         <main ref={sectionRef}>
           {/* Hero */}
