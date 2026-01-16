@@ -15,12 +15,26 @@
 //     },
 //   },
 // });
+// import { defineConfig } from "vite";
+// import react from "@vitejs/plugin-react-swc";
+// import path from "path";
+
+// export default defineConfig({
+//   base: "/remapdemo/",
+//   plugins: [react()],
+//   assetsInclude: ["**/*.JPG", "**/*.JPEG"],
+//   resolve: {
+//     alias: {
+//       "@": path.resolve(__dirname, "./src"),
+//     },
+//   },
+// });
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
 
 export default defineConfig({
-  base: "/remapdemo/",
+  base: "/", 
   plugins: [react()],
   assetsInclude: ["**/*.JPG", "**/*.JPEG"],
   resolve: {

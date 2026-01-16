@@ -1,18 +1,20 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
-import img1 from "../assets/studio/IMG-20251224-WA0007.jpg";
-import img2 from "../assets/studio/IMG_0054.jpg";
-import img3 from "../assets/studio/IMG_0067.jpg";
-import img4 from "../assets/studio/mms-corporate.jpg";
+import img1 from "../assets/studio/uukzi2llluqkegeoty7s.webp";
+import img2 from "../assets/studio/bzd1dbdjx8eannngwkxn.webp";
+import img3 from "../assets/studio/rhwjndky14xhftqujzc3.webp";
+import img4 from "../assets/studio/xlvuhl3xqvrxaxswpkaz.webp";
 
 const galleryItems = [
   { image: img1, text: "Production Suite", size: "md:col-span-2 md:row-span-2" },
-  { image: img2, text: "Audio Booth", size: "md:col-span-1 md:row-span-1" },
-  { image: img3, text: "Creative Zone", size: "md:col-span-1 md:row-span-1" },
+  { image: img2, text: "Creative Zone", size: "md:col-span-1 md:row-span-1" },
+  { image: img3, text: "Audio Booth", size: "md:col-span-1 md:row-span-1" },
   { image: img4, text: "Collaborative Space", size: "md:col-span-2 md:row-span-1" },
 ];
 
 export const Studio: React.FC = () => {
+  const navigate = useNavigate();
   const containerRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -110,9 +112,10 @@ export const Studio: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate("/contact")}
                 className="px-10 py-4 bg-[#faf3e0] text-[#53131b] rounded-full font-bold text-lg hover:shadow-strong transition-all"
               >
-                Experience the Studio
+                Connect with us
               </motion.button>
             </motion.div>
 
@@ -121,9 +124,8 @@ export const Studio: React.FC = () => {
                 "4K Post Production",
                 "Hi-Fi Audio Recording",
                 "Cinematic Lighting",
-                "Chroma Key Studio",
-                "Motion Graphics Lab",
-                "VR Development Zone"
+                "Green Screen Facilities",
+                "Creative Collaboration Zones",
               ].map((feature, i) => (
                 <motion.div
                   key={i}

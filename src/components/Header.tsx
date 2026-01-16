@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/mediamatic-logo.png";
+import logo from "@/assets/lOGO.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,12 +12,12 @@ gsap.registerPlugin(ScrollTrigger);
 const navLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
-  { label: "Brand Management", href: "#brandstatements" },
-  { label: "Corporate Shoot ", href: "#" },
   { label: "Services", href: "#services", hasDropdown: true },
   { label: "STUDIO HUB", href: "#studio" },
-  { label: "Blog", href: "#" },
+  { label: "Brand Management", href: "#brandstatements" },
   { label: "Contact Us", href: "#contact" },
+  // { label: "Corporate Shoot ", href: "#" },
+  // { label: "Blog", href: "#" },
 ];
 
 const serviceLinks = [
@@ -61,7 +61,7 @@ export const Header = () => {
   useEffect(() => {
     const onScroll = () => {
       const currentScrollY = window.scrollY;
-      const isHomePage = location.pathname === "/" || location.pathname === "/remapdemo/"; // Adjust for basename if needed
+      const isHomePage = location.pathname === "/" || location.pathname === "/"; // Adjust for basename if needed
 
       // Determine direction for hiding
       if (isHomePage && currentScrollY > lastScrollY.current && currentScrollY > 100) {

@@ -12,6 +12,7 @@ import Animation from "./pages/services/Animation";
 import Content from "./pages/services/ContentManagement";
 import Hosting from "./pages/services/WebHosting";
 import { Header } from "./components/Header";
+import { Contact } from "./components/Contact";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -25,6 +26,7 @@ const App = () => (
         <Header />
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
           <Route path="/services/web-development" element={<WebDevelopment />} />
           <Route path="/services/animation" element={<Animation />} />
