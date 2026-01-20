@@ -13,7 +13,7 @@ const StatsCard = ({ value, label, index }: StatsCardProps) => {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: index * 0.15 }}
       viewport={{ once: true }}
-      className="bg-[#53131b] rounded-2xl p-10 text-center shadow-sm"
+      className="bg-[#652b32] rounded-2xl p-10 text-center shadow-sm"
     >
       <h3 className="text-5xl font-extrabold text-[#fdf3b7] mb-2">
         {value}
@@ -26,4 +26,3 @@ const StatsCard = ({ value, label, index }: StatsCardProps) => {
 };
 
 export default StatsCard;
-  

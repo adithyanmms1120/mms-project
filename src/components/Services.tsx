@@ -5,7 +5,8 @@ import { useNavigate } from "react-router-dom";
 import {
   FileText,
   Clapperboard,
-  Monitor,
+  MonitorSmartphone,
+  Palette,
   Megaphone,
   Globe,
   ArrowRight,
@@ -14,7 +15,7 @@ import {
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
-    {
+  {
     icon: Clapperboard,
     title: "2D & 3D Animation",
     tagline: "A creative studio that helps you move forward.",
@@ -23,7 +24,7 @@ const services = [
     features: ["Explainer Videos", "Brand Videos", "Motion Graphics", "VFX"],
     href: "/services/animation",
   },
-    {
+  {
     icon: FileText,
     title: "Content Management",
     tagline: "Expert content writers delivering high-quality content.",
@@ -33,26 +34,35 @@ const services = [
     href: "/services/contentmanagement",
   },
   {
-    icon: Monitor,
-    title: "Website Development & Designing",
+    icon: MonitorSmartphone,
+    title: "Website & App Development ",
     tagline: "Your go-to digital partner.",
     description:
-      "Mobile apps your customers can't stop using. Websites that don't just look good but bring in customers. Clean, responsive design.",
+      " Websites that don't just look good but bring in customers. Mobile apps your customers can't stop using.Clean, responsive design.",
     features: ["Mobile Apps", "Websites", "E-Commerce", "Custom Solutions"],
     href: "/services/web-development",
   },
-    {
+  {
+    icon: Palette,
+    title: "Designing",
+    tagline: "Design That Tells Your Story.",
+    description:
+      "Logos, branding, and marketing visuals crafted to speak directly to your audience. We build visual identities that resonate.",
+    features: ["Logo Design", "Branding", "Marketing Visuals", "Social Media"],
+    href: "/services/designing",
+  },
+  {
     icon: Megaphone,
     title: "Digital Marketing",
     tagline: "Expand your reach with MediaMatic Studio.",
     description:
       "SEO, SMO, SEM, SMM expertise. Data-driven digital marketing solutions that increase conversions, engagement, and visibility.",
-    features: ["SEO", "Social Media", "Email Marketing", "Google Ads"],
+    features: ["SEO", "Social Media", "Email Marketing", "Google Ads", "Meta Ads"],
     href: "/services/digital-marketing",
   },
   {
     icon: Globe,
-    title: "Web Hosting Services",
+    title: " VPS Web Hosting Services",
     tagline: "Your trusted hosting partner.",
     description:
       "Top-notch web hosting and domain services. 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts.",

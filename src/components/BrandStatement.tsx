@@ -124,7 +124,7 @@ export const BrandStatement = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#53131b] py-32 md:py-48 overflow-hidden"
+      className="relative bg-[#652b32] py-32 md:py-48 overflow-hidden"
       id="brandstatements"
     >
       {/* Decorative Background */}
@@ -134,7 +134,7 @@ export const BrandStatement = () => {
             key={i}
             className="brand-bg-element absolute top-1/2 left-1/2 
             -translate-x-1/2 -translate-y-1/2 rounded-full 
-            border border-[#fdf3b7]/10"
+            border border-[#faf3e0]/10"
             style={{ width: size, height: size }}
           />
         ))}
@@ -144,16 +144,16 @@ export const BrandStatement = () => {
         {/* HEADLINE */}
         <div className="text-center mb-20 space-y-4">
           <div ref={line1Ref} className="overflow-hidden">
-            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] text-[#fdf3b7] tracking-tight">
+            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] text-[#faf3e0] tracking-tight">
               {renderTextWithChars("YOUR BRAND")}
             </h2>
           </div>
           <div ref={line2Ref} className="overflow-hidden">
-            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] italic text-[#fdf3b7]/80 tracking-tight">
+            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] italic text-[#faf3e0]/80 tracking-tight">
               {renderTextWithChars("WE MANAGE")}
             </h2>
           </div>
-          <p className="max-w-xl mx-auto text-lg md:text-xl text-[#fdf3b7]/60 mt-8 font-light">
+          <p className="max-w-xl mx-auto text-lg md:text-xl text-[#faf3e0]/60 mt-8 font-light">
             Crafting identities that resonate, communicate, and endure.
           </p>
         </div>
@@ -176,33 +176,33 @@ export const BrandStatement = () => {
             },
             {
               title: "Brand Promise",
-              desc: "The consistent value and experience customers can expect from every interaction.",
-              delay: 0.2
+              desc: "The value or experience customers can consistently expect.",
+              delay: 0.1
             },
             {
               title: "Brand Personality",
               desc: "Human traits like innovative, trustworthy, or playful that define your brand's character.",
-              delay: 0.3
+              delay: 0.2
             },
             {
               title: "Brand Experience",
-              desc: "The holistic journey and emotional connection audiences feel at every touchpoint.",
-              delay: 0.4,
+              desc: "How target audience interact & feel about the brand at every touchpoint.",
+              delay: 0.3,
               className: "md:col-span-2 lg:col-span-1"
             },
           ].map((item, i) => (
             <div
               key={i}
-              className={`group bg-[#fdf3b7]/5 hover:bg-[#fdf3b7]/10 rounded-[2rem] p-8 md:p-10 
-              border border-[#fdf3b7]/10 shadow-sm hover:shadow-2xl 
+              className={`group bg-[#faf3e0]/5 hover:bg-[#faf3e0]/10 rounded-[2rem] p-8 md:p-10 
+              border border-[#faf3e0]/10 shadow-sm hover:shadow-2xl 
               transition-all duration-500 flex flex-col justify-between ${item.className || ''}`}
             >
               <div>
-                <h3 className="text-2xl font-bold text-[#fdf3b7] mb-4 tracking-tight">
+                <h3 className="text-2xl font-bold text-[#faf3e0] mb-4 tracking-tight">
                   {item.title}
                 </h3>
               </div>
-              <p className="text-[#fdf3b7]/70 leading-relaxed font-medium">
+              <p className="text-[#faf3e0]/70 leading-relaxed font-medium">
                 {item.desc}
               </p>
             </div>
@@ -212,30 +212,30 @@ export const BrandStatement = () => {
         {/* WHY BRANDING MATTERS - REDESIGNED */}
         <div ref={whyRef} className="mt-32 grid lg:grid-cols-2 gap-16 items-center">
           <div className="relative">
-            <div className="absolute -left-4 -top-4 w-20 h-20 bg-[#fdf3b7]/5 rounded-full blur-2xl" />
-            <h3 className="text-4xl md:text-5xl font-bold text-[#fdf3b7] mb-8 relative z-10 leading-tight">
+            <div className="absolute -left-4 -top-4 w-20 h-20 bg-[#faf3e0]/5 rounded-full blur-2xl" />
+            <h3 className="text-4xl md:text-5xl font-bold text-[#faf3e0] mb-8 relative z-10 leading-tight">
               Why Branding <br />
-              <span className="italic opacity-80 decoration-4 underline decoration-[#fdf3b7]/20">Matters</span>
+              <span className="italic opacity-80 decoration-4 underline decoration-[#faf3e0]/20">Matters</span>
             </h3>
-            <p className="text-xl md:text-2xl text-[#fdf3b7]/80 font-light italic leading-relaxed border-l-4 border-[#fdf3b7]/20 pl-6 my-8">
+            <p className="text-xl md:text-2xl text-[#faf3e0]/80 font-light italic leading-relaxed border-l-4 border-[#faf3e0]/20 pl-6 my-8">
               “Branding is the process of defining and communicating a business identity
               and value proposition, shaping perceptions and building long-term loyalty.”
             </p>
           </div>
 
-          <div className="bg-[#fdf3b7] text-[#53131b] p-10 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
+          <div className="bg-[#faf3e0] text-[#652b32] p-10 md:p-12 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
             {/* Decorative circle inside card */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-black/5 rounded-full blur-3xl translate-x-1/3 -translate-y-1/3" />
 
             <ul className="space-y-6 relative z-10">
               {[
-                "Builds recognition and trust",
-                "Creates emotional connections",
-                "Supports premium pricing",
-                "Stands out in competitive markets"
+                "Builds recognition and trust.",
+                "Creates emotional connections.",
+                "Supports premium pricing and loyalty.",
+                "Helps businesses stand out in competitive markets."
               ].map((item, idx) => (
                 <li key={idx} className="flex items-center gap-4 text-lg md:text-xl font-medium">
-                  <div className="w-2 h-2 rounded-full bg-[#53131b] flex-shrink-0" />
+                  <div className="w-2 h-2 rounded-full bg-[#652b32] flex-shrink-0" />
                   {item}
                 </li>
               ))}

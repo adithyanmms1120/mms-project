@@ -178,22 +178,22 @@ export const About = () => {
     {
       icon: Search,
       title: "Discovery Phase",
-      description: "During this initial stage, we delve deep into understanding the client's business goals, target audience, and market landscape. We conduct thorough research and analysis to identify opportunities and challenges, laying the foundation for a successful campaign."
+      description: "During this initial stage, we deep dive into understanding the client's business goals, target audience, and market landscape. We conduct thorough research and analysis to identify opportunities and challenges, laying the foundation for a successful campaign."
     },
     {
       icon: Target,  // Fixed: Changed from TargetIcon to Target
       title: "Strategy Development",
-      description: "With insights gathered from the discovery phase, we develop a customized strategy tailored to your specific needs and objectives. This comprehensive plan outlines the key tactics, channels, and timelines needed to achieve client's business goals effectively"
+      description: "With insights gathered from the discovery phase, we develop a customized strategy tailored to your specific needs and objectives. This comprehensive plan outlines the key tactics, channels, and timelines needed to achieve your business goals effectively."
     },
     {
       icon: Zap,
       title: "Implementation & Execution",
-      description: "Once the strategy is finalized and approved, we roll up our sleeves and put the plan into action. Our expert team utilizes cutting-edge tools and techniques to execute each component of the strategy with precision and efficiency, whether it's optimizing your website for search engines, crafting engaging social media content, or designing captivating visuals."
+      description: "Once the strategy is finalized and approved, we roll up our sleeves and put the plans into action. Our expert team utilizes cutting-edge tools and techniques to execute each component of the strategy with precision and efficiency,Whether it’s optimizing your website for search engines, crafting engaging social media content, or designing captivating visuals, we focus on delivering results that matter."
     },
     {
       icon: LineChart,
       title: "Monitoring & Optimization",
-      description: "Continuous monitoring and optimization are essential to ensuring the success and effectiveness of our projects. We closely track key performance indicators (KPIs) and metrics, analysing data to identify areas for improvement and making necessary adjustments to optimize results. This interactive process allows us to adapt to changes in the market and maximize the return on our client investment."
+      description: "Continuous monitoring and optimization are essential to ensure the success and effectiveness of our projects. We closely track key performance indicators (KPIs) and metrics, analysing data to identify areas of improvement and making necessary adjustments to optimize results. This interactive process allows us to adapt changes in the market and maximize the return on your investments."
     },
   ];
 
@@ -276,9 +276,9 @@ export const About = () => {
   };
 
   return (
-    <section className="bg-[#53131b] text-[#fdf3b7]" id="about">
+    <section className="bg-[#652b32] text-[#fdf3b7]" id="about">
       {/* ================= HERO ================= */}
-      <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "min-h-screen"} overflow-hidden bg-[#53131b]`}>
+      <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "min-h-screen"} overflow-hidden bg-[#652b32]`}>
         {/* VIDEO - Mobile responsive behavior */}
         {isMobile ? (
           /* MOBILE VIDEO LAYOUT */
@@ -310,7 +310,7 @@ export const About = () => {
                 animate="visible"
                 custom={2}
               >
-                MediaMatic Studio Pvt. Ltd. (MMS) is your perfect one-stop solution to manage all your Branding Activities.
+                MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities.
               </motion.p>
             </div>
 
@@ -341,7 +341,7 @@ export const About = () => {
               custom={3}
               className="mt-8 text-center"
             >
-              <Button asChild className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] hover:text-[#53131b] shadow-lg hover:shadow-xl transition-all">
+              <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
                 <a href="#studio">
                   Visit Our Studio <ArrowRight className="ml-2" size={20} />
                 </a>
@@ -434,7 +434,7 @@ export const About = () => {
                   animate="visible"
                   custom={2}
                 >
-                  MediaMatic Studio Pvt. Ltd. (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to delivering exceptional services focused on connecting ideas to audiences globally.
+                  MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally.
                 </motion.p>
 
                 <motion.p
@@ -448,7 +448,7 @@ export const About = () => {
                 </motion.p>
 
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-                  <Button asChild className="bg-[#fdf3b7] text-[#53131b] hover:bg-[#e6d9a5] hover:text-[#53131b] shadow-lg hover:shadow-xl transition-all">
+                  <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
                     <a href="#studio">
                       Visit Our Studio <ArrowRight className="ml-2" size={20} />
                     </a>
@@ -483,7 +483,7 @@ export const About = () => {
                   MediaMatic Studio, incorporated in 2017 – one of India's eminent startup branding firms, supporting various industries in the field of branding services.
                 </p>
                 <p className="text-base lg:text-lg">
-                  MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website & App Development, Digital Marketing, and Content Management company in Coimbatore, serving clients in the USA, Canada, UK, Europe, Middle East, Australia, and India.
+                  MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website / App Development & Designing , Digital Marketing, and Content Management company in Coimbatore,India. we also serve clients in USA, Canada, UK, Europe, Middle East, Australia, and India.
                 </p>
               </div>
             </div>
@@ -493,7 +493,7 @@ export const About = () => {
               whileInView="visible"
               viewport={{ once: true }}
               whileHover="hover"
-              className="bg-gradient-to-br from-[#53131b] via-[#6a1c2b] to-[#53131b] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
+              className="bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
             >
               <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Journey</h3>
               <div className="space-y-4">
@@ -515,7 +515,8 @@ export const About = () => {
                 <div className="flex items-center gap-4 group">
                   <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
                   <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2025</span>
-                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Aiming to be a Global Fortune company by 2030.</span>
+                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Expanding Operations & Aiming to be a Global Fortune company by 2030.</span>
+
                 </div>
               </div>
             </motion.div>
@@ -564,7 +565,7 @@ export const About = () => {
                 viewport={{ once: true }}
                 custom={i}
                 whileHover="hover"
-                className="bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-4 lg:p-6 rounded-2xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
+                className="bg-gradient-to-br from-[#652b32] to-[#6a1c2b] p-4 lg:p-6 rounded-2xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
               >
                 <div className="flex items-center gap-3 mb-3">
                   <div className="p-2 bg-[#fdf3b7]/10 rounded-lg group-hover:bg-[#fdf3b7]/20 transition-colors">
@@ -601,7 +602,7 @@ export const About = () => {
                 whileHover="hover"
                 className="group"
               >
-                <div className="h-full bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 hover:shadow-2xl transition-all">
+                <div className="h-full bg-gradient-to-br from-[#652b32] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 hover:shadow-2xl transition-all">
                   <div className="p-3 bg-gradient-to-br from-[#fdf3b7]/10 to-[#fdf3b7]/5 rounded-xl w-fit mb-4 group-hover:from-[#fdf3b7]/20 group-hover:to-[#fdf3b7]/10 transition-all">
                     <value.icon className="w-6 h-6 lg:w-8 lg:h-8 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
                   </div>
@@ -636,7 +637,7 @@ export const About = () => {
                 whileHover="hover"
                 className="group"
               >
-                <div className="h-full bg-gradient-to-br from-[#53131b] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all relative overflow-hidden">
+                <div className="h-full bg-gradient-to-br from-[#652b32] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all relative overflow-hidden">
                   <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#fdf3b7] via-[#fdf3b7]/50 to-transparent group-hover:from-[#fdf3b7] group-hover:via-[#fdf3b7]/70 group-hover:to-transparent transition-all"></div>
                   <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#fdf3b7]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   <div className="ml-4 relative z-10">
@@ -694,7 +695,7 @@ export const About = () => {
 "
 
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#53131b]/95 via-[#53131b]/70 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#652b32]/95 via-[#652b32]/70 to-transparent"></div>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#fdf3b7]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                   </div>
 

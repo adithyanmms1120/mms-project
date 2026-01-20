@@ -11,8 +11,10 @@ import WebDevelopment from "./pages/services/WebsiteDevelopment";
 import Animation from "./pages/services/Animation";
 import Content from "./pages/services/ContentManagement";
 import Hosting from "./pages/services/WebHosting";
+import Designing from "./pages/services/Designing";
 import { Header } from "./components/Header";
 import { Contact } from "./components/Contact";
+import { WhatsAppWidget } from "./components/WhatsAppWidget";
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -22,18 +24,20 @@ const App = () => (
       <Sonner />
 
       {/* 🔥 THIS LINE FIXES EVERYTHING */}
-      <BrowserRouter basename="/remapdemo">
+      <BrowserRouter basename="/">
         <Header />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
           <Route path="/services/web-development" element={<WebDevelopment />} />
+          <Route path="/services/designing" element={<Designing />} />
           <Route path="/services/animation" element={<Animation />} />
           <Route path="/services/contentmanagement" element={<Content />} />
           <Route path="/services/webhosting" element={<Hosting />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <WhatsAppWidget />
       </BrowserRouter>
 
     </TooltipProvider>

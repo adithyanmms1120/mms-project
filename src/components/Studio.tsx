@@ -2,14 +2,13 @@ import { useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform } from "framer-motion";
 import img1 from "../assets/studio/uukzi2llluqkegeoty7s.webp";
-import img2 from "../assets/studio/bzd1dbdjx8eannngwkxn.webp";
-import img3 from "../assets/studio/rhwjndky14xhftqujzc3.webp";
+// import img2 from "../assets/studio/bzd1dbdjx8eannngwkxn.webp";
+import img3 from "../assets/studio/audio.avif";
 import img4 from "../assets/studio/xlvuhl3xqvrxaxswpkaz.webp";
 
 const galleryItems = [
   { image: img1, text: "Production Suite", size: "md:col-span-2 md:row-span-2" },
-  { image: img2, text: "Creative Zone", size: "md:col-span-1 md:row-span-1" },
-  { image: img3, text: "Audio Booth", size: "md:col-span-1 md:row-span-1" },
+  { image: img3, text: "Audio Booth", size: "md:col-span-2 md:row-span-1" },
   { image: img4, text: "Collaborative Space", size: "md:col-span-2 md:row-span-1" },
 ];
 
@@ -34,8 +33,8 @@ export const Studio: React.FC = () => {
         style={{ opacity: backgroundOpacity }}
         className="absolute inset-0 pointer-events-none"
       >
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#53131b]/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#53131b]/5 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#652b32]/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#652b32]/5 rounded-full blur-[120px]" />
       </motion.div>
 
       <div className="container mx-auto px-6 relative z-10">
@@ -47,14 +46,14 @@ export const Studio: React.FC = () => {
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           >
-            <span className="inline-block text-[#53131b]/40 text-sm font-bold tracking-[0.3em] uppercase mb-6">
+            <span className="inline-block text-[#652b32]/40 text-sm font-bold tracking-[0.3em] uppercase mb-6">
               Our Creative Hub
             </span>
-            <h2 className="text-5xl md:text-7xl font-display font-black text-[#53131b] mb-8 tracking-tight">
+            <h2 className="text-5xl md:text-7xl font-display font-black text-[#652b32] mb-8 tracking-tight">
               MEDIAMATIC STUDIO
             </h2>
-            <div className="w-20 h-1 bg-[#53131b]/20 mx-auto mb-8 rounded-full" />
-            <p className="text-xl md:text-2xl text-[#53131b]/70 font-light leading-relaxed max-w-3xl mx-auto">
+            <div className="w-20 h-1 bg-[#652b32]/20 mx-auto mb-8 rounded-full" />
+            <p className="text-xl md:text-2xl text-[#652b32]/70 font-light leading-relaxed max-w-3xl mx-auto">
               A state-of-the-art facility designed to transform your boldest ideas into digital reality through
               innovation and technical excellence.
             </p>
@@ -70,7 +69,7 @@ export const Studio: React.FC = () => {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: index * 0.05 }}
-              className={`group relative rounded-[2.5rem] overflow-hidden border border-[#53131b]/10 bg-black/5 ${item.size}`}
+              className={`group relative rounded-[2.5rem] overflow-hidden border border-[#652b32]/10 bg-black/5 ${item.size}`}
             >
               <img
                 src={item.image}
@@ -79,7 +78,7 @@ export const Studio: React.FC = () => {
                 className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
               />
               {/* Overlay with high performance gradient */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#53131b]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#652b32]/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div className="absolute inset-0 p-8 flex flex-col justify-end translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                 <p className="text-white font-bold text-xl md:text-2xl tracking-tight opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -91,7 +90,7 @@ export const Studio: React.FC = () => {
         </div>
 
         {/* Feature Highlights Section - Redesigned for impact and performance */}
-        <div className="bg-[#53131b] rounded-[3rem] p-10 md:p-16 lg:p-20 shadow-2xl relative overflow-hidden">
+        <div className="bg-[#652b32] rounded-[3rem] p-10 md:p-16 lg:p-20 shadow-2xl relative overflow-hidden">
           <div className="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -112,8 +111,18 @@ export const Studio: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate("/contact")}
-                className="px-10 py-4 bg-[#faf3e0] text-[#53131b] rounded-full font-bold text-lg hover:shadow-strong transition-all"
+                onClick={() => {
+                  const el = document.getElementById("contact");
+                  if (el) {
+                    el.scrollIntoView({ behavior: "smooth" });
+                  } else {
+                    navigate("/");
+                    setTimeout(() => {
+                      document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+                    }, 150);
+                  }
+                }}
+                className="px-10 py-4 bg-[#faf3e0] text-[#652b32] rounded-full font-bold text-lg hover:shadow-strong transition-all"
               >
                 Connect with us
               </motion.button>

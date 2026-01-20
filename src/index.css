@@ -5,7 +5,7 @@
 @layer base {
   :root {
     /* User provided colors */
-    --primary-dark: #53131b;
+    --primary-dark: #652b32;
     /* Updated to match text/theme */
     --primary-mid: #7a2530;
     --primary-light: #9a5a2a;
@@ -18,14 +18,14 @@
     --text-light: #faf3e0;
     /* Restored to light cream for contrast on dark backgrounds */
     --text-muted: rgba(83, 19, 27, 0.65);
-    --text-dark: #53131b;
+    --text-dark: #652b32;
     /* Updated text */
 
     --border-soft: rgba(83, 19, 27, 0.15);
     --input-bg: #fff6df;
     /* Updated input bg */
 
-    --btn-bg: #53131b;
+    --btn-bg: #652b32;
     --btn-hover: #7a2530;
 
     --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.15);

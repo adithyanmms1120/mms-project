@@ -23,10 +23,10 @@ const navLinks = [
 const serviceLinks = [
   { label: "2D & 3D Animation Videos", href: "/services/animation" },
   { label: "Content Management", href: "/services/contentmanagement" },
-  { label: "Website Development & Designing", href: "/services/web-development" },
+  { label: "Website & App Development", href: "/services/web-development" },
+  { label: "Designing", href: "/services/designing" },
   { label: "Digital Marketing", href: "/services/digital-marketing" },
   { label: "Web Hosting Service", href: "/services/webhosting" },
-
 ];
 
 /* ================= COMPONENT ================= */
