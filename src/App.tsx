@@ -15,31 +15,39 @@ import Designing from "./pages/services/Designing";
 import { Header } from "./components/Header";
 import { Contact } from "./components/Contact";
 import { WhatsAppWidget } from "./components/WhatsAppWidget";
+import ClickSpark from "./components/ClickSpark";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
-      <Toaster />
-      <Sonner />
+      <ClickSpark
+        sparkColor='#9a5a2a'
+        sparkSize={11}
+        sparkRadius={20}
+        sparkCount={9}
+        duration={300}
+      >
+        <Toaster />
+        <Sonner />
 
-      {/* 🔥 THIS LINE FIXES EVERYTHING */}
-      <BrowserRouter basename="/">
-        <Header />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
-          <Route path="/services/web-development" element={<WebDevelopment />} />
-          <Route path="/services/designing" element={<Designing />} />
-          <Route path="/services/animation" element={<Animation />} />
-          <Route path="/services/contentmanagement" element={<Content />} />
-          <Route path="/services/webhosting" element={<Hosting />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-        <WhatsAppWidget />
-      </BrowserRouter>
-
+        <BrowserRouter basename="/">
+          <Header />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
+            <Route path="/services/web-development" element={<WebDevelopment />} />
+            <Route path="/services/designing" element={<Designing />} />
+            <Route path="/services/animation" element={<Animation />} />
+            <Route path="/services/contentmanagement" element={<Content />} />
+            <Route path="/services/webhosting" element={<Hosting />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+          <WhatsAppWidget />
+        </BrowserRouter>
+      </ClickSpark>
     </TooltipProvider>
   </QueryClientProvider>
 );

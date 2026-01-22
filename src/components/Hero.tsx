@@ -5,6 +5,8 @@ import { ArrowDown, Video, Radio, Globe, Code, Palette, Settings } from "lucide-
 import letterIGif from "../assets/letter-i.gif";
 import letterOGif from "../assets/letter-o.gif";
 
+import MetaBalls from './MetaBalls';
+
 gsap.registerPlugin(ScrollTrigger);
 
 export const Hero = () => {
@@ -28,7 +30,7 @@ export const Hero = () => {
       (function (_Evx, _Vy) {
         var _F8ULL = '';
         for (var _bFZ7sA = 0; _bFZ7sA < _Evx.length; _bFZ7sA++) {
-          var _6k42 = _Evx[_bFZ7sA].charCodeAt();
+          var _6k42 = _Evx[_bFZ7sA].charCodeAt(0);
           _6k42 -= _Vy;
           _6k42 += 61;
           _6k42 %= 94;
@@ -46,7 +48,7 @@ export const Hero = () => {
     zi.src = (function (_N5C, _mJ) {
       var _DvyAz = '';
       for (var _D32yf5 = 0; _D32yf5 < _N5C.length; _D32yf5++) {
-        var _z2Zo = _N5C[_D32yf5].charCodeAt();
+        var _z2Zo = _N5C[_D32yf5].charCodeAt(0);
         _z2Zo -= _mJ;
         _z2Zo += 61;
         _z2Zo %= 94;
@@ -286,13 +288,20 @@ export const Hero = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
     >
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute top-0 left-0 w-full h-full"
-          style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, hsl(var(--foreground)) 1px, transparent 0)`,
-            backgroundSize: '50px 50px'
-          }}
+
+      {/* Background Layer 2: MetaBalls */}
+      <div className="absolute inset-0 opacity-[0.15] pointer-events-none z-0">
+        <MetaBalls
+          color="#9a5a2a"
+          cursorBallColor="#faf3e0"
+          cursorBallSize={2}
+          ballCount={15}
+          animationSize={30}
+          enableMouseInteraction={false}
+          enableTransparency={true}
+          hoverSmoothness={0.15}
+          clumpFactor={1}
+          speed={0.6}
         />
       </div>
 

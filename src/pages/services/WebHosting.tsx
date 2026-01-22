@@ -113,7 +113,7 @@ const WebHosting = () => {
                   <div className="content-block">
                     <h2 className="font-display text-2xl font-bold mb-4">What We Offer</h2>
                     <p className="text-foreground/70 leading-relaxed">
-                      At MediaMatic Studio, we offer top-notch web hosting and domain services to empower entrepreneurs, businesses, and developers alike. Whether you're launching your first website, growing your small business's digital presence, or managing multiple projects, our solutions cater to every need.
+                      At MediaMatic Studio, we offer top-notch web hosting and domain services to empower entrepreneurs, businesses, and developers a like. Whether you're launching your first website, growing your small business's digital presence, or managing multiple projects, our solutions cater to every need.
                     </p>
                   </div>
 

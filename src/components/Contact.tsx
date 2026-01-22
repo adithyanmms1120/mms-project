@@ -42,7 +42,7 @@ const countries: Country[] = [
   { code: "BJ", name: "Benin", dial_code: "+229", flag: "🇧🇯" },
   { code: "BM", name: "Bermuda", dial_code: "+1", flag: "🇧🇲" },
   { code: "BT", name: "Bhutan", dial_code: "+975", flag: "🇧🇹" },
-  { code: "BO", name: "Bolivia", dial_code: "+591", flag: "��" },
+  { code: "BO", name: "Bolivia", dial_code: "+591", flag: "🇧🇴" },
   { code: "BA", name: "Bosnia and Herzegovina", dial_code: "+387", flag: "🇧🇦" },
   { code: "BW", name: "Botswana", dial_code: "+267", flag: "🇧🇼" },
   { code: "BR", name: "Brazil", dial_code: "+55", flag: "🇧🇷" },
@@ -83,7 +83,7 @@ const countries: Country[] = [
   { code: "FR", name: "France", dial_code: "+33", flag: "🇫🇷" },
   { code: "GA", name: "Gabon", dial_code: "+241", flag: "🇬🇦" },
   { code: "GM", name: "Gambia", dial_code: "+220", flag: "🇬🇲" },
-  { code: "GE", name: "Georgia", dial_code: "+995", flag: "🇬�" },
+  { code: "GE", name: "Georgia", dial_code: "+995", flag: "🇬🇪" },
   { code: "DE", name: "Germany", dial_code: "+49", flag: "🇩🇪" },
   { code: "GH", name: "Ghana", dial_code: "+233", flag: "🇬🇭" },
   { code: "GR", name: "Greece", dial_code: "+30", flag: "🇬🇷" },
@@ -96,10 +96,10 @@ const countries: Country[] = [
   { code: "HN", name: "Honduras", dial_code: "+504", flag: "🇭🇳" },
   { code: "HK", name: "Hong Kong", dial_code: "+852", flag: "🇭🇰" },
   { code: "HU", name: "Hungary", dial_code: "+36", flag: "🇭🇺" },
-  { code: "IS", name: "Iceland", dial_code: "+354", flag: "��" },
+  { code: "IS", name: "Iceland", dial_code: "+354", flag: "🇮🇸" },
   { code: "IN", name: "India", dial_code: "+91", flag: "🇮🇳" },
   { code: "ID", name: "Indonesia", dial_code: "+62", flag: "🇮🇩" },
-  { code: "IR", name: "Iran", dial_code: "+98", flag: "🇮�🇷" },
+  { code: "IR", name: "Iran", dial_code: "+98", flag: "🇮🇷" },
   { code: "IQ", name: "Iraq", dial_code: "+964", flag: "🇮🇶" },
   { code: "IE", name: "Ireland", dial_code: "+353", flag: "🇮🇪" },
   { code: "IL", name: "Israel", dial_code: "+972", flag: "🇮🇱" },
@@ -144,8 +144,8 @@ const countries: Country[] = [
   { code: "MZ", name: "Mozambique", dial_code: "+258", flag: "🇲🇿" },
   { code: "MM", name: "Myanmar", dial_code: "+95", flag: "🇲🇲" },
   { code: "NA", name: "Namibia", dial_code: "+264", flag: "🇳🇦" },
-  { code: "NR", name: "Nauru", dial_code: "+674", flag: "�🇷" },
-  { code: "NP", name: "Nepal", dial_code: "+977", flag: "🇳�🇵" },
+  { code: "NR", name: "Nauru", dial_code: "+674", flag: "🇳🇷" },
+  { code: "NP", name: "Nepal", dial_code: "+977", flag: "🇳🇵" },
   { code: "NL", name: "Netherlands", dial_code: "+31", flag: "🇳🇱" },
   { code: "NZ", name: "New Zealand", dial_code: "+64", flag: "🇳🇿" },
   { code: "NI", name: "Nicaragua", dial_code: "+505", flag: "🇳🇮" },
@@ -225,7 +225,9 @@ export const Contact = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isSending, setIsSending] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState<Country>(countries[0]);
+  const [selectedCountry, setSelectedCountry] = useState<Country>(
+    countries.find(c => c.code === "US") || countries[0]
+  );
   const [searchTerm, setSearchTerm] = useState("");
   const countryBtnRef = useRef<HTMLButtonElement>(null);
   const [locationType, setLocationType] = useState<"corporate" | "branch">("corporate");
@@ -522,7 +524,7 @@ export const Contact = () => {
     // API call
     try {
       const response = await fetch(
-        "http://127.0.0.1:8000/api/contact/send/",
+        "https://mediamaticstudio.com/api/contact/send/",
         {
           method: "POST",
           headers: {
@@ -585,9 +587,10 @@ export const Contact = () => {
           <span className="block text-[10px] uppercase tracking-[0.25em] text-foreground/40 font-semibold mb-4">
             Get In Touch
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight mb-8">
             {splitHeading("Contact Us")}
           </h2>
+          <div className="w-24 h-[1.5px] bg-foreground/30 mx-auto rounded-full" />
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto">
@@ -608,7 +611,7 @@ export const Contact = () => {
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   required
-                  className={`w-full px-5 py-4 bg-transparent border-2 rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.name ? "border-red-500" : "border-foreground/30 focus:border-foreground"
+                  className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.name ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="Your name"
                 />
@@ -630,7 +633,7 @@ export const Contact = () => {
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
-                  className={`w-full px-5 py-4 bg-transparent border-2 rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.email ? "border-red-500" : "border-foreground/30 focus:border-foreground"
+                  className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.email ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="your@email.com"
                 />
@@ -655,7 +658,7 @@ export const Contact = () => {
                         ref={countryBtnRef}
                         type="button"
                         onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                        className="flex items-center gap-2 px-4 py-4 bg-transparent border-2 border-foreground/30 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[120px] justify-between"
+                        className="flex items-center gap-2 px-4 py-4 bg-transparent border-[1.5px] border-foreground/20 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[120px] justify-between"
                       >
 
                         <span className="flex items-center gap-2">
@@ -728,7 +731,7 @@ export const Contact = () => {
                         type="tel"
                         value={formData.phone}
                         onChange={handlePhoneChange}
-                        className={`w-full px-5 py-4 bg-transparent border-2 rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/30 focus:border-foreground"
+                        className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                           }`}
                         placeholder="123 456 7890"
                         maxLength={12} // Adjusted for flexibility
@@ -766,7 +769,7 @@ export const Contact = () => {
                   onChange={(e) => handleInputChange("message", e.target.value)}
                   required
                   rows={5}
-                  className={`w-full px-5 py-4 bg-transparent border-2 rounded-xl focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.message ? "border-red-500" : "border-foreground/30 focus:border-foreground"
+                  className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.message ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="Tell us about your project..."
                 />

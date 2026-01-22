@@ -671,7 +671,7 @@ export const About = () => {
                 viewport={{ once: true }}
                 custom={i}
                 whileHover="hover"
-                className="relative h-72 lg:h-96 rounded-3xl overflow-hidden group"
+                className="relative h-72 lg:h-96 rounded-3xl overflow-hidden group border border-[#fdf3b7]/10 shadow-2xl"
               >
                 <a
                   href={l.link}
@@ -687,37 +687,29 @@ export const About = () => {
                     <img
                       src={l.img}
                       alt={l.name}
-                      className="
-  w-full h-full
-  object-contain md:object-cover
-  group-hover:md:scale-110
-  transition-transform duration-700
-"
-
+                      className="w-full h-full object-contain md:object-cover group-hover:md:scale-105 transition-transform duration-700"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#652b32]/95 via-[#652b32]/70 to-transparent"></div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#fdf3b7]/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    {/* Subtle overlay to help text legibility */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#652b32]/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500" />
                   </div>
 
-                  <div className="absolute bottom-0 p-6 text-[#fdf3b7] w-full">
+                  {/* Floating Glass Card for info */}
+                  <div className="absolute bottom-4 left-4 right-4 p-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl transition-all duration-500 group-hover:bg-[#fdf3b7]/10 group-hover:border-[#fdf3b7]/30 group-hover:bottom-6">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h4 className="font-bold text-xl lg:text-2xl mb-1">{l.name}</h4>
-                        <p className="text-sm lg:text-base uppercase opacity-80 mb-4">{l.role}</p>
+                        <h4 className="font-bold text-xl lg:text-2xl mb-1 text-[#fdf3b7]">{l.name}</h4>
+                        <p className="text-xs lg:text-sm uppercase tracking-[0.1em] text-[#fdf3b7]/80 group-hover:text-[#fdf3b7] transition-colors">{l.role}</p>
                       </div>
-                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#fdf3b7]/10 hover:bg-[#fdf3b7]/20 backdrop-blur-sm border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all">
+                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#fdf3b7]/10 hover:bg-[#fdf3b7]/20 backdrop-blur-sm border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all flex-shrink-0">
                         <FaLinkedinIn className="w-5 h-5 text-[#fdf3b7]" />
                       </div>
                     </div>
 
-                    <div className="inline-flex items-center gap-2 text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span>Connect on LinkedIn</span>
+                    <div className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#fdf3b7]/40 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                      <span>Connect Profile</span>
                       <ExternalLink className="w-3 h-3" />
                     </div>
                   </div>
-
-                  {/* Glow effect on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-[#fdf3b7]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 </a>
               </motion.div>
             ))}

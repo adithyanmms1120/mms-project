@@ -1,15 +1,29 @@
-import { useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import img1 from "../assets/studio/uukzi2llluqkegeoty7s.webp";
 // import img2 from "../assets/studio/bzd1dbdjx8eannngwkxn.webp";
 import img3 from "../assets/studio/audio.avif";
 import img4 from "../assets/studio/xlvuhl3xqvrxaxswpkaz.webp";
 
+import lightingImg from "../assets/studio/feature-lighting.jpg";
+import greenscreenImg from "../assets/studio/feature-greenscreen.jpg";
+import postproductionImg from "../assets/studio/feature-postproduction.jpg";
+import collaborationImg from "../assets/studio/feature-collaboration.jpg";
+import audioImg from "../assets/studio/feature-audio.jpg";
+
 const galleryItems = [
   { image: img1, text: "Production Suite", size: "md:col-span-2 md:row-span-2" },
   { image: img3, text: "Audio Booth", size: "md:col-span-2 md:row-span-1" },
   { image: img4, text: "Collaborative Space", size: "md:col-span-2 md:row-span-1" },
+];
+
+const features = [
+  { text: "4K Post Production", image: postproductionImg },
+  { text: "Hi-Fi Audio Recording", image: audioImg },
+  { text: "Cinematic Lighting", image: lightingImg },
+  { text: "Green Screen Facilities", image: greenscreenImg },
+  { text: "Creative Collaboration Zones", image: collaborationImg },
 ];
 
 export const Studio: React.FC = () => {
@@ -21,6 +35,13 @@ export const Studio: React.FC = () => {
   });
 
   const backgroundOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+
+  const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
 
   return (
     <section
@@ -129,26 +150,43 @@ export const Studio: React.FC = () => {
             </motion.div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-              {[
-                "4K Post Production",
-                "Hi-Fi Audio Recording",
-                "Cinematic Lighting",
-                "Green Screen Facilities",
-                "Creative Collaboration Zones",
-              ].map((feature, i) => (
+              {features.map((feature, i) => (
                 <motion.div
                   key={i}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.1 }}
-                  className="flex items-center gap-4 bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-sm"
+                  onMouseEnter={() => setHoveredImage(feature.image)}
+                  onMouseLeave={() => setHoveredImage(null)}
+                  onMouseMove={handleMouseMove}
+                  className="flex items-center gap-4 bg-white/10 p-5 rounded-2xl border border-white/10 backdrop-blur-sm cursor-pointer transition-all hover:bg-white/20"
                 >
                   <div className="w-2.5 h-2.5 rounded-full bg-[#faf3e0]" />
-                  <span className="text-[#faf3e0] font-bold text-sm lg:text-base">{feature}</span>
+                  <span className="text-[#faf3e0] font-bold text-sm lg:text-base">{feature.text}</span>
                 </motion.div>
               ))}
             </div>
+
+            <AnimatePresence>
+              {hoveredImage && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.5, rotate: -5 }}
+                  animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                  exit={{ opacity: 0, scale: 0.5, rotate: 5 }}
+                  style={{
+                    position: 'fixed',
+                    top: mousePos.y + 20,
+                    left: mousePos.x + 20,
+                    pointerEvents: 'none',
+                    zIndex: 100,
+                  }}
+                  className="w-48 h-32 md:w-64 md:h-48 rounded-xl overflow-hidden shadow-2xl border-2 border-white/20 hidden lg:block"
+                >
+                  <img src={hoveredImage} className="w-full h-full object-cover" alt="Preview" />
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
       </div>
