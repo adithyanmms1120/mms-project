@@ -651,21 +651,20 @@ export const Contact = () => {
                   Phone Number {formData.phone && "(Optional)"}
                 </label>
                 <div className="relative" ref={dropdownRef}>
-                  <div className="flex gap-2">
+                  <div className="flex flex-row gap-2">
                     {/* Country Code Selector */}
                     <div className="relative flex-shrink-0">
                       <button
                         ref={countryBtnRef}
                         type="button"
                         onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                        className="flex items-center gap-2 px-4 py-4 bg-transparent border-[1.5px] border-foreground/20 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[120px] justify-between"
+                        className="flex items-center gap-1.5 px-3 md:px-4 py-4 bg-transparent border-[1.5px] border-foreground/20 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[90px] md:min-w-[120px] justify-between"
                       >
-
-                        <span className="flex items-center gap-2">
-                          <span className="text-lg">{selectedCountry.flag}</span>
-                          <span className="text-sm">{selectedCountry.dial_code}</span>
+                        <span className="flex items-center gap-1.5">
+                          <span className="text-base md:text-lg">{selectedCountry.flag}</span>
+                          <span className="text-xs md:text-sm">{selectedCountry.dial_code}</span>
                         </span>
-                        <ChevronDown className={`w-4 h-4 transition-transform ${showCountryDropdown ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${showCountryDropdown ? 'rotate-180' : ''}`} />
                       </button>
 
                       {/* Dropdown Menu - Improved positioning and responsiveness */}
@@ -675,7 +674,7 @@ export const Contact = () => {
                           <div
                             ref={dropdownRef}
                             style={dropdownStyle}
-                            className="bg-[#faf3e0] border-2 border-[#652b32]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(83,19,27,0.3)] overflow-hidden text-left"
+                            className="bg-[#faf3e0] border-2 border-[#652b32]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(101,43,50,0.3)] overflow-hidden text-left"
                             role="listbox"
                           >
                             {/* Search */}
@@ -726,18 +725,18 @@ export const Contact = () => {
                     </div>
 
                     {/* Phone Number Input */}
-                    <div className="flex-1">
+                    <div className="flex-1 min-w-0">
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={handlePhoneChange}
-                        className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                        className={`w-full px-4 md:px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                           }`}
                         placeholder="123 456 7890"
-                        maxLength={12} // Adjusted for flexibility
+                        maxLength={15} // Adjusted for flexibility
                       />
-                      <div className="mt-1 text-xs text-foreground/40">
-                        {formData.phone ? `${formData.phone.replace(/\D/g, '').length}/10 digits` : "Enter phone number (optional)"}
+                      <div className="mt-1 text-[10px] md:text-xs text-foreground/40 hidden sm:block">
+                        {formData.phone ? `${formData.phone.replace(/\D/g, '').length}/15 digits` : "Enter phone number (optional)"}
                       </div>
                     </div>
                   </div>

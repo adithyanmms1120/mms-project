@@ -128,33 +128,36 @@ export const BrandStatement = () => {
       id="brandstatements"
     >
       {/* Decorative Background */}
-      <div className="absolute inset-0 pointer-events-none">
-        {[800, 600, 400].map((size, i) => (
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {[
+          { size: "w-[300px] h-[300px] md:w-[600px] md:h-[600px]", opacity: "opacity-[0.05]" },
+          { size: "w-[500px] h-[500px] md:w-[800px] md:h-[800px]", opacity: "opacity-[0.03]" },
+          { size: "w-[700px] h-[700px] md:w-[1000px] md:h-[1000px]", opacity: "opacity-[0.02]" },
+        ].map((ring, i) => (
           <div
             key={i}
-            className="brand-bg-element absolute top-1/2 left-1/2 
+            className={`brand-bg-element absolute top-1/2 left-1/2 
             -translate-x-1/2 -translate-y-1/2 rounded-full 
-            border border-[#faf3e0]/10"
-            style={{ width: size, height: size }}
+            border border-[#faf3e0] ${ring.size} ${ring.opacity}`}
           />
         ))}
       </div>
 
       <div className="container mx-auto px-6 relative z-10">
         {/* HEADLINE */}
-        <div className="text-center mb-20 space-y-4">
+        <div className="text-center mb-16 md:mb-24 space-y-4 md:space-y-6">
           <div ref={line1Ref} className="overflow-hidden">
-            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] text-[#faf3e0] tracking-tight">
+            <h2 className="font-display text-[clamp(2rem,10vw,7rem)] font-black leading-[1] text-[#faf3e0] tracking-tight">
               {renderTextWithChars("YOUR BRAND")}
             </h2>
           </div>
           <div ref={line2Ref} className="overflow-hidden">
-            <h2 className="font-display text-[clamp(2.5rem,8vw,7rem)] font-black leading-[0.9] italic text-[#faf3e0]/80 tracking-tight">
+            <h2 className="font-display text-[clamp(2rem,10vw,7rem)] font-black leading-[1] italic text-[#faf3e0]/70 tracking-tight">
               {renderTextWithChars("WE MANAGE")}
             </h2>
           </div>
-          <p className="max-w-xl mx-auto text-lg md:text-xl text-[#faf3e0]/60 mt-8 font-light">
-            Crafting identities that resonate, communicate, and endure.
+          <p className="max-w-2xl mx-auto text-base md:text-xl lg:text-2xl text-[#faf3e0]/60 mt-6 md:mt-10 font-normal leading-relaxed px-4">
+            Crafting identities that resonate, communicate, and endure in an ever-evolving digital landscape.
           </p>
         </div>
 
@@ -194,7 +197,7 @@ export const BrandStatement = () => {
             <div
               key={i}
               className={`group bg-[#faf3e0]/5 hover:bg-[#faf3e0]/10 rounded-[2rem] p-8 md:p-10 
-              border border-[#faf3e0]/10 shadow-sm hover:shadow-2xl 
+              border border-[#fdf3b7]/20 shadow-sm shadow-[#fdf3b7]/5 hover:shadow-2xl 
               transition-all duration-500 flex flex-col justify-between ${item.className || ''}`}
             >
               <div>

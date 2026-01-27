@@ -5,7 +5,6 @@ import { ArrowDown, Video, Radio, Globe, Code, Palette, Settings } from "lucide-
 import letterIGif from "../assets/letter-i.gif";
 import letterOGif from "../assets/letter-o.gif";
 
-import MetaBalls from './MetaBalls';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -286,31 +285,21 @@ export const Hero = () => {
     <section
       id="home"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      style={{
+        backgroundImage: 'linear-gradient(rgba(253, 250, 242, 0.6), rgba(253, 250, 242, 0.6)), url("/download.jpg")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+      }}
     >
-
-      {/* Background Layer 2: MetaBalls */}
-      <div className="absolute inset-0 opacity-[0.15] pointer-events-none z-0">
-        <MetaBalls
-          color="#9a5a2a"
-          cursorBallColor="#faf3e0"
-          cursorBallSize={2}
-          ballCount={15}
-          animationSize={30}
-          enableMouseInteraction={false}
-          enableTransparency={true}
-          hoverSmoothness={0.15}
-          clumpFactor={1}
-          speed={0.6}
-        />
-      </div>
 
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Top Icons */}
-        <div ref={iconsTopRef} className="flex justify-center gap-12 mb-12">
-          <Video className="hero-icon float-up w-12 h-12 text-foreground" />
-          <Radio className="hero-icon float-down w-12 h-12 text-foreground" />
-          <Palette className="hero-icon float-up w-12 h-12 text-foreground" />
+        <div ref={iconsTopRef} className="flex justify-center gap-6 md:gap-12 mb-8 md:mb-12">
+          <Video className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
+          <Radio className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
+          <Palette className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
         </div>
 
         {/* Title with bold modern typography */}
@@ -375,18 +364,20 @@ export const Hero = () => {
         </p>
 
         {/* Bottom Icons */}
-        <div ref={iconsBottomRef} className="flex justify-center gap-12 mt-12">
-          <Globe className="hero-icon float-down w-12 h-12 text-foreground" />
-          <Code className="hero-icon float-up w-12 h-12 text-foreground" />
-          <Settings className="hero-icon float-down w-12 h-12 text-foreground" />
+        <div ref={iconsBottomRef} className="flex justify-center gap-6 md:gap-12 mt-8 md:mt-12">
+          <Globe className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
+          <Code className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
+          <Settings className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
         </div>
 
         {/* Scroll indicator */}
-        <button
+        {/* <button
           onClick={scrollToAbout}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/50 hover:text-foreground transition-colors cursor-pointer"
+          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/40 hover:text-foreground transition-all cursor-pointer group"
         >
-        </button>
+          <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Discover</span>
+          <ArrowDown className="w-5 h-5 animate-bounce group-hover:translate-y-1 transition-transform" />
+        </button> */}
       </div>
     </section>
   );

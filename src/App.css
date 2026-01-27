@@ -9,8 +9,8 @@
   --gold-matte: #e8d18f;
 
   /* Maroon tones */
-  --maroon-main: #6a1f33;
-  --maroon-dark: #4a1626;
+  --maroon-main: #652b32;
+  --maroon-dark: #652b32;
 
   /* Base colors */
   --brand-black: #000000;
@@ -65,18 +65,18 @@ body {
   padding: 2em;
   margin-top: 2rem;
   border-radius: 18px;
-  background: linear-gradient(
-    145deg,
-    var(--maroon-main),
-    var(--maroon-dark)
-  );
+  background: linear-gradient(145deg,
+      var(--maroon-main),
+      var(--maroon-dark));
   color: var(--gold-light);
 }
 
 /* ================================
    TEXT STYLES
 ================================ */
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: var(--gold-light);
   letter-spacing: 1px;
 }
@@ -88,12 +88,10 @@ p {
 
 /* Brand gradient text (like logo) */
 .gold-gradient {
-  background: linear-gradient(
-    135deg,
-    #f7e7a8,
-    #e8d18f,
-    #6a1f33
-  );
+  background: linear-gradient(135deg,
+      #f7e7a8,
+      #e8d18f,
+      #652b32);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

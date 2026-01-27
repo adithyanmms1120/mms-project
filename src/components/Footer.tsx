@@ -31,17 +31,19 @@ const socialLinks = [
 const usefulLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
+  { label: "Services", href: "#services", hasDropdown: true },
+  { label: "STUDIO HUB", href: "#studio" },
   { label: "Brand Management", href: "#brandstatements" },
-  { label: "Services", href: "#services" },
-  { label: "Studio Hub", href: "#studio" },
+
 ];
 
 const serviceLinks = [
-  { label: "2D & 3D Animation", href: "/services/animation" },
+  { label: "2D & 3D Animation Videos", href: "/services/animation" },
   { label: "Content Management", href: "/services/contentmanagement" },
-  { label: "Web Development & Designing", href: "/services/web-development" },
+  { label: "Website & App Development", href: "/services/web-development" },
+  { label: "Designing", href: "/services/designing" },
   { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Web Hosting Services  ", href: "/services/webhosting" },
+  { label: "Web Hosting Service", href: "/services/webhosting" },
 ];
 
 /* ================= COMPONENT ================= */

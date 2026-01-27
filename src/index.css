@@ -7,7 +7,7 @@
     /* User provided colors */
     --primary-dark: #652b32;
     /* Updated to match text/theme */
-    --primary-mid: #7a2530;
+    --primary-mid: #652b32;
     --primary-light: #9a5a2a;
 
     --cream-bg: #faf3e0;
@@ -17,16 +17,16 @@
 
     --text-light: #faf3e0;
     /* Restored to light cream for contrast on dark backgrounds */
-    --text-muted: rgba(83, 19, 27, 0.65);
+    --text-muted: rgba(101, 43, 50, 0.65);
     --text-dark: #652b32;
     /* Updated text */
 
-    --border-soft: rgba(83, 19, 27, 0.15);
+    --border-soft: rgba(101, 43, 50, 0.15);
     --input-bg: #fff6df;
     /* Updated input bg */
 
     --btn-bg: #652b32;
-    --btn-hover: #7a2530;
+    --btn-hover: #652b32;
 
     --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.15);
 
@@ -73,7 +73,7 @@
 
     /* Shadows */
     /* --shadow-soft is defined above */
-    --shadow-strong: 0 20px 60px -15px rgba(91, 29, 38, 0.3);
+    --shadow-strong: 0 20px 60px -15px rgba(101, 43, 50, 0.3);
     --shadow-glow: 0 0 40px rgba(154, 90, 42, 0.3);
 
     /* Sidebar */

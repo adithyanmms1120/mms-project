@@ -29,10 +29,10 @@ const TimelineItem = ({
         {year}
       </span>
 
-      <h4 className="text-lg font-bold text-[#5a0f1b] mb-1">
+      <h4 className="text-lg font-bold text-[#652b32] mb-1">
         {title}
       </h4>
-      <p className="text-sm text-[#7b1d1d]">
+      <p className="text-sm text-[#652b32]">
         {description}
       </p>
     </motion.div>

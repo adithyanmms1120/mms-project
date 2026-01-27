@@ -276,7 +276,10 @@ export const About = () => {
   };
 
   return (
-    <section className="bg-[#652b32] text-[#fdf3b7]" id="about">
+    <section className="bg-[#652b32] text-primary-foreground relative" id="about">
+      {/* Subtle Background Gradient for Depth */}
+      <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent pointer-events-none" />
+
       {/* ================= HERO ================= */}
       <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "min-h-screen"} overflow-hidden bg-[#652b32]`}>
         {/* VIDEO - Mobile responsive behavior */}
@@ -464,255 +467,257 @@ export const About = () => {
       </div>
 
       {/* ================= MAIN CONTENT ================= */}
-      <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-20">
-        {/* Company Story */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="mb-16 lg:mb-24"
-        >
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-            <div>
-              <h2 className="text-2xl lg:text-4xl font-bold mb-6 text-[#fdf3b7]">
-                Our Legacy
-              </h2>
-              <div className="space-y-4 text-[#fdf3b7]/90">
-                <p className="text-base lg:text-lg">
-                  MediaMatic Studio, incorporated in 2017 – one of India's eminent startup branding firms, supporting various industries in the field of branding services.
-                </p>
-                <p className="text-base lg:text-lg">
-                  MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website / App Development & Designing , Digital Marketing, and Content Management company in Coimbatore,India. we also serve clients in USA, Canada, UK, Europe, Middle East, Australia, and India.
-                </p>
+      <div className="bg-[#652b32] relative">
+        <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-20">
+          {/* Company Story */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-16 lg:mb-24"
+          >
+            <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
+              <div>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 md:mb-8 text-[#fdf3b7] leading-tight">
+                  Our Legacy
+                </h2>
+                <div className="space-y-4 md:space-y-6 text-[#fdf3b7]/90">
+                  <p className="text-base md:text-lg lg:text-xl leading-relaxed">
+                    MediaMatic Studio, incorporated in 2017 – one of India's eminent startup branding firms, supporting various industries in the field of branding services.
+                  </p>
+                  <p className="text-base md:text-lg lg:text-xl leading-relaxed">
+                    MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website / App Development & Designing , Digital Marketing, and Content Management company in Coimbatore,India. we also serve clients in USA, Canada, UK, Europe, Middle East, Australia, and India.
+                  </p>
+                </div>
               </div>
+              <motion.div
+                variants={cardVariants}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                whileHover="hover"
+                className="bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
+              >
+                <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Journey</h3>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                    <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2017</span>
+                    <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Start-Up</span>
+                  </div>
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                    <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2023</span>
+                    <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Registered as Proprietorship Firm</span>
+                  </div>
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                    <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2024</span>
+                    <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Registered as Private Limited Company</span>
+                  </div>
+                  <div className="flex items-center gap-4 group">
+                    <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
+                    <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2025</span>
+                    <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Expanding Operations & Aiming to be a Global Fortune company by 2030.</span>
+
+                  </div>
+                </div>
+              </motion.div>
             </div>
-            <motion.div
-              variants={cardVariants}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              whileHover="hover"
-              className="bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
-            >
-              <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Journey</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4 group">
-                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2017</span>
-                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Start-Up</span>
-                </div>
-                <div className="flex items-center gap-4 group">
-                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2023</span>
-                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Registered as Proprietorship Firm</span>
-                </div>
-                <div className="flex items-center gap-4 group">
-                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2024</span>
-                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Registered as Private Limited Company</span>
-                </div>
-                <div className="flex items-center gap-4 group">
-                  <div className="w-3 h-3 bg-[#fdf3b7] rounded-full group-hover:scale-125 transition-transform"></div>
-                  <span className="font-semibold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">2025</span>
-                  <span className="text-[#fdf3b7]/70 group-hover:text-[#fdf3b7] transition-colors">- Expanding Operations & Aiming to be a Global Fortune company by 2030.</span>
+          </motion.div>
 
-                </div>
-              </div>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* STATS */}
-        <div className="mb-16 lg:mb-24">
-          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            Our Current Stats
-          </h3>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12">
-            {stats.map((s, i) => (
-              <motion.div
-                key={s.label}
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i}
-              >
-                <StatsCard {...s} index={i} />
-              </motion.div>
-            ))}
-          </div>
-        </div>
-
-        {/* VISION 2026 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="mb-16 lg:mb-24"
-        >
-          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            Our 2026 Vision
-          </h3>
-          <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-            {vision2026.map((item, i) => (
-              <motion.div
-                key={item.label}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i}
-                whileHover="hover"
-                className="bg-gradient-to-br from-[#652b32] to-[#6a1c2b] p-4 lg:p-6 rounded-2xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
-              >
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-[#fdf3b7]/10 rounded-lg group-hover:bg-[#fdf3b7]/20 transition-colors">
-                    <item.icon className="w-5 h-5 lg:w-6 lg:h-6 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
-                  </div>
-                  <span className="text-xl lg:text-2xl font-bold text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{item.value}</span>
-                </div>
-                <p className="text-sm lg:text-base text-[#fdf3b7]/80 group-hover:text-[#fdf3b7] transition-colors">{item.label}</p>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CORE VALUES 2026 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="mb-16 lg:mb-24"
-        >
-          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            MMS Core Values
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {coreValues2026.map((value, i) => (
-              <motion.div
-                key={value.title}
-                variants={cardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i}
-                whileHover="hover"
-                className="group"
-              >
-                <div className="h-full bg-gradient-to-br from-[#652b32] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 hover:shadow-2xl transition-all">
-                  <div className="p-3 bg-gradient-to-br from-[#fdf3b7]/10 to-[#fdf3b7]/5 rounded-xl w-fit mb-4 group-hover:from-[#fdf3b7]/20 group-hover:to-[#fdf3b7]/10 transition-all">
-                    <value.icon className="w-6 h-6 lg:w-8 lg:h-8 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
-                  </div>
-                  <h4 className="text-lg lg:text-xl font-bold mb-3 text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{value.title}</h4>
-                  <p className="text-[#fdf3b7]/80 text-sm lg:text-base group-hover:text-[#fdf3b7]/90 transition-colors">{value.description}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* WORK STRATEGY */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          viewport={{ once: true }}
-          className="mb-16 lg:mb-24"
-        >
-          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            Our Strategy of Work
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {workStages.map((stage, i) => (
-              <motion.div
-                key={stage.title}
-                variants={stageCardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i}
-                whileHover="hover"
-                className="group"
-              >
-                <div className="h-full bg-gradient-to-br from-[#652b32] to-[#6a1c2b] p-6 rounded-3xl shadow-lg border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all relative overflow-hidden">
-                  <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#fdf3b7] via-[#fdf3b7]/50 to-transparent group-hover:from-[#fdf3b7] group-hover:via-[#fdf3b7]/70 group-hover:to-transparent transition-all"></div>
-                  <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#fdf3b7]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="ml-4 relative z-10">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="p-2 bg-gradient-to-br from-[#fdf3b7]/10 to-[#fdf3b7]/5 rounded-lg group-hover:from-[#fdf3b7]/20 group-hover:to-[#fdf3b7]/10 group-hover:scale-110 transition-all duration-300">
-                        <stage.icon className="w-5 h-5 lg:w-6 lg:h-6 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
-                      </div>
-                      <span className="text-sm font-semibold text-[#fdf3b7]/50 group-hover:text-[#fdf3b7] transition-colors">Stage {i + 1}</span>
-                    </div>
-                    <h4 className="text-lg lg:text-xl font-bold mb-3 text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{stage.title}</h4>
-                    <p className="text-[#fdf3b7]/80 text-sm lg:text-base group-hover:text-[#fdf3b7]/90 transition-colors">{stage.description}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* LEADERSHIP - Fixed to redirect on entire card click */}
-        <div className="mb-8">
-          <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
-            Our Leadership
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {leaders.map((l, i) => (
-              <motion.div
-                key={l.name}
-                variants={leadershipCardVariants}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i}
-                whileHover="hover"
-                className="relative h-72 lg:h-96 rounded-3xl overflow-hidden group border border-[#fdf3b7]/10 shadow-2xl"
-              >
-                <a
-                  href={l.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="block w-full h-full"
-                  onClick={(e) => {
-                    // Prevent the click from bubbling to parent elements
-                    e.stopPropagation();
-                  }}
+          {/* STATS */}
+          <div className="mb-16 lg:mb-24">
+            <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+              Our Current Stats
+            </h3>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12 ">
+              {stats.map((s, i) => (
+                <motion.div
+                  key={s.label}
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
                 >
-                  <div className="absolute inset-0">
-                    <img
-                      src={l.img}
-                      alt={l.name}
-                      className="w-full h-full object-contain md:object-cover group-hover:md:scale-105 transition-transform duration-700"
-                    />
-                    {/* Subtle overlay to help text legibility */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#652b32]/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500" />
-                  </div>
+                  <StatsCard {...s} index={i} />
+                </motion.div>
+              ))}
+            </div>
+          </div>
 
-                  {/* Floating Glass Card for info */}
-                  <div className="absolute bottom-4 left-4 right-4 p-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl transition-all duration-500 group-hover:bg-[#fdf3b7]/10 group-hover:border-[#fdf3b7]/30 group-hover:bottom-6">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h4 className="font-bold text-xl lg:text-2xl mb-1 text-[#fdf3b7]">{l.name}</h4>
-                        <p className="text-xs lg:text-sm uppercase tracking-[0.1em] text-[#fdf3b7]/80 group-hover:text-[#fdf3b7] transition-colors">{l.role}</p>
+          {/* VISION 2026 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-16 lg:mb-32"
+          >
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-center mb-8 lg:mb-16 text-[#fdf3b7] uppercase tracking-wider">
+              Our 2026 Vision
+            </h3>
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+              {vision2026.map((item, i) => (
+                <motion.div
+                  key={item.label}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                  whileHover="hover"
+                  className="bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] p-6 lg:p-8 rounded-[2rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
+                >
+                  <div className="flex items-center gap-4 mb-4">
+                    <div className="p-3 bg-[#fdf3b7]/5 rounded-2xl group-hover:bg-[#fdf3b7]/10 transition-colors">
+                      <item.icon className="w-6 h-6 lg:w-7 lg:h-7 text-[#fdf3b7] group-hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <span className="text-2xl lg:text-3xl font-black text-[#fdf3b7] tracking-tighter">{item.value}</span>
+                  </div>
+                  <p className="text-sm md:text-base lg:text-lg text-[#fdf3b7]/70 font-medium group-hover:text-[#fdf3b7]/90 transition-colors">{item.label}</p>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* CORE VALUES 2026 */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-16 lg:mb-32"
+          >
+            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-center mb-8 lg:mb-16 text-[#fdf3b7] uppercase tracking-wider">
+              MMS Core Values
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {coreValues2026.map((value, i) => (
+                <motion.div
+                  key={value.title}
+                  variants={cardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                  whileHover="hover"
+                  className="group"
+                >
+                  <div className="h-full bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] p-7 md:p-8 rounded-[2.5rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500">
+                    <div className="p-4 bg-white/5 rounded-2xl w-fit mb-6 group-hover:bg-white/10 transition-all duration-500">
+                      <value.icon className="w-7 h-7 lg:w-8 lg:h-8 text-[#fdf3b7] group-hover:scale-110 transition-transform duration-500" />
+                    </div>
+                    <h4 className="text-xl lg:text-2xl font-black mb-4 text-[#fdf3b7] leading-tight">{value.title}</h4>
+                    <p className="text-[#fdf3b7]/60 text-sm md:text-base leading-relaxed group-hover:text-[#fdf3b7]/80 transition-colors">{value.description}</p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* WORK STRATEGY */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-16 lg:mb-24"
+          >
+            <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+              Our Strategy of Work
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {workStages.map((stage, i) => (
+                <motion.div
+                  key={stage.title}
+                  variants={stageCardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                  whileHover="hover"
+                  className="group"
+                >
+                  <div className="h-full bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 rounded-3xl shadow-lg shadow-[#fdf3b7]/10 border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all relative overflow-hidden">
+                    <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#fdf3b7] via-[#fdf3b7]/50 to-transparent group-hover:from-[#fdf3b7] group-hover:via-[#fdf3b7]/70 group-hover:to-transparent transition-all"></div>
+                    <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#fdf3b7]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    <div className="ml-4 relative z-10">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="p-2 bg-gradient-to-br from-[#fdf3b7]/10 to-[#fdf3b7]/5 rounded-lg group-hover:from-[#fdf3b7]/20 group-hover:to-[#fdf3b7]/10 group-hover:scale-110 transition-all duration-300">
+                          <stage.icon className="w-5 h-5 lg:w-6 lg:h-6 text-[#fdf3b7] group-hover:scale-110 transition-transform" />
+                        </div>
+                        <span className="text-sm font-semibold text-[#fdf3b7]/50 group-hover:text-[#fdf3b7] transition-colors">Stage {i + 1}</span>
                       </div>
-                      <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#fdf3b7]/10 hover:bg-[#fdf3b7]/20 backdrop-blur-sm border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all flex-shrink-0">
-                        <FaLinkedinIn className="w-5 h-5 text-[#fdf3b7]" />
-                      </div>
+                      <h4 className="text-lg lg:text-xl font-bold mb-3 text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{stage.title}</h4>
+                      <p className="text-[#fdf3b7]/80 text-sm lg:text-base group-hover:text-[#fdf3b7]/90 transition-colors">{stage.description}</p>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* LEADERSHIP - Fixed to redirect on entire card click */}
+          <div className="mb-8">
+            <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+              Our Leadership
+            </h3>
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
+              {leaders.map((l, i) => (
+                <motion.div
+                  key={l.name}
+                  variants={leadershipCardVariants}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                  whileHover="hover"
+                  className="relative h-72 lg:h-96 rounded-3xl overflow-hidden group border border-[#fdf3b7]/10 shadow-2xl"
+                >
+                  <a
+                    href={l.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full h-full"
+                    onClick={(e) => {
+                      // Prevent the click from bubbling to parent elements
+                      e.stopPropagation();
+                    }}
+                  >
+                    <div className="absolute inset-0">
+                      <img
+                        src={l.img}
+                        alt={l.name}
+                        className="w-full h-full object-contain md:object-cover group-hover:md:scale-105 transition-transform duration-700"
+                      />
+                      {/* Subtle overlay to help text legibility */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#652b32]/60 via-transparent to-transparent opacity-80 group-hover:opacity-40 transition-opacity duration-500" />
                     </div>
 
-                    <div className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#fdf3b7]/40 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
-                      <span>Connect Profile</span>
-                      <ExternalLink className="w-3 h-3" />
+                    {/* Floating Glass Card for info */}
+                    <div className="absolute bottom-4 left-4 right-4 p-5 bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl transition-all duration-500 group-hover:bg-[#fdf3b7]/10 group-hover:border-[#fdf3b7]/30 group-hover:bottom-6">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h4 className="font-bold text-xl lg:text-2xl mb-1 text-[#fdf3b7]">{l.name}</h4>
+                          <p className="text-xs lg:text-sm uppercase tracking-[0.1em] text-[#fdf3b7]/80 group-hover:text-[#fdf3b7] transition-colors">{l.role}</p>
+                        </div>
+                        <div className="inline-flex items-center justify-center w-10 h-10 rounded-full bg-[#fdf3b7]/10 hover:bg-[#fdf3b7]/20 backdrop-blur-sm border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all flex-shrink-0">
+                          <FaLinkedinIn className="w-5 h-5 text-[#fdf3b7]" />
+                        </div>
+                      </div>
+
+                      <div className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#fdf3b7]/40 opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0">
+                        <span>Connect Profile</span>
+                        <ExternalLink className="w-3 h-3" />
+                      </div>
                     </div>
-                  </div>
-                </a>
-              </motion.div>
-            ))}
+                  </a>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

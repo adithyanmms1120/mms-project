@@ -12,11 +12,20 @@ import {
   ArrowRight,
 } from "lucide-react";
 
+// Service Background Images
+import animationBg from "../assets/Services/cube.png";
+import contentBg from "../assets/Services/content.png";
+import webBg from "../assets/Services/web.png";
+import designBg from "../assets/Services/designing.png";
+import digitalBg from "../assets/Services/digital-marketing.png";
+import hostingBg from "../assets/Services/cloud-migration.png";
+
 gsap.registerPlugin(ScrollTrigger);
 
 const services = [
   {
     icon: Clapperboard,
+    bgImage: animationBg,
     title: "2D & 3D Animation",
     tagline: "A creative studio that helps you move forward.",
     description:
@@ -26,6 +35,7 @@ const services = [
   },
   {
     icon: FileText,
+    bgImage: contentBg,
     title: "Content Management",
     tagline: "Expert content writers delivering high-quality content.",
     description:
@@ -35,6 +45,7 @@ const services = [
   },
   {
     icon: MonitorSmartphone,
+    bgImage: webBg,
     title: "Website & App Development ",
     tagline: "Your go-to digital partner.",
     description:
@@ -44,6 +55,7 @@ const services = [
   },
   {
     icon: Palette,
+    bgImage: designBg,
     title: "Designing",
     tagline: "Design That Tells Your Story.",
     description:
@@ -53,6 +65,7 @@ const services = [
   },
   {
     icon: Megaphone,
+    bgImage: digitalBg,
     title: "Digital Marketing",
     tagline: "Expand your reach with MediaMatic Studio.",
     description:
@@ -62,6 +75,7 @@ const services = [
   },
   {
     icon: Globe,
+    bgImage: hostingBg,
     title: " VPS Web Hosting Services",
     tagline: "Your trusted hosting partner.",
     description:
@@ -136,25 +150,35 @@ export const Services = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="text-center mb-16 md:mb-20">
-          <span className="block text-xs uppercase tracking-[0.3em] text-foreground/40 font-semibold mb-4">
+        <div className="text-center mb-12 md:mb-20">
+          <span className="block text-[10px] md:text-xs uppercase tracking-[0.3em] text-foreground/40 font-bold mb-4">
             What We Do
           </span>
-          <h2 className="services-heading font-display text-[clamp(2.5rem,6vw,5rem)] leading-[1.1] font-bold text-foreground">
+          <h2 className="services-heading font-display text-[clamp(2rem,7vw,5rem)] leading-[1.1] font-black text-foreground text-balance px-4">
             Our <span className="italic font-normal text-foreground/60">Services</span>
           </h2>
-          <p className="text-base md:text-lg text-foreground/50 max-w-xl mx-auto mt-6">
+          <p className="text-sm md:text-lg text-foreground/50 max-w-xl mx-auto mt-4 md:mt-6 leading-relaxed px-6">
             A complete creative powerhouse for all your branding and digital needs
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="services-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <div className="services-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8 max-w-7xl mx-auto px-2">
           {services.map((service, index) => (
             <div
               key={index}
               className="service-card group relative bg-card rounded-2xl border-2 border-border hover:border-foreground/20 shadow-soft transition-all duration-300 overflow-hidden"
             >
+              {/* Service Background Image - Bottom Right */}
+              <div
+                className="absolute bottom-0 right-0 w-24 h-24 md:w-32 md:h-32 opacity-[0.08] pointer-events-none transition-all duration-500 group-hover:opacity-[0.12] group-hover:scale-110"
+                style={{
+                  backgroundImage: `url(${service.bgImage})`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'bottom right',
+                }}
+              />
               {/* Card Header */}
               <div className="p-6 md:p-8">
                 {/* Index */}

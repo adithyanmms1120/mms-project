@@ -26,7 +26,7 @@ const serviceLinks = [
   { label: "Website & App Development", href: "/services/web-development" },
   { label: "Designing", href: "/services/designing" },
   { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Web Hosting Service", href: "/services/webhosting" },
+  { label: "VPS Web Hosting Service", href: "/services/webhosting" },
 ];
 
 /* ================= COMPONENT ================= */
