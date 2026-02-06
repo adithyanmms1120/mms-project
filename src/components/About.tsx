@@ -26,9 +26,9 @@ import {
 } from "lucide-react";
 
 import aboutVideo from "../assets/hero_optim.mp4";
-import ceoImg from "../assets/ZU-01.png";
-import cooImg from "../assets/TH-01.png";
-import adminImg from "../assets/Re-01.png";
+import ceoImg from "../assets/ZU-01.webp";
+import cooImg from "../assets/TH-01.webp";
+import adminImg from "../assets/Re-01.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -262,7 +262,7 @@ export const About = () => {
       transition: {
         duration: 0.7,
         ease: "easeOut" as const,
-        delay: i * 0.1  // Fixed: changed delay to be calculated from i
+        delay: i * 0.1
       }
     }),
     hover: {
@@ -273,6 +273,31 @@ export const About = () => {
         ease: "easeInOut" as const
       }
     }
+  };
+
+  const WordReveal = ({ text, className = "" }: { text: string; className?: string }) => {
+    const words = text.split(" ");
+    return (
+      <div className={`flex flex-wrap ${className}`}>
+        {words.map((word, i) => (
+          <span key={i} className="inline-block overflow-hidden mr-[0.2em] py-[0.1em]">
+            <motion.span
+              initial={{ y: "100%", opacity: 0 }}
+              whileInView={{ y: 0, opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.8,
+                delay: i * 0.02,
+                ease: [0.215, 0.61, 0.355, 1],
+              }}
+              className="inline-block"
+            >
+              {word === "" ? "\u00A0" : word}
+            </motion.span>
+          </span>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -306,15 +331,10 @@ export const About = () => {
                 MediaMatic Studio
               </motion.h1>
 
-              <motion.p
-                className="text-base mb-6 max-w-xl mx-auto"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                custom={2}
-              >
-                MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities.
-              </motion.p>
+              <WordReveal
+                text="MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities."
+                className="text-base mb-6 max-w-xl mx-auto justify-center"
+              />
             </div>
 
             {/* MOBILE VIDEO PLAYER - Simple version */}
@@ -331,7 +351,7 @@ export const About = () => {
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="w-full h-auto aspect-video object-cover"
               />
             </motion.div>
@@ -350,26 +370,16 @@ export const About = () => {
                 </a>
               </Button>
 
-              <div className="mt-12">
-                <motion.p
-                  className="text-base text-[#fdf3b7]/90 mb-4"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={4}
-                >
-                  Since our journey began in 2017, we have been passionate about delivering exceptional services focused on connecting ideas to audiences globally.
-                </motion.p>
+              <div className="mt-12 space-y-6">
+                <WordReveal
+                  text="Since our journey began in 2017, we have been passionate about delivering exceptional services focused on connecting ideas to audiences globally."
+                  className="text-base text-[#fdf3b7]/90 justify-center"
+                />
 
-                <motion.p
-                  className="text-base text-[#fdf3b7]/90"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={5}
-                >
-                  Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
-                </motion.p>
+                <WordReveal
+                  text="Over the years, we have built a reputation for being innovative, reliable, and committed to excellence."
+                  className="text-base text-[#fdf3b7]/90 justify-center"
+                />
               </div>
 
               {/* Scroll indicator for mobile */}
@@ -398,7 +408,7 @@ export const About = () => {
                 muted
                 loop
                 playsInline
-                preload="auto"
+                preload="metadata"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -430,25 +440,15 @@ export const About = () => {
                   MediaMatic Studio
                 </motion.h1>
 
-                <motion.p
+                <WordReveal
+                  text="MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally."
                   className="text-lg mb-4 max-w-xl"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={2}
-                >
-                  MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally.
-                </motion.p>
+                />
 
-                <motion.p
+                <WordReveal
+                  text="Over the years, we have built a reputation for being innovative, reliable, and committed to excellence."
                   className="text-lg mb-8 max-w-xl"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={3}
-                >
-                  Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
-                </motion.p>
+                />
 
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
                   <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
@@ -691,6 +691,9 @@ export const About = () => {
                       <img
                         src={l.img}
                         alt={l.name}
+                        width="400"
+                        height="500"
+                        loading="lazy"
                         className="w-full h-full object-contain md:object-cover group-hover:md:scale-105 transition-transform duration-700"
                       />
                       {/* Subtle overlay to help text legibility */}

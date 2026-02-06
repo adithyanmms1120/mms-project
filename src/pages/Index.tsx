@@ -30,7 +30,7 @@ const Index = () => {
   }, []);
 
   return (
-    <main className="overflow-x-hidden">
+    <main className="relative overflow-x-hidden">
       <Hero />
       <Suspense fallback={<SectionLoader />}>
         <About />

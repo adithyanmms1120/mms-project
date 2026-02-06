@@ -99,7 +99,8 @@
   }
 
   html {
-    scroll-behavior: smooth;
+    /* Set to auto for instant jumps as requested */
+    scroll-behavior: auto;
   }
 
   body {

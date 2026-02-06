@@ -1,4 +1,4 @@
-import React, { useRef, useState, useMemo } from "react";
+import React, { useRef, useState, useMemo, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, useScroll, useTransform, AnimatePresence, useMotionValue } from "framer-motion";
 
@@ -41,6 +41,7 @@ const OptimizedImage = ({
     alt={alt}
     width={width}
     height={height}
+    loading={priority ? "eager" : "lazy"}
     decoding="async"
     fetchPriority={priority ? "high" : "auto"}
     draggable={false}
@@ -76,6 +77,7 @@ export const Studio: React.FC = () => {
 
   const mousePos = useRef({ x: 0, y: 0 });
   const [hoveredImage, setHoveredImage] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -108,6 +110,23 @@ export const Studio: React.FC = () => {
     mousePos.current.x = e.clientX;
     mousePos.current.y = e.clientY;
   };
+
+  // Auto-scroll logic
+  useEffect(() => {
+    let animationFrameId: number;
+
+    const animate = () => {
+      if (!isDragging) {
+        // Slow auto-scroll to the left
+        x.set(x.get() - 0.5);
+      }
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    animationFrameId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationFrameId);
+  }, [x, isDragging]);
 
   return (
     <section
@@ -154,6 +173,8 @@ export const Studio: React.FC = () => {
               style={{ x: wrappedX }}
               className="flex gap-4 md:gap-8 px-4 cursor-grab active:cursor-grabbing"
               drag="x"
+              onDragStart={() => setIsDragging(true)}
+              onDragEnd={() => setIsDragging(false)}
               onDrag={(e, info) => {
                 x.set(x.get() + info.delta.x);
               }}
@@ -221,7 +242,7 @@ export const Studio: React.FC = () => {
                 <button
                   onClick={() => {
                     const el = document.getElementById("contact");
-                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                    if (el) el.scrollIntoView({ behavior: "auto" });
                     else navigate("/");
                   }}
                   className="group relative px-8 md:px-10 py-3 md:py-4 bg-[#faf3e0] text-[#652b32] rounded-full font-bold transition-all duration-300 hover:shadow-xl hover:shadow-[#faf3e0]/10 hover:-translate-y-1 active:scale-95 overflow-hidden"

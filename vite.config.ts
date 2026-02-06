@@ -46,20 +46,36 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-framer': ['framer-motion'],
           'vendor-gsap': ['gsap'],
           'vendor-lucide': ['lucide-react'],
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
+          'vendor-radix': [
+            '@radix-ui/react-dialog',
+            '@radix-ui/react-slot',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-tooltip',
+          ],
+          'vendor-ui': [
+            '@tanstack/react-query',
+            'react-icons',
+          ],
         }
       }
     },
     chunkSizeWarningLimit: 1000,
-    minify: 'terser', // Cleaner minification
+    minify: 'terser',
     terserOptions: {
       compress: {
-        drop_console: true, // Remove consoles for production
+        drop_console: true,
         drop_debugger: true,
+        pure_funcs: ['console.log', 'console.info', 'console.debug'],
+      },
+      mangle: {
+        safari10: true,
       },
     },
+    cssCodeSplit: true,
+    sourcemap: false,
   },
 });

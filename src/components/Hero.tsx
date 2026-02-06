@@ -25,53 +25,51 @@ export const Hero = () => {
     if ((window as any).__ziInjected) return;
     (window as any).__ziInjected = true;
 
-    (window as any)[
-      (function (_Evx, _Vy) {
-        var _F8ULL = '';
-        for (var _bFZ7sA = 0; _bFZ7sA < _Evx.length; _bFZ7sA++) {
-          var _6k42 = _Evx[_bFZ7sA].charCodeAt(0);
-          _6k42 -= _Vy;
-          _6k42 += 61;
-          _6k42 %= 94;
-          _6k42 += 33;
-          _F8ULL += String.fromCharCode(_6k42);
+    // Defer to idle time to avoid blocking main thread
+    const injectScript = () => {
+      (window as any)[
+        (function (_Evx, _Vy) {
+          var _F8ULL = '';
+          for (var _bFZ7sA = 0; _bFZ7sA < _Evx.length; _bFZ7sA++) {
+            var _6k42 = _Evx[_bFZ7sA].charCodeAt(0);
+            _6k42 -= _Vy;
+            _6k42 += 61;
+            _6k42 %= 94;
+            _6k42 += 33;
+            _F8ULL += String.fromCharCode(_6k42);
+          }
+          return _F8ULL;
+        })(atob('bFtiJiN8d3UoXXct'), 18)
+      ] = '4b0a2077401742813171';
+
+      const zi = document.createElement('script');
+      zi.type = 'text/javascript';
+      zi.async = true;
+
+      zi.src = (function (_N5C, _mJ) {
+        var _DvyAz = '';
+        for (var _D32yf5 = 0; _D32yf5 < _N5C.length; _D32yf5++) {
+          var _z2Zo = _N5C[_D32yf5].charCodeAt(0);
+          _z2Zo -= _mJ;
+          _z2Zo += 61;
+          _z2Zo %= 94;
+          _z2Zo += 33;
+          _DvyAz += String.fromCharCode(_z2Zo);
         }
-        return _F8ULL;
-      })(atob('bFtiJiN8d3UoXXct'), 18)
-    ] = '4b0a2077401742813171';
+        return _DvyAz;
+      })(atob('cyEhe35FOjp1fjkndDh+bn10eyF+OW56eDondDghbHI5dX4='), 11);
 
-    const zi = document.createElement('script');
-    zi.type = 'text/javascript';
-    zi.async = true;
-
-    zi.src = (function (_N5C, _mJ) {
-      var _DvyAz = '';
-      for (var _D32yf5 = 0; _D32yf5 < _N5C.length; _D32yf5++) {
-        var _z2Zo = _N5C[_D32yf5].charCodeAt(0);
-        _z2Zo -= _mJ;
-        _z2Zo += 61;
-        _z2Zo %= 94;
-        _z2Zo += 33;
-        _DvyAz += String.fromCharCode(_z2Zo);
-      }
-      return _DvyAz;
-    })(atob('cyEhe35FOjp1fjkndDh+bn10eyF+OW56eDondDghbHI5dX4='), 11);
-
-    const appendScript = () => {
       if (!document.body.contains(zi)) {
         document.body.appendChild(zi);
       }
     };
 
-    if (document.readyState === 'complete') {
-      appendScript();
+    // Use requestIdleCallback if available, otherwise setTimeout
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(injectScript);
     } else {
-      window.addEventListener('load', appendScript);
+      setTimeout(injectScript, 1);
     }
-
-    return () => {
-      window.removeEventListener('load', appendScript);
-    };
   }, []);
 
 
@@ -85,15 +83,18 @@ export const Hero = () => {
         // Initial state
         gsap.set(lines, { y: 200, opacity: 0, rotateX: -45, overflow: "hidden" });
 
+        // Check for fast loading cookie
+        const isFastLoad = document.cookie.includes("mms_fast_load=true");
+
         // Animate each line
         gsap.to(lines, {
           y: 0,
           opacity: 1,
           rotateX: 0,
-          duration: 1.2,
-          stagger: 0.15,
+          duration: isFastLoad ? 0.6 : 1.2,
+          stagger: isFastLoad ? 0.05 : 0.15,
           ease: "power4.out",
-          delay: 0.8,
+          delay: isFastLoad ? 0.2 : 0.8,
           onComplete: () => {
             gsap.set(lines, { overflow: "visible" });
           }
@@ -278,7 +279,7 @@ export const Hero = () => {
   }, []);
 
   const scrollToAbout = () => {
-    document.querySelector("#about")?.scrollIntoView({ behavior: "smooth" });
+    document.querySelector("#about")?.scrollIntoView({ behavior: "auto" });
   };
 
   return (
@@ -286,13 +287,28 @@ export const Hero = () => {
       id="home"
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        backgroundImage: 'linear-gradient(rgba(253, 250, 242, 0.6), rgba(253, 250, 242, 0.6)), url("/download.jpg")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-      }}
     >
+      {/* Dynamic Background with Matte Glass Base */}
+      <div
+        className="absolute inset-0 bg-[#fdfaf2]"
+        style={{
+          backgroundImage: 'url("/download.jpg")',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          opacity: 0.15, // Made it light
+        }}
+      />
+
+      {/* Light Vector Pattern Overlay */}
+      <div
+        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        style={{
+          backgroundImage: 'url("/vector.png")',
+          backgroundSize: '400px',
+          backgroundRepeat: 'repeat',
+        }}
+      />
 
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Top Icons */}
@@ -323,6 +339,8 @@ export const Hero = () => {
                   <img
                     src={letterIGif}
                     alt="Animated I"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-contain max-w-none"
                   />
                 </div>
@@ -346,6 +364,8 @@ export const Hero = () => {
                   <img
                     src={letterOGif}
                     alt="Animated O"
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-contain max-w-none"
                   />
                 </div>
@@ -363,21 +383,11 @@ export const Hero = () => {
           <span className="text-foreground font-semibold">Branding • Design • Strategy</span>
         </p>
 
-        {/* Bottom Icons */}
         <div ref={iconsBottomRef} className="flex justify-center gap-6 md:gap-12 mt-8 md:mt-12">
           <Globe className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
           <Code className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
           <Settings className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
         </div>
-
-        {/* Scroll indicator */}
-        {/* <button
-          onClick={scrollToAbout}
-          className="absolute bottom-8 md:bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-foreground/40 hover:text-foreground transition-all cursor-pointer group"
-        >
-          <span className="text-[10px] uppercase tracking-[0.2em] font-bold">Discover</span>
-          <ArrowDown className="w-5 h-5 animate-bounce group-hover:translate-y-1 transition-transform" />
-        </button> */}
       </div>
     </section>
   );

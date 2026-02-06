@@ -3,7 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/lOGO.png";
+import logo from "@/assets/lOGO.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -125,7 +125,7 @@ export const Header = () => {
       navigate("/");
       setTimeout(() => {
         const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+        if (el) el.scrollIntoView({ behavior: "auto" });
       }, 100);
       return;
     }
@@ -138,7 +138,7 @@ export const Header = () => {
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       window.scrollTo({
         top: offsetPosition,
-        behavior: "smooth"
+        behavior: "auto"
       });
     }
   };
@@ -164,7 +164,7 @@ export const Header = () => {
             >
               <img
                 src={logo}
-                className="h-11 md:h-12 transition-transform duration-300 hover:scale-105 drop-shadow-lg"
+                className="h-11 md:h-12 transition-transform duration-300 hover:scale-105 drop-shadow-lg brightness-110 contrast-125"
                 alt="MediaMatic Logo"
               />
             </a>
@@ -184,9 +184,16 @@ export const Header = () => {
                       timeoutRef.current = setTimeout(() => setServiceOpen(false), 200);
                     }}
                   >
-                    <button className="flex items-center gap-1 text-sm uppercase tracking-wide hover:text-primary transition">
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(link.href);
+                      }}
+                      className="flex items-center gap-1 text-sm uppercase tracking-wide hover:text-primary transition"
+                    >
                       Services <ChevronDown size={14} />
-                    </button>
+                    </a>
 
                     {serviceOpen && (
                       <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10">
@@ -206,6 +213,18 @@ export const Header = () => {
                       </div>
                     )}
                   </div>
+                ) : link.label === "Contact Us" ? (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(link.href);
+                    }}
+                    className="px-7 py-3 rounded-full font-bold text-[#faf3e0] bg-[#652b32] hover:bg-[#652b32]/90 transition-all duration-300 shadow-md inline-block text-center text-[11px] uppercase tracking-[0.2em]"
+                  >
+                    {link.label}
+                  </a>
                 ) : (
                   <a
                     key={link.label}
@@ -249,13 +268,25 @@ export const Header = () => {
           >
             {navLinks.map((link) =>
               link.hasDropdown ? (
-                <div key={link.label} className="text-center">
-                  <button
-                    onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
-                    className="text-2xl flex items-center gap-2"
-                  >
-                    Services <ChevronDown />
-                  </button>
+                <div key={link.label} className="text-center w-full px-6">
+                  <div className="flex items-center justify-center gap-4">
+                    <a
+                      href={link.href}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavClick(link.href);
+                      }}
+                      className="text-2xl"
+                    >
+                      Services
+                    </a>
+                    <button
+                      onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
+                      className="p-1 rounded-full bg-white/10"
+                    >
+                      <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${mobileServiceOpen ? 'rotate-180' : ''}`} />
+                    </button>
+                  </div>
 
                   {mobileServiceOpen && (
                     <div className="mt-4 space-y-3">
@@ -275,6 +306,18 @@ export const Header = () => {
                     </div>
                   )}
                 </div>
+              ) : link.label === "Contact Us" ? (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(link.href);
+                  }}
+                  className="px-10 py-4 rounded-full font-bold text-[#faf3e0] bg-[#652b32] active:scale-95 transition-all shadow-xl inline-block text-center text-2xl uppercase tracking-widest"
+                >
+                  {link.label}
+                </a>
               ) : (
                 <a
                   key={link.label}

@@ -32,29 +32,107 @@
   <!-- FAVICON -->
   <link rel="icon" type="image/png" href="/favicon.ico" />
 
+  <!-- PRELOAD CRITICAL ASSETS -->
+  <link rel="preload" as="image" href="/download.jpg" fetchpriority="high" />
+
   <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap" />
   <link
     href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600&display=swap"
+      rel="stylesheet" />
+  </noscript>
 
-  <!-- Start of Tawk.to Script -->
+  <!-- Start of Tawk.to Script (Deferred) -->
   <script type="text/javascript">
-    var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-    (function () {
-      var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-      s1.async = true;
-      s1.src = 'https://embed.tawk.to/674eb78d2480f5b4f5a6fd07/1ie5nq1no';
-      s1.charset = 'UTF-8';
-      s1.setAttribute('crossorigin', '*');
-      s0.parentNode.insertBefore(s1, s0);
-    })();
+    window.addEventListener('load', function () {
+      var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+      (function () {
+        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+        s1.async = true;
+        s1.src = 'https://embed.tawk.to/674eb78d2480f5b4f5a6fd07/1ie5nq1no';
+        s1.charset = 'UTF-8';
+        s1.setAttribute('crossorigin', '*');
+        s0.parentNode.insertBefore(s1, s0);
+      })();
+    });
   </script>
   <!-- End of Tawk.to Script -->
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-P6LVLR4M');</script>
+  <!-- End Google Tag Manager -->
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "product",
+      "name": "Mediamaticstudio - Creative Branding & Digital Excellence",
+      "url": "https://www.mediamaticstudio.com/",
+      "image": "https://www.mediamaticstudio.com/assets/lOGO-TiRhUzz3.webp",
+      "sameAs": [
+        "https://www.facebook.com/mediamatic.studio1/",
+        "https://x.com/_media_matic"
+      ],
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "5",
+        "reviewCount": "8"
+      }
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "http://www.schema.org",
+      "@type": "LocalBusiness",
+      "name": "Mediamaticstudio",
+      "email": "support@mediamaticstudio.com",
+      "url": "https://www.mediamaticstudio.com/",
+      "areaServed": [
+        "Coimbatore",
+        "Bangalore"
+      ],
+      "brand": "mediamaticstudio",
+      "telephone": "+91 88821 95755",
+      "image": "https://www.mediamaticstudio.com/assets/lOGO-TiRhUzz3.webp",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Coimbatore, India",
+        "postalCode": "641014",
+        "streetAddress": "Plot No. 12, 4th South Cross St, Kovai Thirunagar, Indira Nagar, Civil Aerodrome Post, East, Nehru Nagar West, Coimbatore, Tamil Nadu 641014"
+      },
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "areaServed": [
+            "Coimbatore",
+            "Bangalore"
+          ],
+          "name": "Enquiry",
+          "contactType": "sales head"
+        }
+      ]
+    }
+  </script>
 </head>
 
 <body>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P6LVLR4M" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
   <div id="root"></div>
   <script type="module" src="/src/main.tsx"></script>
 </body>

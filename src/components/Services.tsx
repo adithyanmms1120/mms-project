@@ -13,12 +13,12 @@ import {
 } from "lucide-react";
 
 // Service Background Images
-import animationBg from "../assets/Services/cube.png";
-import contentBg from "../assets/Services/content.png";
-import webBg from "../assets/Services/web.png";
-import designBg from "../assets/Services/designing.png";
-import digitalBg from "../assets/Services/digital-marketing.png";
-import hostingBg from "../assets/Services/cloud-migration.png";
+import animationBg from "../assets/Services/cube.webp";
+import contentBg from "../assets/Services/content.webp";
+import webBg from "../assets/Services/web.webp";
+import designBg from "../assets/Services/designing.webp";
+import digitalBg from "../assets/Services/digital-marketing.webp";
+import hostingBg from "../assets/Services/cloud-migration.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -141,7 +141,7 @@ export const Services = () => {
     >
       {/* Background pattern */}
       <div
-        className="absolute inset-0 opacity-[0.02]"
+        className="absolute inset-0 opacity-[0.01]"
         style={{
           backgroundImage:
             "repeating-linear-gradient(0deg, transparent, transparent 59px, hsl(var(--foreground)) 59px, hsl(var(--foreground)) 60px)",

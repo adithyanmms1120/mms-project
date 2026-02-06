@@ -8,7 +8,7 @@ import {
   Youtube,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/mediamatic-logo.png";
+import logo from "@/assets/mediamatic-logo.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -94,13 +94,13 @@ export const Footer = () => {
       navigate("/");
       setTimeout(() => {
         const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: "smooth" });
+        if (el) el.scrollIntoView({ behavior: "auto" });
       }, 100);
       return;
     }
 
     const el = document.querySelector(href);
-    if (el) el.scrollIntoView({ behavior: "smooth" });
+    if (el) el.scrollIntoView({ behavior: "auto" });
   };
 
   return (
@@ -113,7 +113,7 @@ export const Footer = () => {
 
           {/* LOGO + SOCIAL */}
           <div className="footer-item space-y-8 flex flex-col items-center">
-            <img src={logo} alt="MediaMatic Studio" className="w-44" />
+            <img src={logo} alt="MediaMatic Studio" loading="lazy" decoding="async" className="w-60" />
 
             <div className="flex gap-4 justify-center">
               {socialLinks.map((social, i) => (

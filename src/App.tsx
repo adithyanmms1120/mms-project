@@ -5,8 +5,9 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header";
-import { WhatsAppWidget } from "./components/WhatsAppWidget";
+// import { WhatsAppWidget } from "./components/WhatsAppWidget"; // Removed to lazy load
 import ClickSpark from "./components/ClickSpark";
+import { CookieConsent } from "./components/CookieConsent";
 
 // Lazy loading pages for better performance
 const Index = lazy(() => import("./pages/Index"));
@@ -18,6 +19,7 @@ const Content = lazy(() => import("./pages/services/ContentManagement"));
 const Hosting = lazy(() => import("./pages/services/WebHosting"));
 const Designing = lazy(() => import("./pages/services/Designing"));
 const Contact = lazy(() => import("./components/Contact").then(module => ({ default: module.Contact })));
+const WhatsAppWidget = lazy(() => import("./components/WhatsAppWidget").then(m => ({ default: m.WhatsAppWidget })));
 
 const LoadingSpinner = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-[#faf3e0] z-50">
@@ -40,7 +42,13 @@ const App = () => (
         <Toaster />
         <Sonner />
 
-        <BrowserRouter basename="/">
+        <BrowserRouter
+          basename="/"
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <Header />
           <Suspense fallback={<LoadingSpinner />}>
             <Routes>
@@ -55,7 +63,10 @@ const App = () => (
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-          <WhatsAppWidget />
+          <Suspense fallback={null}>
+            <WhatsAppWidget />
+          </Suspense>
+          <CookieConsent />
         </BrowserRouter>
       </ClickSpark>
     </TooltipProvider>
