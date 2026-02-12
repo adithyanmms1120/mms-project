@@ -147,12 +147,12 @@ export const BrandStatement = () => {
         {/* HEADLINE */}
         <div className="text-center mb-16 md:mb-24 space-y-4 md:space-y-6">
           <div ref={line1Ref} className="overflow-hidden">
-            <h2 className="font-display text-[clamp(2rem,10vw,7rem)] font-black leading-[1] text-[#faf3e0] tracking-tight">
+            <h2 className="font-display text-[clamp(1.8rem,10vw,7rem)] font-black leading-[1.1] text-[#faf3e0] tracking-tight">
               {renderTextWithChars("YOUR BRAND")}
             </h2>
           </div>
           <div ref={line2Ref} className="overflow-hidden">
-            <h2 className="font-display text-[clamp(2rem,10vw,7rem)] font-black leading-[1] italic text-[#faf3e0]/70 tracking-tight">
+            <h2 className="font-display text-[clamp(1.8rem,10vw,7rem)] font-black leading-[1.1] italic text-[#faf3e0]/70 tracking-tight">
               {renderTextWithChars("WE MANAGE")}
             </h2>
           </div>

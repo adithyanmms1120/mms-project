@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Clapperboard, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import { SEO } from "@/components/SEO";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -85,13 +85,12 @@ const Animation = () => {
 
   return (
     <>
-      <Helmet>
-        <title>2D & 3D Animation Services | MediaMatic Studio</title>
-        <meta
-          name="description"
-          content="Creative studio transforming business ideas into compelling visual stories through 2D & 3D animation."
-        />
-      </Helmet>
+      <SEO
+        title="2D & 3D Animation Services | MediaMatic Studio"
+        description="Creative studio transforming business ideas into compelling visual stories through 2D & 3D animation. Expert explainer videos, branding videos, and custom animation solutions."
+        canonical="/services/animation"
+        keywords="2D animation, 3D animation, explainer videos, branding videos, animated videos, storyboarding, video production, animation studio, MediaMatic Studio"
+      />
 
       <div className="min-h-screen bg-background">
 

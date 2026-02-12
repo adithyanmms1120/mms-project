@@ -1,3 +1,4 @@
+import React, { memo } from 'react';
 import { motion } from 'framer-motion';
 import { LucideIcon } from 'lucide-react';
 
@@ -8,7 +9,7 @@ interface CoreValueCardProps {
   index: number;
 }
 
-const CoreValueCard = ({ icon: Icon, title, description, index }: CoreValueCardProps) => {
+const CoreValueCard = memo(({ icon: Icon, title, description, index }: CoreValueCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -24,6 +25,8 @@ const CoreValueCard = ({ icon: Icon, title, description, index }: CoreValueCardP
       <p className="font-body text-sm text-muted-foreground leading-relaxed">{description}</p>
     </motion.div>
   );
-};
+});
+
+CoreValueCard.displayName = "CoreValueCard";
 
 export default CoreValueCard;

@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Palette, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import { SEO } from "@/components/SEO";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -75,13 +75,12 @@ const Designing = () => {
 
     return (
         <>
-            <Helmet>
-                <title>Designing Services | MediaMatic Studio</title>
-                <meta
-                    name="description"
-                    content="Design That Tells Your Story. Logos, branding, and marketing visuals crafted to speak directly to your audience."
-                />
-            </Helmet>
+            <SEO
+                title="Designing Services | MediaMatic Studio"
+                description="Design That Tells Your Story. Logos, branding, and marketing visuals crafted to speak directly to your audience. Professional logo design, brand identity, and creative marketing materials."
+                canonical="/services/designing"
+                keywords="graphic design, logo design, brand identity, marketing visuals, social media graphics, print media design, brand guidelines, creative design, MediaMatic Studio"
+            />
 
             <div className="min-h-screen bg-background">
                 <main ref={sectionRef}>

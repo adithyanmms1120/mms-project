@@ -104,6 +104,7 @@ export const Services = () => {
           opacity: 1,
           duration: 1,
           ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: ".services-heading",
             start: "top 70%", // Trigger earlier
@@ -122,6 +123,7 @@ export const Services = () => {
           duration: 0.7,
           stagger: 0.1,
           ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: ".services-grid",
             start: "top 75%", // Trigger earlier

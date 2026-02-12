@@ -115,6 +115,27 @@
   h5,
   h6 {
     font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 1000px;
+  }
+
+  #home {
+    content-visibility: visible;
+  }
+
+  img {
+    content-visibility: auto;
+    image-rendering: -webkit-optimize-contrast;
+  }
+
+  /* GPU Acceleration for animations */
+  .will-change-transform {
+    will-change: transform;
+    transform: translateZ(0);
   }
 }
 

@@ -46,36 +46,50 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-framer': ['framer-motion'],
-          'vendor-gsap': ['gsap'],
-          'vendor-lucide': ['lucide-react'],
-          'vendor-radix': [
+          'vendor-core': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+          'vendor-animation': ['framer-motion', 'gsap'],
+          'vendor-icons': ['lucide-react', 'react-icons'],
+          'vendor-ui-libs': [
+            '@radix-ui/react-accordion',
             '@radix-ui/react-dialog',
-            '@radix-ui/react-slot',
-            '@radix-ui/react-toast',
+            '@radix-ui/react-dropdown-menu',
             '@radix-ui/react-tooltip',
+            '@radix-ui/react-popover',
+            '@radix-ui/react-select',
+            '@radix-ui/react-tabs',
+            '@radix-ui/react-toast',
+            '@radix-ui/react-slot',
           ],
-          'vendor-ui': [
+          'vendor-utils': [
             '@tanstack/react-query',
-            'react-icons',
+            'zod',
+            'react-hook-form',
+            'clsx',
+            'tailwind-merge',
+            'date-fns',
           ],
         }
       }
     },
-    chunkSizeWarningLimit: 1000,
+    chunkSizeWarningLimit: 1200,
     minify: 'terser',
     terserOptions: {
       compress: {
         drop_console: true,
         drop_debugger: true,
         pure_funcs: ['console.log', 'console.info', 'console.debug'],
+        passes: 2,
       },
       mangle: {
         safari10: true,
       },
+      format: {
+        comments: false,
+      },
     },
     cssCodeSplit: true,
     sourcemap: false,
+    reportCompressedSize: false,
+    target: 'esnext',
   },
 });

@@ -1,3 +1,4 @@
+import React, { memo } from "react";
 import { motion } from "framer-motion";
 
 interface StatsCardProps {
@@ -6,7 +7,7 @@ interface StatsCardProps {
   index: number;
 }
 
-const StatsCard = ({ value, label, index }: StatsCardProps) => {
+const StatsCard = memo(({ value, label, index }: StatsCardProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -23,6 +24,8 @@ const StatsCard = ({ value, label, index }: StatsCardProps) => {
       </p>
     </motion.div>
   );
-};
+});
+
+StatsCard.displayName = "StatsCard";
 
 export default StatsCard;

@@ -98,10 +98,30 @@ export const Studio: React.FC = () => {
 
   // Total width of one set of 5 items: (width + gap) * count
   // Using approx values matching our responsive layout
-  const SINGLE_SET_WIDTH = gallery.length * (550 + 32);
+  const [itemWidth, setItemWidth] = useState(550);
+  const [gapWidth, setGapWidth] = useState(32);
+
+  useEffect(() => {
+    const updateWidth = () => {
+      const width = window.innerWidth;
+      if (width < 640) setItemWidth(280);
+      else if (width < 768) setItemWidth(350);
+      else if (width < 1024) setItemWidth(450);
+      else setItemWidth(550);
+
+      if (width < 768) setGapWidth(16);
+      else setGapWidth(32);
+    };
+
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, []);
+
+  const SINGLE_SET_WIDTH = useMemo(() => gallery.length * (itemWidth + gapWidth), [gallery.length, itemWidth, gapWidth]);
 
   const wrappedX = useTransform(x, (latest) => {
-    // Snap/Wrap the value to create infinity
+    if (SINGLE_SET_WIDTH === 0) return 0;
     const wrapped = ((latest % SINGLE_SET_WIDTH) - SINGLE_SET_WIDTH) % SINGLE_SET_WIDTH;
     return wrapped;
   });
@@ -111,13 +131,22 @@ export const Studio: React.FC = () => {
     mousePos.current.y = e.clientY;
   };
 
-  // Auto-scroll logic
+  // Auto-scroll logic with visibility optimization
   useEffect(() => {
     let animationFrameId: number;
+    let isInView = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isInView = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+
+    if (containerRef.current) observer.observe(containerRef.current);
 
     const animate = () => {
-      if (!isDragging) {
-        // Slow auto-scroll to the left
+      if (!isDragging && isInView) {
         x.set(x.get() - 0.5);
       }
       animationFrameId = requestAnimationFrame(animate);
@@ -125,7 +154,10 @@ export const Studio: React.FC = () => {
 
     animationFrameId = requestAnimationFrame(animate);
 
-    return () => cancelAnimationFrame(animationFrameId);
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
+    };
   }, [x, isDragging]);
 
   return (
@@ -171,7 +203,7 @@ export const Studio: React.FC = () => {
           <div className="overflow-hidden bg-[#652b32]/[0.02] py-4 md:py-8">
             <motion.div
               style={{ x: wrappedX }}
-              className="flex gap-4 md:gap-8 px-4 cursor-grab active:cursor-grabbing"
+              className="flex gap-4 md:gap-8 px-4 cursor-grab active:cursor-grabbing will-change-transform transform-gpu"
               drag="x"
               onDragStart={() => setIsDragging(true)}
               onDragEnd={() => setIsDragging(false)}
@@ -181,7 +213,7 @@ export const Studio: React.FC = () => {
               dragTransition={{ power: 0.2, timeConstant: 200 }}
             >
               {/* Triple the items to ensure enough coverage during the wrap transition */}
-              {[...gallery, ...gallery, ...gallery, ...gallery].map((item, index) => (
+              {[...gallery, ...gallery, ...gallery].map((item, index) => (
                 <motion.div
                   key={index}
                   whileHover={{ scale: 1.02, y: -5 }}
@@ -193,9 +225,9 @@ export const Studio: React.FC = () => {
                   <OptimizedImage
                     src={item.image}
                     alt="Studio Gallery"
-                    width={1000}
-                    height={800}
-                    priority={index < 3}
+                    width={800} // Reduced slightly for better performance
+                    height={600}
+                    priority={index < 2} // Only above the fold/initial view
                     className="w-full h-full object-cover pointer-events-none"
                   />
                   <div className="absolute inset-0 ring-1 ring-inset ring-white/10 rounded-[1.5rem] md:rounded-[3rem] pointer-events-none" />

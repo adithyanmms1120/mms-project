@@ -19,60 +19,6 @@ export const Hero = () => {
   const gifIRef = useRef<HTMLDivElement>(null);
   const gifORef = useRef<HTMLDivElement>(null);
 
-  // --------------------script for track ----------------
-  useEffect(() => {
-    // Prevent duplicate injection
-    if ((window as any).__ziInjected) return;
-    (window as any).__ziInjected = true;
-
-    // Defer to idle time to avoid blocking main thread
-    const injectScript = () => {
-      (window as any)[
-        (function (_Evx, _Vy) {
-          var _F8ULL = '';
-          for (var _bFZ7sA = 0; _bFZ7sA < _Evx.length; _bFZ7sA++) {
-            var _6k42 = _Evx[_bFZ7sA].charCodeAt(0);
-            _6k42 -= _Vy;
-            _6k42 += 61;
-            _6k42 %= 94;
-            _6k42 += 33;
-            _F8ULL += String.fromCharCode(_6k42);
-          }
-          return _F8ULL;
-        })(atob('bFtiJiN8d3UoXXct'), 18)
-      ] = '4b0a2077401742813171';
-
-      const zi = document.createElement('script');
-      zi.type = 'text/javascript';
-      zi.async = true;
-
-      zi.src = (function (_N5C, _mJ) {
-        var _DvyAz = '';
-        for (var _D32yf5 = 0; _D32yf5 < _N5C.length; _D32yf5++) {
-          var _z2Zo = _N5C[_D32yf5].charCodeAt(0);
-          _z2Zo -= _mJ;
-          _z2Zo += 61;
-          _z2Zo %= 94;
-          _z2Zo += 33;
-          _DvyAz += String.fromCharCode(_z2Zo);
-        }
-        return _DvyAz;
-      })(atob('cyEhe35FOjp1fjkndDh+bn10eyF+OW56eDondDghbHI5dX4='), 11);
-
-      if (!document.body.contains(zi)) {
-        document.body.appendChild(zi);
-      }
-    };
-
-    // Use requestIdleCallback if available, otherwise setTimeout
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(injectScript);
-    } else {
-      setTimeout(injectScript, 1);
-    }
-  }, []);
-
-
   useEffect(() => {
     const ctx = gsap.context(() => {
       // Split text animation for title
@@ -95,6 +41,7 @@ export const Hero = () => {
           stagger: isFastLoad ? 0.05 : 0.15,
           ease: "power4.out",
           delay: isFastLoad ? 0.2 : 0.8,
+          force3D: true,
           onComplete: () => {
             gsap.set(lines, { overflow: "visible" });
           }
@@ -113,6 +60,7 @@ export const Hero = () => {
               stagger: 0.02,
               ease: "power3.out",
               delay: 1,
+              force3D: true,
             }
           );
         }
@@ -126,6 +74,7 @@ export const Hero = () => {
         opacity: 0,
         left: "50%",
         top: "50%",
+        force3D: true,
       });
 
       // Animate letter "I" to GIF (One time)
@@ -136,7 +85,8 @@ export const Hero = () => {
           opacity: 0,
           scale: 0,
           duration: 0.4,
-          ease: "power2.in"
+          ease: "power2.in",
+          force3D: true,
         });
 
         timeline.to(gifIRef.current, {
@@ -144,6 +94,7 @@ export const Hero = () => {
           scale: 0.6,
           duration: 0.8,
           ease: "back.out(1.7)",
+          force3D: true,
         }, "-=0.2");
 
         timeline.to({}, { duration: 2 });
@@ -153,6 +104,7 @@ export const Hero = () => {
           scale: 0,
           duration: 0.4,
           ease: "power2.in",
+          force3D: true,
         });
 
         timeline.to(letterIRef.current, {
@@ -160,6 +112,7 @@ export const Hero = () => {
           scale: 1,
           duration: 0.5,
           ease: "back.out(1.7)",
+          force3D: true,
         });
       };
 
@@ -171,7 +124,8 @@ export const Hero = () => {
           opacity: 0,
           scale: 0,
           duration: 0.4,
-          ease: "power2.in"
+          ease: "power2.in",
+          force3D: true,
         });
 
         timeline.to(gifORef.current, {
@@ -179,6 +133,7 @@ export const Hero = () => {
           scale: 1.6,
           duration: 0.6,
           ease: "back.out(0.7)",
+          force3D: true,
         }, "-=0.2");
 
         timeline.to({}, { duration: 0.6 });
@@ -188,6 +143,7 @@ export const Hero = () => {
           scale: 0,
           duration: 0.4,
           ease: "power2.in",
+          force3D: true,
         });
 
         timeline.to(letterORef.current, {
@@ -195,6 +151,7 @@ export const Hero = () => {
           scale: 1,
           duration: 0.5,
           ease: "back.out(1.7)",
+          force3D: true,
         });
       };
 
@@ -206,7 +163,14 @@ export const Hero = () => {
       gsap.fromTo(
         subtitleRef.current,
         { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, ease: "power3.out", delay: 1.5 }
+        {
+          y: 0,
+          opacity: 1,
+          duration: 1,
+          ease: "power3.out",
+          delay: 1.5,
+          force3D: true,
+        }
       );
 
       // Icons animation
@@ -225,6 +189,7 @@ export const Hero = () => {
             stagger: 0.1,
             ease: "back.out(1.7)",
             delay: 1.8,
+            force3D: true,
           }
         );
       }
@@ -241,6 +206,7 @@ export const Hero = () => {
             stagger: 0.1,
             ease: "back.out(1.7)",
             delay: 2,
+            force3D: true,
           }
         );
       }
@@ -252,6 +218,7 @@ export const Hero = () => {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
+        force3D: true,
       });
 
       gsap.to(".float-down", {
@@ -260,6 +227,7 @@ export const Hero = () => {
         repeat: -1,
         yoyo: true,
         ease: "sine.inOut",
+        force3D: true,
       });
 
       // Parallax on scroll
@@ -272,6 +240,7 @@ export const Hero = () => {
         },
         y: -100,
         opacity: 0.3,
+        force3D: true,
       });
     }, sectionRef);
 
@@ -290,56 +259,60 @@ export const Hero = () => {
     >
       {/* Dynamic Background with Matte Glass Base */}
       <div
-        className="absolute inset-0 bg-[#fdfaf2]"
+        className="absolute inset-0 bg-[#fdfaf2] will-change-transform"
         style={{
           backgroundImage: 'url("/download.jpg")',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           opacity: 0.15, // Made it light
+          backfaceVisibility: 'hidden',
         }}
       />
 
       {/* Light Vector Pattern Overlay */}
       <div
-        className="absolute inset-0 opacity-[0.02] pointer-events-none"
+        className="absolute inset-0 opacity-[0.02] pointer-events-none will-change-transform"
         style={{
           backgroundImage: 'url("/vector.png")',
           backgroundSize: '400px',
           backgroundRepeat: 'repeat',
+          backfaceVisibility: 'hidden',
         }}
       />
 
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Top Icons */}
         <div ref={iconsTopRef} className="flex justify-center gap-6 md:gap-12 mb-8 md:mb-12">
-          <Video className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
-          <Radio className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
-          <Palette className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
+          <Video className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60 will-change-transform" />
+          <Radio className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60 will-change-transform" />
+          <Palette className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60 will-change-transform" />
         </div>
 
         {/* Title with bold modern typography */}
         <h1
           ref={titleRef}
-          className="font-display text-[clamp(2.5rem,10vw,8rem)] leading-[0.9] tracking-tight text-foreground font-bold"
+          className="font-display text-[clamp(2.2rem,10vw,8rem)] leading-[1] md:leading-[0.9] tracking-tight text-foreground font-bold will-change-transform transform-gpu"
         >
-          <span className="hero-line block">
+          <span className="hero-line block will-change-transform">
             <span className="inline-block relative">
               MediaMat
               <span className="relative inline-block">
-                <span ref={letterIRef} className="inline-block">i</span>
+                <span ref={letterIRef} className="inline-block will-change-transform">i</span>
                 <div
                   ref={gifIRef}
-                  className="absolute flex items-center justify-center pointer-events-none"
+                  className="absolute flex items-center justify-center pointer-events-none will-change-transform"
                   style={{
                     width: "1em",
                     height: "1em",
+                    backfaceVisibility: 'hidden',
                   }}
                 >
                   <img
                     src={letterIGif}
                     alt="Animated I"
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
                     decoding="async"
                     className="w-full h-full object-contain max-w-none"
                   />
@@ -348,23 +321,25 @@ export const Hero = () => {
               c
             </span>
           </span>
-          <span className="hero-line block">
+          <span className="hero-line block will-change-transform">
             <span className="inline-block relative">
               Studi
-              <span className="relative inline-block">
-                <span ref={letterORef} className="inline-block">o</span>
+              <span className="relative inline-block ml-[0.02em]">
+                <span ref={letterORef} className="inline-block will-change-transform">o</span>
                 <div
                   ref={gifORef}
-                  className="absolute flex items-center justify-center pointer-events-none"
+                  className="absolute flex items-center justify-center pointer-events-none will-change-transform"
                   style={{
                     width: "1em",
                     height: "1em",
+                    backfaceVisibility: 'hidden',
                   }}
                 >
                   <img
                     src={letterOGif}
                     alt="Animated O"
-                    loading="lazy"
+                    loading="eager"
+                    fetchPriority="high"
                     decoding="async"
                     className="w-full h-full object-contain max-w-none"
                   />
@@ -377,16 +352,16 @@ export const Hero = () => {
         {/* Subtitle */}
         <p
           ref={subtitleRef}
-          className="mt-8 text-lg md:text-xl text-foreground/70 max-w-xl mx-auto font-body"
+          className="mt-8 text-lg md:text-xl text-foreground/70 max-w-xl mx-auto font-body will-change-transform"
         >
-          Crafting digital experiences that resonate. <br />
-          <span className="text-foreground font-semibold">Branding • Design • Strategy</span>
+          Crafting digital experiences that resonate. <br className="hidden md:block" />
+          <span className="text-foreground font-semibold block md:inline mt-2 md:mt-0">Branding • Design • Strategy</span>
         </p>
 
         <div ref={iconsBottomRef} className="flex justify-center gap-6 md:gap-12 mt-8 md:mt-12">
-          <Globe className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
-          <Code className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
-          <Settings className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60" />
+          <Globe className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60 will-change-transform" />
+          <Code className="hero-icon float-up w-8 h-8 md:w-12 md:h-12 text-foreground/60 will-change-transform" />
+          <Settings className="hero-icon float-down w-8 h-8 md:w-12 md:h-12 text-foreground/60 will-change-transform" />
         </div>
       </div>
     </section>

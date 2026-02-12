@@ -2,6 +2,7 @@ import React, { useEffect, Suspense, lazy } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Hero } from "@/components/Hero";
+import { SEO } from "@/components/SEO";
 
 // Lazy load heavy sections
 const About = lazy(() => import("@/components/About").then(m => ({ default: m.About })));
@@ -30,17 +31,25 @@ const Index = () => {
   }, []);
 
   return (
-    <main className="relative overflow-x-hidden">
-      <Hero />
-      <Suspense fallback={<SectionLoader />}>
-        <About />
-        <Services />
-        <Studio />
-        <BrandStatement />
-        <Contact />
-        <Footer />
-      </Suspense>
-    </main>
+    <>
+      <SEO
+        title="MediaMatic Studio | Digital Marketing & Web Development Agency"
+        description="Transform your digital presence with MediaMatic Studio. Expert web development, digital marketing, SEO, creative design, animation, and content management services. Your trusted partner for online success."
+        canonical="/"
+        keywords="digital marketing agency, web development, SEO services, website design, mobile app development, content marketing, social media marketing, animation studio, graphic design, MediaMatic Studio"
+      />
+      <main className="relative overflow-x-hidden">
+        <Hero />
+        <Suspense fallback={<SectionLoader />}>
+          <About />
+          <Services />
+          <Studio />
+          <BrandStatement />
+          <Contact />
+          <Footer />
+        </Suspense>
+      </main>
+    </>
   );
 };
 

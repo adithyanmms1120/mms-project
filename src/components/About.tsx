@@ -1,9 +1,10 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo, useMemo } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
 
 import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import StatsCard from "@/components/StatsCard";
 import CoreValueCard from "@/components/CoreValueCard";
@@ -31,6 +32,99 @@ import cooImg from "../assets/TH-01.webp";
 import adminImg from "../assets/Re-01.webp";
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* =========================
+          DATA
+  ========================= */
+const values = [
+  { icon: Shield, title: "Integrity", description: "Doing what's right, always." },
+  { icon: Lightbulb, title: "Innovation", description: "Opening doors to new ideas." },
+  { icon: Users, title: "Teamwork", description: "Together we grow." },
+  { icon: CheckCircle, title: "Reliability", description: "Delivering results." },
+];
+
+const leaders = [
+  {
+    name: "Zulfikar S",
+    role: "Founder & CEO",
+    img: ceoImg,
+    link: "https://www.linkedin.com/in/szulfikar"
+  },
+  {
+    name: "Thasleema N",
+    role: "Co-Founder & COO",
+    img: cooImg,
+    link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/"
+  },
+  {
+    name: "Reshma S",
+    role: "Director of Admin",
+    img: adminImg,
+    link: "https://www.linkedin.com/in/reshma-s-1b7218276/"
+  },
+];
+
+const stats = [
+  { value: "2+", label: "Branch office " },
+  { value: "118+", label: "Web & App Projects" },
+  { value: "75+", label: "Corporate Video Shoots" },
+  { value: "124+", label: "Digital Marketing" },
+];
+
+const vision2026 = [
+  { icon: Globe, value: "5+", label: "Global Virtual Office" },
+  { icon: Building2, value: "5+", label: "PAN India Channel Partners" },
+  { icon: Users2, value: "100+", label: "Corporate Video Shoots" },
+  { icon: Rocket, value: "500+", label: "Web & App Projects" },
+  { icon: Users, value: "100+", label: "Technical Team" },
+  { icon: Server, value: "2000+", label: "Hosting Clients" },
+];
+
+const coreValues2026 = [
+  {
+    icon: Shield,
+    title: "Integrity & Transparency",
+    description: "Integrity is doing what's right, even when no one is watching."
+  },
+  {
+    icon: Lightbulb,
+    title: "Innovation & Adaptability",
+    description: "Innovation opens doors, adaptability keeps them open."
+  },
+  {
+    icon: Users,
+    title: "Collaboration & Teamwork",
+    description: "Teamwork turns dreams into reality."
+  },
+  {
+    icon: CheckCircle,
+    title: "Reliability & Accountability",
+    description: "True integrity is delivering not just words, but results."
+  },
+];
+
+const workStages = [
+  {
+    icon: Search,
+    title: "Discovery Phase",
+    description: "During this initial stage, we deep dive into understanding the client's business goals, target audience, and market landscape. We conduct thorough research and analysis to identify opportunities and challenges, laying the foundation for a successful campaign."
+  },
+  {
+    icon: Target,
+    title: "Strategy Development",
+    description: "With insights gathered from the discovery phase, we develop a customized strategy tailored to your specific needs and objectives. This comprehensive plan outlines the key tactics, channels, and timelines needed to achieve your business goals effectively."
+  },
+  {
+    icon: Zap,
+    title: "Implementation & Execution",
+    description: "Once the strategy is finalized and approved, we roll up our sleeves and put the plans into action. Our expert team utilizes cutting-edge tools and techniques to execute each component of the strategy with precision and efficiency,Whether it’s optimizing your website for search engines, crafting engaging social media content, or designing captivating visuals, we focus on delivering results that matter."
+  },
+  {
+    icon: LineChart,
+    title: "Monitoring & Optimization",
+    description: "Continuous monitoring and optimization are essential to ensure the success and effectiveness of our projects. We closely track key performance indicators (KPIs) and metrics, analysing data to identify areas of improvement and making necessary adjustments to optimize results. This interactive process allows us to adapt changes in the market and maximize the return on your investments."
+  },
+];
 
 export const About = () => {
   const heroRef = useRef<HTMLDivElement | null>(null);
@@ -103,99 +197,6 @@ export const About = () => {
 
     return () => ctx.revert();
   }, [isMobile]);
-
-  /* =========================
-          DATA
-  ========================= */
-  const values = [
-    { icon: Shield, title: "Integrity", description: "Doing what's right, always." },
-    { icon: Lightbulb, title: "Innovation", description: "Opening doors to new ideas." },
-    { icon: Users, title: "Teamwork", description: "Together we grow." },
-    { icon: CheckCircle, title: "Reliability", description: "Delivering results." },
-  ];
-
-  const leaders = [
-    {
-      name: "Zulfikar S",
-      role: "Founder & CEO",
-      img: ceoImg,
-      link: "https://www.linkedin.com/in/szulfikar"
-    },
-    {
-      name: "Thasleema N",
-      role: "Co-Founder & COO",
-      img: cooImg,
-      link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/"
-    },
-    {
-      name: "Reshma S",
-      role: "Director of Admin",
-      img: adminImg,
-      link: "https://www.linkedin.com/in/reshma-s-1b7218276/"
-    },
-  ];
-
-  const stats = [
-    { value: "2+", label: "Branch office " },
-    { value: "118+", label: "Web & App Projects" },
-    { value: "75+", label: "Corporate Video Shoots" },
-    { value: "124+", label: "Digital Marketing" },
-  ];
-
-  const vision2026 = [
-    { icon: Globe, value: "5+", label: "Global Virtual Office" },
-    { icon: Building2, value: "5+", label: "PAN India Channel Partners" },
-    { icon: Users2, value: "100+", label: "Corporate Video Shoots" },
-    { icon: Rocket, value: "500+", label: "Web & App Projects" },
-    { icon: Users, value: "100+", label: "Technical Team" },
-    { icon: Server, value: "2000+", label: "Hosting Clients" },
-  ];
-
-  const coreValues2026 = [
-    {
-      icon: Shield,
-      title: "Integrity & Transparency",
-      description: "Integrity is doing what's right, even when no one is watching."
-    },
-    {
-      icon: Lightbulb,
-      title: "Innovation & Adaptability",
-      description: "Innovation opens doors, adaptability keeps them open."
-    },
-    {
-      icon: Users,
-      title: "Collaboration & Teamwork",
-      description: "Teamwork turns dreams into reality."
-    },
-    {
-      icon: CheckCircle,
-      title: "Reliability & Accountability",
-      description: "True integrity is delivering not just words, but results."
-    },
-  ];
-
-  const workStages = [
-    {
-      icon: Search,
-      title: "Discovery Phase",
-      description: "During this initial stage, we deep dive into understanding the client's business goals, target audience, and market landscape. We conduct thorough research and analysis to identify opportunities and challenges, laying the foundation for a successful campaign."
-    },
-    {
-      icon: Target,  // Fixed: Changed from TargetIcon to Target
-      title: "Strategy Development",
-      description: "With insights gathered from the discovery phase, we develop a customized strategy tailored to your specific needs and objectives. This comprehensive plan outlines the key tactics, channels, and timelines needed to achieve your business goals effectively."
-    },
-    {
-      icon: Zap,
-      title: "Implementation & Execution",
-      description: "Once the strategy is finalized and approved, we roll up our sleeves and put the plans into action. Our expert team utilizes cutting-edge tools and techniques to execute each component of the strategy with precision and efficiency,Whether it’s optimizing your website for search engines, crafting engaging social media content, or designing captivating visuals, we focus on delivering results that matter."
-    },
-    {
-      icon: LineChart,
-      title: "Monitoring & Optimization",
-      description: "Continuous monitoring and optimization are essential to ensure the success and effectiveness of our projects. We closely track key performance indicators (KPIs) and metrics, analysing data to identify areas of improvement and making necessary adjustments to optimize results. This interactive process allows us to adapt changes in the market and maximize the return on your investments."
-    },
-  ];
 
   /* =========================
         ANIMATION VARIANTS
@@ -275,8 +276,8 @@ export const About = () => {
     }
   };
 
-  const WordReveal = ({ text, className = "" }: { text: string; className?: string }) => {
-    const words = text.split(" ");
+  const WordReveal = memo(({ text, className = "" }: { text: string; className?: string }) => {
+    const words = useMemo(() => text.split(" "), [text]);
     return (
       <div className={`flex flex-wrap ${className}`}>
         {words.map((word, i) => (
@@ -284,13 +285,13 @@ export const About = () => {
             <motion.span
               initial={{ y: "100%", opacity: 0 }}
               whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true }}
+              viewport={{ once: true, margin: "-50px" }}
               transition={{
                 duration: 0.8,
                 delay: i * 0.02,
                 ease: [0.215, 0.61, 0.355, 1],
               }}
-              className="inline-block"
+              className="inline-block will-change-transform"
             >
               {word === "" ? "\u00A0" : word}
             </motion.span>
@@ -298,15 +299,17 @@ export const About = () => {
         ))}
       </div>
     );
-  };
+  });
+
+  WordReveal.displayName = "WordReveal";
 
   return (
-    <section className="bg-[#652b32] text-primary-foreground relative" id="about">
+    <section className="bg-[#652b32] text-primary-foreground relative z-0" id="about">
       {/* Subtle Background Gradient for Depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/10 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent pointer-events-none" />
 
       {/* ================= HERO ================= */}
-      <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "min-h-screen"} overflow-hidden bg-[#652b32]`}>
+      <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "h-screen"} overflow-hidden bg-[#652b32]`}>
         {/* VIDEO - Mobile responsive behavior */}
         {isMobile ? (
           /* MOBILE VIDEO LAYOUT */
@@ -408,16 +411,17 @@ export const About = () => {
                 muted
                 loop
                 playsInline
-                preload="metadata"
-                className="w-full h-full object-cover"
+                preload="auto"
+                className="w-full h-full object-cover transform-gpu"
+                style={{ willChange: "transform, width, height, border-radius" }}
               />
             </div>
 
             {/* HERO CONTENT */}
             <motion.div
               ref={contentRef}
-              initial={{ opacity: 0 }}
-              className="relative z-20 container mx-auto px-8 h-screen grid lg:grid-cols-2 items-center gap-16"
+              initial={{ opacity: 0, y: 20 }}
+              className="relative z-20 container mx-auto px-8 h-full grid lg:grid-cols-2 items-center gap-16"
             >
               {/* TEXT */}
               <div className="text-[#fdf3b7]">
@@ -440,15 +444,25 @@ export const About = () => {
                   MediaMatic Studio
                 </motion.h1>
 
-                <WordReveal
-                  text="MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally."
+                <motion.p
                   className="text-lg mb-4 max-w-xl"
-                />
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={2}
+                >
+                  MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally.
+                </motion.p>
 
-                <WordReveal
-                  text="Over the years, we have built a reputation for being innovative, reliable, and committed to excellence."
+                <motion.p
                   className="text-lg mb-8 max-w-xl"
-                />
+                  variants={fadeUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={3}
+                >
+                  Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
+                </motion.p>
 
                 <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
                   <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
@@ -467,7 +481,7 @@ export const About = () => {
       </div>
 
       {/* ================= MAIN CONTENT ================= */}
-      <div className="bg-[#652b32] relative">
+      <div className="bg-[#652b32] relative z-10 -mt-[1px]">
         <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-20">
           {/* Company Story */}
           <motion.div
@@ -528,11 +542,11 @@ export const About = () => {
           </motion.div>
 
           {/* STATS */}
-          <div className="mb-16 lg:mb-24">
-            <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+          <div className="mb-12 lg:mb-16">
+            <h3 className="text-2xl lg:text-3xl font-bold text-center mb-6 lg:mb-10 text-[#fdf3b7]">
               Our Current Stats
             </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-12 ">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8 ">
               {stats.map((s, i) => (
                 <motion.div
                   key={s.label}
@@ -554,12 +568,12 @@ export const About = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="mb-16 lg:mb-32"
+            className="mb-12 lg:mb-20"
           >
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-center mb-8 lg:mb-16 text-[#fdf3b7] uppercase tracking-wider">
+            <h3 className="text-2xl md:text-3xl lg:text-3xl font-black text-center mb-6 lg:mb-10 text-[#fdf3b7] uppercase tracking-wider">
               Our 2026 Vision
             </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 md:gap-8">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
               {vision2026.map((item, i) => (
                 <motion.div
                   key={item.label}
@@ -589,9 +603,9 @@ export const About = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="mb-16 lg:mb-32"
+            className="mb-12 lg:mb-20"
           >
-            <h3 className="text-2xl md:text-3xl lg:text-4xl font-black text-center mb-8 lg:mb-16 text-[#fdf3b7] uppercase tracking-wider">
+            <h3 className="text-2xl md:text-3xl lg:text-3xl font-black text-center mb-6 lg:mb-10 text-[#fdf3b7] uppercase tracking-wider">
               MMS Core Values
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -606,7 +620,7 @@ export const About = () => {
                   whileHover="hover"
                   className="group"
                 >
-                  <div className="h-full bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] p-7 md:p-8 rounded-[2.5rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500">
+                  <div className="h-full bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] p-7 md:p-8 rounded-[2.5rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500 will-change-transform transform-gpu">
                     <div className="p-4 bg-white/5 rounded-2xl w-fit mb-6 group-hover:bg-white/10 transition-all duration-500">
                       <value.icon className="w-7 h-7 lg:w-8 lg:h-8 text-[#fdf3b7] group-hover:scale-110 transition-transform duration-500" />
                     </div>
@@ -624,9 +638,9 @@ export const About = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="mb-16 lg:mb-24"
+            className="mb-12 lg:mb-16"
           >
-            <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
+            <h3 className="text-2xl lg:text-3xl font-bold text-center mb-6 lg:mb-10 text-[#fdf3b7]">
               Our Strategy of Work
             </h3>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -652,7 +666,7 @@ export const About = () => {
                         <span className="text-sm font-semibold text-[#fdf3b7]/50 group-hover:text-[#fdf3b7] transition-colors">Stage {i + 1}</span>
                       </div>
                       <h4 className="text-lg lg:text-xl font-bold mb-3 text-[#fdf3b7] group-hover:text-[#fdf3b7] transition-colors">{stage.title}</h4>
-                      <p className="text-[#fdf3b7]/80 text-sm lg:text-base group-hover:text-[#fdf3b7]/90 transition-colors">{stage.description}</p>
+                      <p className="text-[#fdf3b7]/80 text-base md:text-lg lg:text-xl group-hover:text-[#fdf3b7]/90 transition-colors">{stage.description}</p>
                     </div>
                   </div>
                 </motion.div>
@@ -660,8 +674,84 @@ export const About = () => {
             </div>
           </motion.div>
 
-          {/* LEADERSHIP - Fixed to redirect on entire card click */}
-          <div className="mb-8">
+          {/* BRAND JOURNEY SECTION - REDESIGNED TO MATCH CORE VALUES STYLE */}
+          <motion.div
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            viewport={{ once: true }}
+            className="mb-12 lg:mb-20 bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500"
+          >
+            {/* Background Decorative Circles */}
+            <div className="absolute -top-20 -right-20 w-80 h-80 bg-yellow-400/5 rounded-full blur-[100px]" />
+            <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-[100px]" />
+
+            <div className="relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-16 items-center lg:items-start">
+              <div className="flex-1">
+                <motion.span
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="text-yellow-400 font-bold uppercase tracking-[0.2em] text-xs mb-4 block"
+                >
+                  Shape Something Remarkable
+                </motion.span>
+                <motion.h3
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  className="text-3xl md:text-5xl lg:text-6xl font-black text-[#fdf3b7] leading-[1.1] tracking-tighter mb-6"
+                >
+                  Build a Brand <br /> That Speaks
+                </motion.h3>
+              </div>
+
+              <div className="flex-1 space-y-6">
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4 }}
+                  className="text-base md:text-lg text-[#fdf3b7]/80 leading-relaxed font-medium"
+                >
+                  Mediamatic Studio builds meaningful brands through strategy, design, content, and digital experiences that drive business growth.
+                </motion.p>
+
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 }}
+                  className="text-base md:text-lg font-bold text-[#fdf3b7]/90"
+                >
+                  If you’re ready to shape something remarkable, let’s talk.
+                </motion.p>
+
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 }}
+                  className="flex flex-wrap gap-6 pt-4"
+                >
+                  <Link
+                    to="/get-quote"
+                    className="px-6 py-4 rounded-xl font-bold bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-[#652b32] transition-all duration-300 uppercase tracking-widest text-xs"
+                  >
+                    Start Your Brand Journey
+                  </Link>
+                  <a
+                    href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="relative px-8 py-4 rounded-xl font-bold bg-yellow-400 text-[#652b32] shadow-[0_5px_0_#9a7d0a] hover:shadow-[0_3px_0_#9a7d0a] hover:translate-y-[2px] active:shadow-none active:translate-y-[5px] transition-all duration-150 uppercase tracking-widest text-xs text-center"
+                  >
+                    Pay Now
+                  </a>
+                </motion.div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* LEADERSHIP */}
+          <div className="mb-0">
             <h3 className="text-2xl lg:text-4xl font-bold text-center mb-8 lg:mb-14 text-[#fdf3b7]">
               Our Leadership
             </h3>

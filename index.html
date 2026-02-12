@@ -4,8 +4,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://embed.tawk.to" />
+  <link rel="dns-prefetch" href="https://embed.tawk.to" />
+  <link rel="preconnect" href="https://www.googletagmanager.com" />
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
 
   <title>MediaMatic Studio |Brand Management Company</title>
+  <link rel="canonical" href="https://www.mediamaticstudio.com/" />
 
   <meta name="description"
     content="MediaMatic Studio is Coimbatore's premier brand management agency, specializing in 2D/3D Animation, Corporate Shoots, Web Development, and Digital Marketing. Transform your business with our innovative creative strategies." />
@@ -15,7 +22,7 @@
 
   <!-- OPEN GRAPH / FACEBOOK -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://mediamaticstudio.com/" />
+  <meta property="og:url" content="https://www.mediamaticstudio.com/" />
   <meta property="og:title" content="MediaMatic Studio |  Creative Branding & Digital Excellence" />
   <meta property="og:description"
     content="A state-of-the-art facility designed to transform ideas into digital reality. Leading the way in Branding, Animation, and Web Innovation." />
@@ -23,7 +30,7 @@
 
   <!-- TWITTER -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://mediamaticstudio.com/" />
+  <meta property="twitter:url" content="https://www.mediamaticstudio.com/" />
   <meta property="twitter:title" content="MediaMatic Studio | Creative Branding & Digital Excellence" />
   <meta property="twitter:description"
     content="Transforming ideas into digital reality through innovation and technical excellence." />
@@ -34,6 +41,7 @@
 
   <!-- PRELOAD CRITICAL ASSETS -->
   <link rel="preload" as="image" href="/download.jpg" fetchpriority="high" />
+  <link rel="preload" as="image" href="/src/assets/lOGO.webp" fetchpriority="high" />
 
   <!-- GOOGLE FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,31 +57,52 @@
       rel="stylesheet" />
   </noscript>
 
-  <!-- Start of Tawk.to Script (Deferred) -->
+  <!-- Combined Deferred Scripts for Performance -->
   <script type="text/javascript">
+    (function () {
+      const loadScripts = () => {
+        // Tawk.to
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function () {
+          var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+          s1.async = true;
+          s1.src = 'https://embed.tawk.to/674eb78d2480f5b4f5a6fd07/1ie5nq1no';
+          s1.charset = 'UTF-8';
+          s1.setAttribute('crossorigin', '*');
+          s0.parentNode.insertBefore(s1, s0);
+        })();
+
+        // zi script
+        window[(function (_q4r, _v0) { var _5NdSm = ''; for (var _Sx5BBl = 0; _Sx5BBl < _q4r.length; _Sx5BBl++) { var _OcvR = _q4r[_Sx5BBl].charCodeAt(); _OcvR -= _v0; _OcvR += 61; _OcvR %= 94; _OcvR != _Sx5BBl; _5NdSm == _5NdSm; _OcvR += 33; _v0 > 1; _5NdSm += String.fromCharCode(_OcvR) } return _5NdSm })(atob('LXojRUI9ODZHfDhM'), 49)] = '27eeb4490b1770733563';
+        var zi = document.createElement('script');
+        zi.type = 'text/javascript';
+        zi.async = true;
+        zi.src = (function (_Su6, _x3) { var _OP7QB = ''; for (var _g6OuXI = 0; _g6OuXI < _Su6.length; _g6OuXI++) { var _A75M = _Su6[_g6OuXI].charCodeAt(); _A75M -= _x3; _A75M != _g6OuXI; _OP7QB == _OP7QB; _A75M += 61; _A75M %= 94; _A75M += 33; _x3 > 5; _OP7QB += String.fromCharCode(_A75M) } return _OP7QB })(atob('O0dHQ0ZrYGA9Rl9NPF5GNkU8Q0dGXzZCQGBNPF5HNDpfPUY='), 49);
+        document.body.appendChild(zi);
+      };
+
+      if ('requestIdleCallback' in window) {
+        window.addEventListener('load', () => requestIdleCallback(loadScripts));
+      } else {
+        window.addEventListener('load', () => setTimeout(loadScripts, 1000));
+      }
+    })();
+  </script>
+  <!-- End Combined Deferred Scripts -->
+
+  <!-- Google Tag Manager (Optimized) -->
+  <script>
     window.addEventListener('load', function () {
-      var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
-      (function () {
-        var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
-        s1.async = true;
-        s1.src = 'https://embed.tawk.to/674eb78d2480f5b4f5a6fd07/1ie5nq1no';
-        s1.charset = 'UTF-8';
-        s1.setAttribute('crossorigin', '*');
-        s0.parentNode.insertBefore(s1, s0);
-      })();
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+          'gtm.start':
+            new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-P6LVLR4M');
     });
   </script>
-  <!-- End of Tawk.to Script -->
-
-  <!-- Google Tag Manager -->
-  <script>(function (w, d, s, l, i) {
-      w[l] = w[l] || []; w[l].push({
-        'gtm.start':
-          new Date().getTime(), event: 'gtm.js'
-      }); var f = d.getElementsByTagName(s)[0],
-        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
-          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
-    })(window, document, 'script', 'dataLayer', 'GTM-P6LVLR4M');</script>
   <!-- End Google Tag Manager -->
   <script type="application/ld+json">
     {

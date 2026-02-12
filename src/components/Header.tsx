@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { Menu, X, ChevronDown } from "lucide-react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import logo from "@/assets/lOGO.webp";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -10,14 +10,12 @@ gsap.registerPlugin(ScrollTrigger);
 /* ================= NAV DATA ================= */
 
 const navLinks = [
-  { label: "Home", href: "#home" },
-  { label: "About Us", href: "#about" },
-  { label: "Services", href: "#services", hasDropdown: true },
-  { label: "STUDIO HUB", href: "#studio" },
-  { label: "Brand Management", href: "#brandstatements" },
-  { label: "Contact Us", href: "#contact" },
-  // { label: "Corporate Shoot ", href: "#" },
-  // { label: "Blog", href: "#" },
+  { label: "Home", href: "#home", id: "home" },
+  { label: "About Us", href: "#about", id: "about" },
+  { label: "Services", href: "#services", id: "services", hasDropdown: true },
+  { label: "STUDIO HUB", href: "#studio", id: "studio" },
+  { label: "Brand Management", href: "#brandstatements", id: "brandstatements" },
+  { label: "Contact Us", href: "/get-quote", isSubPage: true },
 ];
 
 const serviceLinks = [
@@ -36,6 +34,7 @@ export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("home");
   const lastScrollY = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -51,7 +50,7 @@ export const Header = () => {
     gsap.fromTo(
       headerRef.current,
       { y: -100, opacity: 0 },
-      { y: 0, opacity: 1, duration: 1, ease: "power3.out" }
+      { y: 0, opacity: 1, duration: 1, ease: "power3.out", force3D: true }
     );
   }, []);
 
@@ -61,28 +60,41 @@ export const Header = () => {
   useEffect(() => {
     const onScroll = () => {
       const currentScrollY = window.scrollY;
-      const isHomePage = location.pathname === "/" || location.pathname === "/"; // Adjust for basename if needed
+      const isHomePage = location.pathname === "/";
+
+      // Detect active section for ScrollSpy
+      if (isHomePage) {
+        const sections = navLinks
+          .filter(link => link.id)
+          .map(link => document.getElementById(link.id!));
+
+        let currentSection = activeSection;
+        sections.forEach(section => {
+          if (section) {
+            const rect = section.getBoundingClientRect();
+            if (rect.top <= 150) {
+              currentSection = section.id;
+            }
+          }
+        });
+        setActiveSection(currentSection);
+      }
 
       // Determine direction for hiding
       if (isHomePage && currentScrollY > lastScrollY.current && currentScrollY > 100) {
-        // Scrolling down & past header (ONLY ON HOME PAGE)
         setIsVisible(false);
       } else {
-        // Scrolling up, at top, or on SUB-PAGES
         setIsVisible(true);
       }
 
-      // Background logic: Always solid on sub-pages, scroll-dependent on Home
       setIsScrolled(currentScrollY > 60 || !isHomePage);
       lastScrollY.current = currentScrollY;
     };
 
-    // Run once on mount and route change
     onScroll();
-
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [location.pathname]);
+  }, [location.pathname, activeSection]);
 
   /* Mobile menu animation */
   useEffect(() => {
@@ -105,10 +117,17 @@ export const Header = () => {
   const handleNavClick = (href: string, isSubPage?: boolean) => {
     setIsOpen(false);
     setMobileServiceOpen(false);
+    setServiceOpen(false);
 
     // External links
     if (href.startsWith("http")) {
       window.open(href, "_blank", "noopener,noreferrer");
+      return;
+    }
+
+    // If we're already on that page and it's a sub-page link, do nothing
+    if (isSubPage && location.pathname === href) {
+      window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
 
@@ -122,15 +141,10 @@ export const Header = () => {
 
     // Anchor links
     if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(() => {
-        const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: "auto" });
-      }, 100);
+      navigate("/" + href);
       return;
     }
 
-    // Offset for fixed header
     const el = document.querySelector(href);
     if (el) {
       const offset = 80;
@@ -138,7 +152,7 @@ export const Header = () => {
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       window.scrollTo({
         top: offsetPosition,
-        behavior: "auto"
+        behavior: "auto" // Changed to instant jump
       });
     }
   };
@@ -147,7 +161,7 @@ export const Header = () => {
     <>
       <header
         ref={headerRef}
-        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 will-change-transform
         ${isVisible ? "translate-y-0" : "-translate-y-full"}
         ${isScrolled ? "bg-background shadow-lg" : "bg-transparent"}`}
       >
@@ -160,17 +174,19 @@ export const Header = () => {
                 e.preventDefault();
                 handleNavClick("#home");
               }}
-              className="flex items-center"
+              className="flex items-center flex-shrink-0"
             >
               <img
                 src={logo}
-                className="h-11 md:h-12 transition-transform duration-300 hover:scale-105 drop-shadow-lg brightness-110 contrast-125"
+                className="h-10 xl:h-12 transition-transform duration-300 hover:scale-105 drop-shadow-md brightness-110 contrast-125"
                 alt="MediaMatic Logo"
+                loading="eager"
+                decoding="async"
               />
             </a>
 
             {/* Desktop Nav */}
-            <div className="hidden lg:flex items-center gap-7">
+            <div className="hidden xl:flex items-center gap-6 xxl:gap-8">
               {navLinks.map((link) =>
                 link.hasDropdown ? (
                   <div
@@ -190,22 +206,23 @@ export const Header = () => {
                         e.preventDefault();
                         handleNavClick(link.href);
                       }}
-                      className="flex items-center gap-1 text-sm uppercase tracking-wide hover:text-primary transition"
+                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${activeSection === "services" ? "after:w-full text-primary" : "after:w-0"}`}
                     >
                       Services <ChevronDown size={14} />
                     </a>
 
                     {serviceOpen && (
-                      <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10">
+                      <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10 border border-foreground/5">
                         {serviceLinks.map((s) => (
                           <a
                             key={s.label}
                             href={s.href}
                             onClick={(e) => {
                               e.preventDefault();
+                              setServiceOpen(false); // Close dropdown
                               handleNavClick(s.href, true);
                             }}
-                            className="block px-5 py-3 text-sm hover:bg-muted transition"
+                            className="block px-5 py-3 text-sm transition-all duration-300 hover:bg-[#652b32] hover:text-[#faf3e0] text-foreground/70 font-medium"
                           >
                             {s.label}
                           </a>
@@ -214,45 +231,41 @@ export const Header = () => {
                     )}
                   </div>
                 ) : link.label === "Contact Us" ? (
-                  <a
+                  <Link
                     key={link.label}
-                    href={link.href}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(link.href);
-                    }}
-                    className="px-7 py-3 rounded-full font-bold text-[#faf3e0] bg-[#652b32] hover:bg-[#652b32]/90 transition-all duration-300 shadow-md inline-block text-center text-[11px] uppercase tracking-[0.2em]"
+                    to="/get-quote"
+                    className="px-5 xl:px-7 py-2 rounded-full font-bold text-[#faf3e0] bg-[#652b32] hover:bg-[#652b32]/90 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md inline-block text-center text-[10px] xl:text-[12px] uppercase tracking-[0.15em] whitespace-nowrap"
                   >
                     {link.label}
-                  </a>
+                  </Link>
                 ) : (
                   <a
                     key={link.label}
                     href={link.href}
                     onClick={(e) => {
                       e.preventDefault();
-                      handleNavClick(link.href);
+                      handleNavClick(link.href, (link as any).isSubPage);
                     }}
-                    className="relative text-sm uppercase tracking-wide after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:w-0 after:bg-primary after:transition-all hover:after:w-full"
+                    className={`relative text-[12px] xl:text-[13px] uppercase tracking-wider whitespace-nowrap after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all hover:after:w-full ${activeSection === link.id ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                   >
                     {link.label}
                   </a>
                 )
               )}
 
-              {/* Pay Now */}
+              {/* GET QUOTE Button */}
               <a
-                href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
+                href="/get-quote"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-4 px-6 py-2 rounded-full font-semibold text-black bg-gradient-to-r from-yellow-400 to-yellow-300 hover:from-yellow-300 hover:to-yellow-400 transition shadow-md inline-block text-center"
+                className="ml-2 xl:ml-4 px-6 xl:px-9 py-3.5 rounded-xl font-black text-[#652b32] bg-yellow-400 hover:bg-yellow-300 transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.3)] hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:scale-105 active:scale-95 inline-block text-center text-[10px] xl:text-[12px] uppercase tracking-[0.15em]"
               >
-                Pay Now
+                GET QUOTE
               </a>
             </div>
 
             {/* Mobile Toggle */}
-            <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden p-2">
+            <button onClick={() => setIsOpen(!isOpen)} className="xl:hidden p-2">
               {isOpen ? <X /> : <Menu />}
             </button>
           </nav>
@@ -289,7 +302,7 @@ export const Header = () => {
                   </div>
 
                   {mobileServiceOpen && (
-                    <div className="mt-4 space-y-3">
+                    <div className="mt-4 space-y-2 w-full">
                       {serviceLinks.map((s) => (
                         <a
                           key={s.label}
@@ -298,7 +311,7 @@ export const Header = () => {
                             e.preventDefault();
                             handleNavClick(s.href, true);
                           }}
-                          className="block opacity-80 hover:opacity-100 transition"
+                          className="block py-3 px-6 rounded-xl text-lg opacity-80 hover:opacity-100 hover:bg-[#652b32] hover:text-[#faf3e0] transition-all duration-300"
                         >
                           {s.label}
                         </a>
@@ -307,24 +320,21 @@ export const Header = () => {
                   )}
                 </div>
               ) : link.label === "Contact Us" ? (
-                <a
+                <Link
                   key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.href);
-                  }}
+                  to="/get-quote"
+                  onClick={() => setIsOpen(false)}
                   className="px-10 py-4 rounded-full font-bold text-[#faf3e0] bg-[#652b32] active:scale-95 transition-all shadow-xl inline-block text-center text-2xl uppercase tracking-widest"
                 >
                   {link.label}
-                </a>
+                </Link>
               ) : (
                 <a
                   key={link.label}
                   href={link.href}
                   onClick={(e) => {
                     e.preventDefault();
-                    handleNavClick(link.href);
+                    handleNavClick(link.href, (link as any).isSubPage);
                   }}
                   className="text-2xl"
                 >
@@ -334,12 +344,12 @@ export const Header = () => {
             )}
 
             <a
-              href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
+              href="/get-quote"
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 px-8 py-3 rounded-full bg-yellow-400 text-black font-semibold inline-block"
+              className="mt-8 px-10 py-5 rounded-2xl bg-yellow-400 text-[#652b32] font-black text-xl uppercase tracking-widest shadow-2xl hover:bg-yellow-300 transition-all active:scale-95"
             >
-              Pay Now
+              GET QUOTE
             </a>
           </div>
         </div>

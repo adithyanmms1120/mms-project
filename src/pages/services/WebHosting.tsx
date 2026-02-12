@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Globe, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import { SEO } from "@/components/SEO";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,10 +63,12 @@ const WebHosting = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Web Hosting Services | MediaMatic Studio</title>
-        <meta name="description" content="Top-notch web hosting and domain services with 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts." />
-      </Helmet>
+      <SEO
+        title="Web Hosting Services | MediaMatic Studio"
+        description="Top-notch web hosting and domain services with 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts. Reliable shared and dedicated hosting solutions."
+        canonical="/services/webhosting"
+        keywords="web hosting, domain registration, shared hosting, dedicated hosting, cPanel, business email, domain transfer, hosting services, MediaMatic Studio"
+      />
 
       <div className="min-h-screen bg-background">
 

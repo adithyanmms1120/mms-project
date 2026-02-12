@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Send, Mail, Phone, MapPin, CheckCircle, ArrowUpRight, ChevronDown, Search, AlertCircle } from "lucide-react";
+import { Send, Mail, Phone, MapPin, CheckCircle, ArrowUpRight, ChevronDown, Search, AlertCircle, Check } from "lucide-react";
 import { toast } from "sonner";
 import { createPortal } from "react-dom";
+import ReactCountryFlag from "react-country-flag";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -223,6 +224,7 @@ export const Contact = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const sendBtnRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const [isSending, setIsSending] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<Country>(
@@ -231,7 +233,6 @@ export const Contact = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const countryBtnRef = useRef<HTMLButtonElement>(null);
   const [locationType, setLocationType] = useState<"corporate" | "branch">("corporate");
-
 
   const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
@@ -284,7 +285,10 @@ export const Contact = () => {
   // Close dropdown when clicking outside or on escape
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const isDropdownClick = dropdownRef.current && dropdownRef.current.contains(event.target as Node);
+      const isMenuClick = menuRef.current && menuRef.current.contains(event.target as Node);
+
+      if (!isDropdownClick && !isMenuClick) {
         setShowCountryDropdown(false);
         setSearchTerm("");
       }
@@ -321,6 +325,7 @@ export const Contact = () => {
           duration: 0.5,
           stagger: 0.02,
           ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: section,
             start: "top 70%",
@@ -338,6 +343,7 @@ export const Contact = () => {
           duration: 0.6,
           stagger: 0.08,
           ease: "power3.out",
+          force3D: true,
           scrollTrigger: {
             trigger: section,
             start: "top 60%",
@@ -356,6 +362,7 @@ export const Contact = () => {
           duration: 0.6,
           stagger: 0.12,
           ease: "back.out(1.4)",
+          force3D: true,
           scrollTrigger: {
             trigger: ".info-cards-container",
             start: "top 80%",
@@ -399,9 +406,8 @@ export const Contact = () => {
 
     // Phone validation - optional, but if provided, check length
     if (formData.phone.trim()) {
-      const digitsOnly = formData.phone.replace(/\D/g, '');
-      if (digitsOnly.length < 7 || digitsOnly.length > 15) { // More flexible range
-        newErrors.phone = "Phone number must be between 7 and 15 digits";
+      if (formData.phone.length !== 10) {
+        newErrors.phone = "Phone number must be exactly 10 digits";
         isValid = false;
       }
     }
@@ -420,35 +426,14 @@ export const Contact = () => {
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let value = e.target.value;
-
-    // Allow only numbers, spaces, hyphens, and parentheses
-    value = value.replace(/[^\d\s\-\$\$]/g, '');
-
-    // Limit to reasonable digits
-    const digitsOnly = value.replace(/\D/g, '');
-    if (digitsOnly.length > 15) {
-      value = formatPhoneNumber(digitsOnly.substring(0, 15));
-    } else {
-      value = formatPhoneNumber(digitsOnly);
-    }
-
+    let value = e.target.value.replace(/\D/g, ''); // Allow only digits
+    if (value.length > 10) value = value.substring(0, 10);
     setFormData({ ...formData, phone: value });
 
     // Clear phone error when user types
     if (errors.phone) {
       setErrors({ ...errors, phone: "" });
     }
-  };
-
-  const formatPhoneNumber = (phoneNumber: string): string => {
-    const digits = phoneNumber.replace(/\D/g, '');
-
-    if (digits.length === 0) return '';
-    if (digits.length <= 3) return digits;
-    if (digits.length <= 6) return `${digits.substring(0, 3)} ${digits.substring(3)}`;
-    if (digits.length <= 10) return `${digits.substring(0, 3)} ${digits.substring(3, 6)} ${digits.substring(6)}`;
-    return `${digits.substring(0, 3)} ${digits.substring(3, 6)} ${digits.substring(6, 10)} ${digits.substring(10)}`;
   };
 
   const handleInputChange = (field: string, value: string) => {
@@ -525,6 +510,7 @@ export const Contact = () => {
     try {
       const response = await fetch(
         "https://mediamaticstudio.com/api/contact/send/",
+        // "http://127.0.0.1:8000/api/mail/send/",
         {
           method: "POST",
           headers: {
@@ -572,7 +558,7 @@ export const Contact = () => {
   };
 
   return (
-    <section id="contact" ref={sectionRef} className="min-h-screen bg-background py-20 md:py-28 relative overflow-hidden">
+    <section id="contact" ref={sectionRef} className="min-h-screen bg-background py-12 md:py-16 relative overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 opacity-[0.025]" style={{
         backgroundImage: `
@@ -583,7 +569,7 @@ export const Contact = () => {
 
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <div className="text-center mb-14 md:mb-20" style={{ perspective: "1000px" }}>
+        <div className="text-center mb-10 md:mb-14" style={{ perspective: "1000px" }}>
           <span className="block text-[10px] uppercase tracking-[0.25em] text-foreground/40 font-semibold mb-4">
             Get In Touch
           </span>
@@ -611,7 +597,7 @@ export const Contact = () => {
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   required
-                  className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.name ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.name ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="Your name"
                 />
@@ -633,7 +619,7 @@ export const Contact = () => {
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
-                  className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.email ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.email ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="your@email.com"
                 />
@@ -648,7 +634,7 @@ export const Contact = () => {
               {/* Phone Input with Country Dropdown */}
               <div className="contact-item">
                 <label className="block text-sm md:text-xs font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
-                  Phone Number {formData.phone && "(Optional)"}
+                  Phone Number {formData.phone.length > 0 ? "" : "(Optional)"}
                 </label>
                 <div className="relative" ref={dropdownRef}>
                   <div className="flex flex-row gap-2">
@@ -658,13 +644,17 @@ export const Contact = () => {
                         ref={countryBtnRef}
                         type="button"
                         onClick={() => setShowCountryDropdown(!showCountryDropdown)}
-                        className="flex items-center gap-1.5 px-3 md:px-4 py-4 bg-transparent border-[1.5px] border-foreground/20 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[90px] md:min-w-[120px] justify-between"
+                        className="flex items-center gap-2 px-3 md:px-4 py-3 bg-transparent border-[1.5px] border-foreground/20 rounded-xl hover:border-foreground/50 transition-colors text-foreground font-medium min-w-[100px] md:min-w-[130px] justify-between"
                       >
-                        <span className="flex items-center gap-1.5">
-                          <span className="text-base md:text-lg">{selectedCountry.flag}</span>
-                          <span className="text-xs md:text-sm">{selectedCountry.dial_code}</span>
+                        <span className="flex items-center gap-2">
+                          <ReactCountryFlag
+                            countryCode={selectedCountry.code}
+                            svg
+                            style={{ width: '22px', height: '16px' }}
+                          />
+                          <span className="text-xs md:text-sm font-bold tracking-tight">{selectedCountry.dial_code}</span>
                         </span>
-                        <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform ${showCountryDropdown ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-3 h-3 md:w-4 md:h-4 transition-transform duration-300 ${showCountryDropdown ? 'rotate-180' : ''}`} />
                       </button>
 
                       {/* Dropdown Menu - Improved positioning and responsiveness */}
@@ -672,7 +662,7 @@ export const Contact = () => {
                         dropdownStyle &&
                         createPortal(
                           <div
-                            ref={dropdownRef}
+                            ref={menuRef}
                             style={dropdownStyle}
                             className="bg-[#faf3e0] border-2 border-[#652b32]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(101,43,50,0.3)] overflow-hidden text-left"
                             role="listbox"
@@ -700,15 +690,21 @@ export const Contact = () => {
                                     key={country.code}
                                     type="button"
                                     onClick={() => selectCountry(country)}
-                                    className="w-full px-4 py-3 flex items-center gap-4 hover:bg-[#652b32]/5 text-left"
+                                    className="w-full px-4 py-3 flex items-center gap-4 hover:bg-[#652b32]/5 text-left transition-colors group"
                                   >
-                                    <span className="text-lg w-8">{country.flag}</span>
+                                    <div className="w-8 flex-shrink-0">
+                                      <ReactCountryFlag
+                                        countryCode={country.code}
+                                        svg
+                                        style={{ width: '24px', height: '18px' }}
+                                      />
+                                    </div>
                                     <div className="flex-1">
-                                      <div className="text-sm font-semibold">{country.name}</div>
-                                      <div className="text-xs opacity-60">{country.dial_code}</div>
+                                      <div className="text-sm font-bold text-[#652b32]/80 group-hover:text-[#652b32]">{country.name}</div>
+                                      <div className="text-xs font-medium opacity-60">{country.dial_code}</div>
                                     </div>
                                     {selectedCountry.code === country.code && (
-                                      <CheckCircle className="w-4 h-4" />
+                                      <Check className="w-4 h-4 text-[#652b32]" />
                                     )}
                                   </button>
                                 ))
@@ -730,13 +726,13 @@ export const Contact = () => {
                         type="tel"
                         value={formData.phone}
                         onChange={handlePhoneChange}
-                        className={`w-full px-4 md:px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                        className={`w-full px-4 md:px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                           }`}
-                        placeholder="123 456 7890"
-                        maxLength={15} // Adjusted for flexibility
+                        placeholder="Enter 10-digit number"
+                        maxLength={10}
                       />
                       <div className="mt-1 text-[10px] md:text-xs text-foreground/40 hidden sm:block">
-                        {formData.phone ? `${formData.phone.replace(/\D/g, '').length}/15 digits` : "Enter phone number (optional)"}
+                        {formData.phone ? `${formData.phone.length}/10 digits` : "Enter phone number (optional)"}
                       </div>
                     </div>
                   </div>
@@ -768,7 +764,7 @@ export const Contact = () => {
                   onChange={(e) => handleInputChange("message", e.target.value)}
                   required
                   rows={5}
-                  className={`w-full px-5 py-4 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.message ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.message ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="Tell us about your project..."
                 />
@@ -788,7 +784,7 @@ export const Contact = () => {
                 ref={sendBtnRef}
                 type="submit"
                 disabled={isSending}
-                className="contact-item group w-full py-4 px-6 bg-foreground text-background rounded-xl font-bold flex items-center justify-center gap-3 hover:shadow-strong transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden relative text-sm uppercase tracking-wider"
+                className="contact-item group w-full py-3 px-6 bg-foreground text-background rounded-xl font-bold flex items-center justify-center gap-3 hover:shadow-strong transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed overflow-hidden relative text-sm uppercase tracking-wider"
               >
                 <span className="btn-text">{isSending ? "Sending..." : "Send Message"}</span>
                 <Send className="send-icon w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -800,6 +796,7 @@ export const Contact = () => {
           <div>
             <div className="flex gap-3 mb-6">
               <button
+                type="button"
                 onClick={() => setLocationType("corporate")}
                 className={`px-5 py-2 rounded-full text-sm font-semibold transition
                 ${locationType === "corporate"
@@ -811,6 +808,7 @@ export const Contact = () => {
               </button>
 
               <button
+                type="button"
                 onClick={() => setLocationType("branch")}
                 className={`px-5 py-2 rounded-full text-sm font-semibold transition
                 ${locationType === "branch"
@@ -904,28 +902,49 @@ export const Contact = () => {
                       </div>
                     </div>
                   </a>
-                  <a
-                    href="https://maps.app.goo.gl/ys3qZ3vK76G2DdhN9"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4">
-                      <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center">
-                        <MapPin className="w-5 h-5" strokeWidth={1.5} />
-                      </div>
-                      <div >
-                        <h3 className="font-bold text-sm uppercase tracking-wider" >Visit Us</h3>
-                        <p className="text-foreground/50 text-xs">
 
-                          Civil Aerodrome Post, No. 97,
-                          <br />
-                          Dr. Jaganathanagar,
-                          <br />
-                          Coimbatore – 641 014
-
-                        </p>
+                  <div className="flex flex-col gap-6">
+                    <a
+                      href="https://maps.app.goo.gl/ys3qZ3vK76G2DdhN9"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4">
+                        <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center shrink-0">
+                          <MapPin className="w-5 h-5" strokeWidth={1.5} />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-sm uppercase tracking-wider">Coimbatore Branch</h3>
+                          <p className="text-foreground/50 text-xs mt-2 leading-relaxed">
+                            Civil Aerodrome Post, No. 97,<br />
+                            Dr. Jaganathanagar,<br />
+                            Coimbatore – 641 014
+                          </p>
+                        </div>
                       </div>
-                    </div></a>
+                    </a>
+
+                    <a
+                      href="https://www.google.com/maps/search/?api=1&query=MediaMatic+Studio+Private+Limited+Ejipura+Bengaluru"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <div className="info-card p-5 md:p-6 rounded-2xl border-2 border-foreground/10 flex gap-4">
+                        <div className="w-12 h-12 rounded-xl border-2 border-foreground/15 flex items-center justify-center shrink-0">
+                          <MapPin className="w-5 h-5" strokeWidth={1.5} />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-sm uppercase tracking-wider">Bengaluru Branch</h3>
+                          <p className="text-foreground/50 text-xs mt-2 leading-relaxed">
+                            MediaMatic Studio Pvt Ltd,<br />
+                            2nd Floor, No. 46, 29th Cross,<br />
+                            Ejipura Main Road, Koramangala,<br />
+                            Bengaluru – 560 047
+                          </p>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
                 </>
               )}
             </div>

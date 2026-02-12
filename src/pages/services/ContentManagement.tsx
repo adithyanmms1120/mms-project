@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, FileText, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
-import { Helmet } from "react-helmet";
+import { SEO } from "@/components/SEO";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -63,10 +63,12 @@ const ContentManagement = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Content Management Services | MediaMatic Studio</title>
-        <meta name="description" content="Expert content writing services including SEO-friendly content, web copywriting, social media content, and technical documentation that connects your brand with audiences." />
-      </Helmet>
+      <SEO
+        title="Content Management Services | MediaMatic Studio"
+        description="Expert content writing services including SEO-friendly content, web copywriting, social media content, and technical documentation that connects your brand with audiences."
+        canonical="/services/contentmanagement"
+        keywords="content writing, content management, SEO content, web copywriting, social media content, technical documentation, blog posts, content marketing, MediaMatic Studio"
+      />
 
       <div className="min-h-screen bg-background">
 

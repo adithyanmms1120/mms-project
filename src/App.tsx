@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { Header } from "./components/Header";
 // import { WhatsAppWidget } from "./components/WhatsAppWidget"; // Removed to lazy load
 import ClickSpark from "./components/ClickSpark";
@@ -20,6 +21,9 @@ const Hosting = lazy(() => import("./pages/services/WebHosting"));
 const Designing = lazy(() => import("./pages/services/Designing"));
 const Contact = lazy(() => import("./components/Contact").then(module => ({ default: module.Contact })));
 const WhatsAppWidget = lazy(() => import("./components/WhatsAppWidget").then(m => ({ default: m.WhatsAppWidget })));
+const BlogList = lazy(() => import("./pages/Blog/BlogList"));
+const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
+const GetQuote = lazy(() => import("./pages/GetQuote"));
 
 const LoadingSpinner = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-[#faf3e0] z-50">
@@ -31,45 +35,50 @@ const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <ClickSpark
-        sparkColor='#9a5a2a'
-        sparkSize={11}
-        sparkRadius={20}
-        sparkCount={9}
-        duration={300}
-      >
-        <Toaster />
-        <Sonner />
-
-        <BrowserRouter
-          basename="/"
-          future={{
-            v7_startTransition: true,
-            v7_relativeSplatPath: true,
-          }}
+    <HelmetProvider>
+      <TooltipProvider>
+        <ClickSpark
+          sparkColor='#9a5a2a'
+          sparkSize={11}
+          sparkRadius={20}
+          sparkCount={9}
+          duration={300}
         >
-          <Header />
-          <Suspense fallback={<LoadingSpinner />}>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
-              <Route path="/services/web-development" element={<WebDevelopment />} />
-              <Route path="/services/designing" element={<Designing />} />
-              <Route path="/services/animation" element={<Animation />} />
-              <Route path="/services/contentmanagement" element={<Content />} />
-              <Route path="/services/webhosting" element={<Hosting />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-          <Suspense fallback={null}>
-            <WhatsAppWidget />
-          </Suspense>
-          <CookieConsent />
-        </BrowserRouter>
-      </ClickSpark>
-    </TooltipProvider>
+          <Toaster />
+          <Sonner />
+
+          <BrowserRouter
+            basename="/"
+            future={{
+              v7_startTransition: true,
+              v7_relativeSplatPath: true,
+            }}
+          >
+            <Header />
+            <Suspense fallback={<LoadingSpinner />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
+                <Route path="/services/web-development" element={<WebDevelopment />} />
+                <Route path="/services/designing" element={<Designing />} />
+                <Route path="/services/animation" element={<Animation />} />
+                <Route path="/services/contentmanagement" element={<Content />} />
+                <Route path="/services/webhosting" element={<Hosting />} />
+                <Route path="/blog" element={<BlogList />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/get-quote" element={<GetQuote />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+            <Suspense fallback={null}>
+              <WhatsAppWidget />
+            </Suspense>
+            <CookieConsent />
+          </BrowserRouter>
+        </ClickSpark>
+      </TooltipProvider>
+    </HelmetProvider>
   </QueryClientProvider>
 );
 
