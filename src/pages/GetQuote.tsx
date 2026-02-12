@@ -1,9 +1,10 @@
 import { useState, useCallback, useRef, useEffect } from "react";
-import { Send, ChevronDown, Check } from "lucide-react";
+import { Send, ChevronDown, Phone, Mail, MapPin, Search, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { SEO } from "@/components/SEO";
 import ReactCountryFlag from "react-country-flag";
+import { createPortal } from "react-dom";
 
 interface Country {
     code: string;
@@ -232,6 +233,7 @@ const GetQuote = () => {
         dialCode: "+1",
         countryCode: "US",
         email: "",
+        startDate: "",
         selectedService: "",
         message: "",
     });
@@ -268,27 +270,48 @@ const GetQuote = () => {
 
             setIsSending(true);
 
-            setTimeout(() => {
+            try {
+                const response = await fetch("http://localhost:8000/api/contact/quote/", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    toast.success("Quote request sent successfully!", {
+                        description: "We'll get back to you within 24-48 hours.",
+                    });
+
+                    setFormData({
+                        firstName: "",
+                        lastName: "",
+                        phone: "",
+                        dialCode: "+1",
+                        countryCode: "US",
+                        email: "",
+                        startDate: "",
+                        selectedService: "",
+                        message: "",
+                    });
+                    setErrors({});
+                } else {
+                    toast.error("Failed to send request", {
+                        description: data.message || "Please try again later.",
+                    });
+                }
+            } catch (error) {
+                toast.error("Network error", {
+                    description: "Please check your connection and try again.",
+                });
+            } finally {
                 setIsSending(false);
-                toast.success("Inquiry sent successfully!", {
-                    description: "We'll get back to you shortly.",
-                });
-
-                setFormData({
-                    firstName: "",
-                    lastName: "",
-                    phone: "",
-                    dialCode: "+1",
-                    countryCode: "US",
-                    email: "",
-                    selectedService: "",
-                    message: "",
-                });
-
-                setErrors({});
-            }, 1500);
+            }
         },
-        [validateForm]
+        [formData, validateForm]
     );
 
     const update = (key: string, value: any) =>
@@ -302,38 +325,24 @@ const GetQuote = () => {
                 canonical="/get-quote"
             />
 
-            <main className="min-h-screen bg-[#faf3e0] font-sans text-[#652b32]">
-                {/* Top Bar */}
-                <nav className="flex items-center justify-center py-6">
-                    <Link to="/" className="text-sm tracking-wide">
-                        ☰
-                    </Link>
-                </nav>
+            <main className="min-h-screen bg-[#faf3e0] font-sans text-[#652b32] flex items-center justify-center px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 md:pt-32 pb-8 md:pb-12 lg:pb-16 relative overflow-hidden">
+                <div className="w-full max-w-7xl relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start">
 
-                <div className="max-w-6xl mx-auto px-6 py-12 lg:py-20">
-                    <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
-
-                        {/* LEFT SIDE */}
-                        <div className="space-y-12">
-
-                            {/* Intro */}
+                        {/* LEFT SIDE - Header & Form */}
+                        <div className="space-y-6 md:space-y-8">
+                            {/* Title Section */}
                             <div>
-                                <h1 className="text-5xl lg:text-6xl font-medium tracking-tight">
-                                    Get in Touch
+                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#652b32] leading-tight">
+                                    Get in <span className="text-[#652b32]">touch</span>
                                 </h1>
-
-                                <p className="mt-6 text-lg font-medium">
-                                    I'd like to hear from you!
-                                </p>
-
-                                <p className="mt-3 leading-relaxed max-w-md text-[#652b32]/80">
-                                    If you have any inquiries or just want to say hi, please use
-                                    the contact form. We'll help you build something remarkable.
+                                <p className="mt-3 md:mt-4 text-sm sm:text-base text-[#652b32]/70 leading-relaxed max-w-lg">
+                                    I'd like to hear from you! Whether you have questions, need support, or want to discuss a project, feel free to reach out.
                                 </p>
                             </div>
 
-                            {/* FORM - Mobile */}
-                            <div className="lg:hidden">
+                            {/* Form */}
+                            <div className="bg-white/50 backdrop-blur-sm border border-[#652b32]/10 rounded-2xl md:rounded-3xl p-5 sm:p-6 md:p-8 shadow-xl">
                                 <QuoteForm
                                     formData={formData}
                                     errors={errors}
@@ -342,63 +351,97 @@ const GetQuote = () => {
                                     handleSubmit={handleSubmit}
                                 />
                             </div>
-
-                            {/* Address Section */}
-                            <div className="space-y-8">
-
-                                {/* Corporate */}
-                                <div>
-                                    <p className="text-sm font-bold uppercase tracking-widest mb-3 text-[#652b32]">
-                                        Corporate Address
-                                    </p>
-                                    <p className="text-base leading-relaxed opacity-90">
-                                        COVAI TECH PARK, Site No: 90,<br />
-                                        Kovai Thiru Nagar, Kalapatty Village,<br />
-                                        Coimbatore – 641 014
-                                    </p>
-                                    <p className="text-base font-semibold mt-2 opacity-90">+91 96295 93615</p>
-                                </div>
-
-                                {/* Coimbatore Branch */}
-                                <div>
-                                    <p className="text-sm font-bold uppercase tracking-widest mb-3 text-[#652b32]">
-                                        Branch Office – Coimbatore
-                                    </p>
-                                    <p className="text-base leading-relaxed opacity-90">
-                                        Civil Aerodrome Post, No. 97,<br />
-                                        Dr. Jaganathanagar,<br />
-                                        Coimbatore – 641 014
-                                    </p>
-                                    <p className="text-base font-semibold mt-2 opacity-90">
-                                        +91 9600506094, 0422-4772362
-                                    </p>
-                                </div>
-
-                                {/* Bangalore Branch */}
-                                <div>
-                                    <p className="text-sm font-bold uppercase tracking-widest mb-3 text-[#652b32]">
-                                        Branch Office – Bangalore
-                                    </p>
-                                    <p className="text-base leading-relaxed opacity-90">
-                                        MediaMatic Studio Private Limited<br />
-                                        2nd Floor, No. 46, 29th Cross Ejipura Main Road,<br />
-                                        Intermediate Ring Rd, off. Koramangala,<br />
-                                        Bengaluru – 560047
-                                    </p>
-                                </div>
-
-                            </div>
                         </div>
 
-                        {/* RIGHT SIDE - Desktop Form */}
-                        <div className="hidden lg:block">
-                            <QuoteForm
-                                formData={formData}
-                                errors={errors}
-                                isSending={isSending}
-                                update={update}
-                                handleSubmit={handleSubmit}
-                            />
+                        {/* RIGHT SIDE - Contact Cards */}
+                        <div className="lg:sticky lg:top-8">
+                            {/* Contact Cards */}
+                            <div className="grid gap-3 md:gap-4">
+                                {/* Phone & Email Row */}
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4">
+                                    {/* Phone Card */}
+                                    <div className="bg-white/50 backdrop-blur-sm border border-[#652b32]/10 rounded-xl md:rounded-2xl p-4 md:p-6 group hover:shadow-lg transition-all duration-300">
+                                        <div className="flex flex-col items-center text-center space-y-2 md:space-y-3">
+                                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#652b32]/10 flex items-center justify-center group-hover:bg-[#652b32]/20 transition">
+                                                <Phone className="text-[#652b32]" size={20} />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-xs md:text-sm text-[#652b32] mb-1">Call Us</h3>
+                                                <p className="text-xs md:text-sm text-[#652b32]/80 font-semibold">+91 96295 93615</p>
+                                                <p className="text-[10px] md:text-xs text-[#652b32]/60 mt-1">US Toll Free: (+1) 888 219 5755</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Email Card */}
+                                    <div className="bg-white/50 backdrop-blur-sm border border-[#652b32]/10 rounded-xl md:rounded-2xl p-4 md:p-6 group hover:shadow-lg transition-all duration-300">
+                                        <div className="flex flex-col items-center text-center space-y-2 md:space-y-3">
+                                            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#652b32]/10 flex items-center justify-center group-hover:bg-[#652b32]/20 transition">
+                                                <Mail className="text-[#652b32]" size={20} />
+                                            </div>
+                                            <div>
+                                                <h3 className="font-bold text-xs md:text-sm text-[#652b32] mb-1">Email Us</h3>
+                                                <p className="text-xs md:text-sm text-[#652b32]/80 break-all">support@mediamaticstudio.com</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Address Card */}
+                                <div className="bg-white/50 backdrop-blur-sm border border-[#652b32]/10 rounded-xl md:rounded-2xl p-4 md:p-6 group hover:shadow-lg transition-all duration-300">
+                                    <div className="flex items-start gap-3 md:gap-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#652b32]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#652b32]/20 transition">
+                                            <MapPin className="text-[#652b32]" size={20} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold text-xs md:text-sm text-[#652b32] mb-1 md:mb-2">Corporate Address</h3>
+                                            <div className="space-y-2 md:space-y-3 text-xs md:text-sm text-[#652b32]/80">
+                                                <p className="leading-relaxed">
+                                                    COVAI TECH PARK, Site No: 90,<br />
+                                                    Kovai Thiru Nagar, Kalapatty Village,<br />
+                                                    Coimbatore – 641 014
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Branch Coimbatore */}
+                                <div className="bg-white/50 backdrop-blur-sm border border-[#652b32]/10 rounded-xl md:rounded-2xl p-4 md:p-6 group hover:shadow-lg transition-all duration-300">
+                                    <div className="flex items-start gap-3 md:gap-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#652b32]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#652b32]/20 transition">
+                                            <MapPin className="text-[#652b32]" size={20} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold text-xs md:text-sm text-[#652b32] mb-1 md:mb-2">Branch Office – Coimbatore</h3>
+                                            <p className="text-xs md:text-sm text-[#652b32]/80 leading-relaxed mb-1 md:mb-2">
+                                                Civil Aerodrome Post, No. 97,<br />
+                                                Dr. Jaganathanagar,<br />
+                                                Coimbatore – 641 014
+                                            </p>
+                                            <p className="text-xs md:text-sm text-[#652b32] font-semibold">+91 9600506094, 0422-4772362</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Branch Bangalore */}
+                                <div className="bg-white/50 backdrop-blur-sm border border-[#652b32]/10 rounded-xl md:rounded-2xl p-4 md:p-6 group hover:shadow-lg transition-all duration-300">
+                                    <div className="flex items-start gap-3 md:gap-4">
+                                        <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#652b32]/10 flex items-center justify-center flex-shrink-0 group-hover:bg-[#652b32]/20 transition">
+                                            <MapPin className="text-[#652b32]" size={20} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold text-xs md:text-sm text-[#652b32] mb-1 md:mb-2">Branch Office – Bangalore</h3>
+                                            <p className="text-xs md:text-sm text-[#652b32]/80 leading-relaxed">
+                                                MediaMatic Studio Private Limited<br />
+                                                2nd Floor, No. 46, 29th Cross Ejipura Main Road,<br />
+                                                Intermediate Ring Rd, off. Koramangala,<br />
+                                                Bengaluru – 560047
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>
@@ -415,76 +458,83 @@ const QuoteForm = ({
     update,
     handleSubmit,
 }: any) => (
-    <form onSubmit={handleSubmit} className="space-y-5">
-
+    <form onSubmit={handleSubmit} className="space-y-5 text-[#652b32]">
         <div className="grid grid-cols-2 gap-4">
             <FormField
-                label="First Name *"
+                placeholder="First Name"
                 value={formData.firstName}
                 error={errors.firstName}
                 onChange={(v: string) => update("firstName", v)}
             />
             <FormField
-                label="Last Name"
+                placeholder="Last Name"
                 value={formData.lastName}
                 onChange={(v: string) => update("lastName", v)}
             />
         </div>
 
-        <FormField
-            label="Email *"
-            value={formData.email}
-            error={errors.email}
-            onChange={(v: string) => update("email", v)}
-            type="email"
-        />
+        <div className="grid md:grid-cols-2 gap-4">
+            <PhoneField
+                value={formData.phone}
+                dialCode={formData.dialCode}
+                countryCode={formData.countryCode}
+                onPhoneChange={(v: string) => update("phone", v)}
+                onCountryChange={(code: string, dial: string) => {
+                    update("countryCode", code);
+                    update("dialCode", dial);
+                }}
+                error={errors.phone}
+            />
 
-        <PhoneField
-            label="Phone"
-            value={formData.phone}
-            dialCode={formData.dialCode}
-            countryCode={formData.countryCode}
-            onPhoneChange={(v: string) => update("phone", v)}
-            onCountryChange={(code: string, dial: string) => {
-                update("countryCode", code);
-                update("dialCode", dial);
-            }}
-        />
+            <FormField
+                placeholder="E-mail"
+                value={formData.email}
+                error={errors.email}
+                onChange={(v: string) => update("email", v)}
+                type="email"
+            />
+        </div>
 
-        {/* Services Dropdown */}
-        <div>
-            <label className="block text-sm mb-1.5">Select Service *</label>
-            <select
-                value={formData.selectedService}
-                onChange={(e) => update("selectedService", e.target.value)}
-                className={`w-full px-4 py-3 border rounded-md outline-none transition ${errors.service
-                    ? "border-red-500"
-                    : "border-[#652b32]/30 focus:border-[#652b32]"
-                    }`}
-            >
-                <option value="">-- Choose a Service --</option>
-                {services.map((service) => (
-                    <option key={service} value={service}>
-                        {service}
-                    </option>
-                ))}
-            </select>
+        <div className="space-y-2">
+            <label className="text-sm font-medium text-[#652b32] block">When do you want to start the project?</label>
+            <input
+                type="date"
+                value={formData.startDate}
+                onChange={(e) => update("startDate", e.target.value)}
+                className="w-full bg-[#652b32]/5 border border-[#652b32]/20 rounded-xl px-4 py-3.5 outline-none text-[#652b32] placeholder:text-[#652b32]/40 text-sm transition focus:border-[#652b32]/40 hover:border-[#652b32]/30"
+            />
+        </div>
 
+        <div className="space-y-2">
+            <label className="text-sm font-medium text-[#652b32] block">What are you looking for?</label>
+            <div className="relative">
+                <select
+                    value={formData.selectedService}
+                    onChange={(e) => update("selectedService", e.target.value)}
+                    className={`w-full bg-[#652b32]/5 border rounded-xl px-4 py-3.5 outline-none text-[#652b32] text-sm appearance-none cursor-pointer transition hover:border-[#652b32]/30 focus:border-[#652b32]/40 ${errors.service ? "border-red-500" : "border-[#652b32]/20"
+                        }`}
+                >
+                    <option value="" className="text-[#652b32]/60">—Please choose an option—</option>
+                    {services.map((service) => (
+                        <option key={service} value={service}>{service}</option>
+                    ))}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-[#652b32]">
+                    <ChevronDown size={18} />
+                </div>
+            </div>
             {errors.service && (
                 <p className="text-red-500 text-xs mt-1">{errors.service}</p>
             )}
         </div>
 
-        {/* Message */}
-        <div>
-            <label className="block text-sm mb-1.5">Message *</label>
+        <div className="space-y-2">
+            <label className="text-sm font-medium text-[#652b32] block">Message</label>
             <textarea
-                rows={5}
+                rows={4}
                 value={formData.message}
                 onChange={(e) => update("message", e.target.value)}
-                className={`w-full px-4 py-3 border rounded-md outline-none transition resize-none ${errors.message
-                    ? "border-red-500"
-                    : "border-[#652b32]/30 focus:border-[#652b32]"
+                className={`w-full bg-[#652b32]/5 border rounded-xl px-4 py-3.5 outline-none text-[#652b32] placeholder:text-[#652b32]/40 text-sm transition resize-none hover:border-[#652b32]/30 focus:border-[#652b32]/40 ${errors.message ? "border-red-500" : "border-[#652b32]/20"
                     }`}
             />
             {errors.message && (
@@ -492,138 +542,208 @@ const QuoteForm = ({
             )}
         </div>
 
-        <div className="flex justify-end">
-            <button
-                type="submit"
-                disabled={isSending}
-                className="px-8 py-3 bg-[#652b32] text-white rounded-md text-sm hover:opacity-90 transition disabled:opacity-50 flex items-center gap-2"
-            >
-                {isSending ? "Sending..." : "Send"}
-                <Send size={16} />
-            </button>
-        </div>
+        <button
+            type="submit"
+            disabled={isSending}
+            className="w-full py-3.5 bg-[#652b32] hover:bg-[#522228] text-white font-semibold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+        >
+            {isSending ? "Submitting..." : "Submit Message"}
+        </button>
     </form>
 );
 
-const PhoneField = ({ label, value, dialCode, countryCode, onPhoneChange, onCountryChange }: any) => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+const PhoneField = ({ value, dialCode, countryCode, onPhoneChange, onCountryChange, error }: any) => {
+    const [showDropdown, setShowDropdown] = useState(false);
+    const [searchTerm, setSearchTerm] = useState("");
     const dropdownRef = useRef<HTMLDivElement>(null);
-    const [searchQuery, setSearchQuery] = useState("");
+    const menuRef = useRef<HTMLDivElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const [dropdownStyle, setDropdownStyle] = useState<React.CSSProperties | null>(null);
 
-    const filteredCountries = countries.filter(c =>
-        c.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.dial_code.includes(searchQuery)
+    const filteredCountries = countries.filter(country =>
+        country.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        country.dial_code.includes(searchTerm) ||
+        country.code.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Update dropdown position
     useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsDropdownOpen(false);
+        const updatePosition = () => {
+            if (showDropdown && buttonRef.current) {
+                const rect = buttonRef.current.getBoundingClientRect();
+                setDropdownStyle({
+                    position: "fixed",
+                    top: rect.bottom + 8,
+                    left: rect.left,
+                    width: Math.max(rect.width, 320),
+                    zIndex: 9999,
+                });
             }
         };
+
+        updatePosition();
+
+        if (showDropdown) {
+            window.addEventListener('scroll', updatePosition, true);
+            window.addEventListener('resize', updatePosition);
+        }
+
+        return () => {
+            window.removeEventListener('scroll', updatePosition, true);
+            window.removeEventListener('resize', updatePosition);
+        };
+    }, [showDropdown]);
+
+    // Close dropdown when clicking outside
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const isDropdownClick = dropdownRef.current && dropdownRef.current.contains(event.target as Node);
+            const isMenuClick = menuRef.current && menuRef.current.contains(event.target as Node);
+
+            if (!isDropdownClick && !isMenuClick) {
+                setShowDropdown(false);
+                setSearchTerm("");
+            }
+        };
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+            if (event.key === "Escape") {
+                setShowDropdown(false);
+                setSearchTerm("");
+            }
+        };
+
         document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("keydown", handleKeyDown);
+        };
     }, []);
 
+    const selectCountry = (country: Country) => {
+        onCountryChange(country.code, country.dial_code);
+        setShowDropdown(false);
+        setSearchTerm("");
+    };
+
     return (
-        <div className="relative">
-            <label className="block text-sm mb-1.5">{label}</label>
-            <div className="flex">
-                {/* Flag Dropdown Trigger */}
-                <div className="relative" ref={dropdownRef}>
+        <div className="space-y-2">
+            <div className="flex gap-2">
+                {/* Country Code Selector */}
+                <div className="relative flex-shrink-0" ref={dropdownRef}>
                     <button
+                        ref={buttonRef}
                         type="button"
-                        onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                        className="h-full px-3 flex items-center gap-2 border border-r-0 border-[#652b32]/30 rounded-l-md hover:bg-[#652b32]/5 transition"
+                        onClick={() => setShowDropdown(!showDropdown)}
+                        className="flex items-center gap-2 px-3 py-3.5 bg-[#652b32]/5 border border-[#652b32]/20 rounded-xl hover:border-[#652b32]/40 transition-colors text-[#652b32] font-medium min-w-[110px] justify-between"
                     >
-                        <ReactCountryFlag
-                            countryCode={countryCode}
-                            svg
-                            style={{ width: '20px', height: '15px' }}
-                        />
-                        <span className="text-sm font-medium">{dialCode}</span>
-                        <ChevronDown size={14} className={`transition-transform duration-300 ${isDropdownOpen ? 'rotate-180' : ''}`} />
+                        <span className="flex items-center gap-2">
+                            <ReactCountryFlag
+                                countryCode={countryCode}
+                                svg
+                                style={{ width: '22px', height: '16px' }}
+                            />
+                            <span className="text-sm font-bold">{dialCode}</span>
+                        </span>
+                        <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${showDropdown ? 'rotate-180' : ''}`} />
                     </button>
 
-                    {/* Custom Dropdown */}
-                    {isDropdownOpen && (
-                        <div className="absolute top-full left-0 mt-2 w-72 max-h-80 bg-[#faf3e0] border border-[#652b32]/10 rounded-xl shadow-2xl z-[60] overflow-hidden flex flex-col">
-                            <div className="p-3 border-b border-[#652b32]/10">
-                                <input
-                                    type="text"
-                                    placeholder="Search country or code..."
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full px-3 py-2 bg-white/50 border border-[#652b32]/20 rounded-lg text-xs outline-none focus:border-[#652b32] transition"
-                                    autoFocus
-                                />
-                            </div>
-                            <div className="overflow-y-auto flex-1 custom-scrollbar">
-                                {filteredCountries.map((c) => (
-                                    <button
-                                        key={c.code}
-                                        type="button"
-                                        onClick={() => {
-                                            onCountryChange(c.code, c.dial_code);
-                                            setIsDropdownOpen(false);
-                                            setSearchQuery("");
-                                        }}
-                                        className="w-full px-4 py-3 flex items-center justify-between hover:bg-[#652b32]/5 transition group"
-                                    >
-                                        <div className="flex items-center gap-3">
-                                            <ReactCountryFlag
-                                                countryCode={c.code}
-                                                svg
-                                                style={{ width: '20px', height: '15px' }}
-                                            />
-                                            <span className="text-sm text-[#652b32]/80 group-hover:text-[#652b32]">{c.name}</span>
+                    {/* Dropdown Menu Portal */}
+                    {showDropdown &&
+                        dropdownStyle &&
+                        createPortal(
+                            <div
+                                ref={menuRef}
+                                style={dropdownStyle}
+                                className="bg-white border-2 border-[#652b32]/20 rounded-xl shadow-[0_10px_40px_-10px_rgba(101,43,50,0.3)] overflow-hidden"
+                            >
+                                {/* Search */}
+                                <div className="p-3 border-b border-[#652b32]/10 bg-[#faf3e0] sticky top-0 z-10">
+                                    <div className="relative">
+                                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#652b32]/50" />
+                                        <input
+                                            type="text"
+                                            value={searchTerm}
+                                            onChange={(e) => setSearchTerm(e.target.value)}
+                                            placeholder="Search country..."
+                                            className="w-full pl-10 pr-4 py-3 bg-white border border-[#652b32]/20 rounded-lg text-[#652b32] text-sm focus:outline-none focus:border-[#652b32]/40 placeholder:text-[#652b32]/40"
+                                            autoFocus
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Country List */}
+                                <div className="max-h-[300px] overflow-y-auto bg-white">
+                                    {filteredCountries.length ? (
+                                        filteredCountries.map((country) => (
+                                            <button
+                                                key={country.code}
+                                                type="button"
+                                                onClick={() => selectCountry(country)}
+                                                className="w-full px-4 py-3 flex items-center gap-4 hover:bg-[#652b32]/5 text-left transition-colors group"
+                                            >
+                                                <div className="w-8 flex-shrink-0">
+                                                    <ReactCountryFlag
+                                                        countryCode={country.code}
+                                                        svg
+                                                        style={{ width: '24px', height: '18px' }}
+                                                    />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="text-sm font-bold text-[#652b32]/80 group-hover:text-[#652b32]">{country.name}</div>
+                                                    <div className="text-xs font-medium text-[#652b32]/50">{country.dial_code}</div>
+                                                </div>
+                                                {countryCode === country.code && (
+                                                    <Check className="w-4 h-4 text-[#652b32]" />
+                                                )}
+                                            </button>
+                                        ))
+                                    ) : (
+                                        <div className="p-6 text-center text-sm text-[#652b32]/60">
+                                            No countries found
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <span className="text-xs font-bold text-[#652b32]/40 group-hover:text-[#652b32]/60">{c.dial_code}</span>
-                                            {countryCode === c.code && <Check size={14} className="text-[#652b32]" />}
-                                        </div>
-                                    </button>
-                                ))}
-                                {filteredCountries.length === 0 && (
-                                    <div className="p-4 text-center text-sm text-[#652b32]/40">No results found</div>
-                                )}
-                            </div>
-                        </div>
-                    )}
+                                    )}
+                                </div>
+                            </div>,
+                            document.body
+                        )}
                 </div>
 
-                {/* Phone Input */}
-                <input
-                    type="tel"
-                    value={value}
-                    onChange={(e) => {
-                        const val = e.target.value.replace(/\D/g, '').slice(0, 10);
-                        onPhoneChange(val);
-                    }}
-                    placeholder="Enter 10-digit number"
-                    className="flex-1 px-4 py-3 border border-[#652b32]/30 rounded-r-md outline-none focus:border-[#652b32] transition"
-                />
+                {/* Phone Number Input */}
+                <div className="flex-1">
+                    <input
+                        type="tel"
+                        value={value}
+                        onChange={(e) => {
+                            const val = e.target.value.replace(/\D/g, '').slice(0, 10);
+                            onPhoneChange(val);
+                        }}
+                        placeholder="Phone No"
+                        className={`w-full px-4 py-3.5 bg-[#652b32]/5 border rounded-xl outline-none text-[#652b32] placeholder:text-[#652b32]/40 text-sm transition hover:border-[#652b32]/30 focus:border-[#652b32]/40 ${error ? "border-red-500" : "border-[#652b32]/20"
+                            }`}
+                    />
+                </div>
             </div>
+            {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
         </div>
     );
 };
 
 const FormField = ({
-    label,
+    placeholder,
     value,
     onChange,
     error,
     type = "text",
 }: any) => (
-    <div>
-        <label className="block text-sm mb-1.5">{label}</label>
+    <div className="space-y-2">
         <input
             type={type}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className={`w-full px-4 py-3 border rounded-md outline-none transition ${error
-                ? "border-red-500"
-                : "border-[#652b32]/30 focus:border-[#652b32]"
+            placeholder={placeholder}
+            className={`w-full bg-[#652b32]/5 border rounded-xl px-4 py-3.5 outline-none text-[#652b32] placeholder:text-[#652b32]/40 text-sm transition hover:border-[#652b32]/30 focus:border-[#652b32]/40 ${error ? "border-red-500" : "border-[#652b32]/20"
                 }`}
         />
         {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
