@@ -1,5 +1,6 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
+import { SEO } from "@/components/SEO";
 
 const NotFound = () => {
   const location = useLocation();
@@ -15,6 +16,11 @@ const NotFound = () => {
   return (
     <div className="flex min-h-screen items-center justify-center bg-white px-6">
       <div className="grid max-w-5xl grid-cols-1 items-center gap-10 md:grid-cols-2">
+        <SEO
+          title="Page Not Found"
+          description="The page you are looking for does not exist."
+          noindex={true}
+        />
 
         {/* Left Illustration */}
         <div className="flex justify-center">

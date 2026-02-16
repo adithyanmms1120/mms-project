@@ -1,0 +1,175 @@
+.primaryColor {
+    color: #652b32;
+}
+
+.bgPrimary {
+    background-color: #652b32;
+}
+
+.bgBase {
+    background-color: #faf3e0;
+}
+
+.textBase {
+    color: #faf3e0;
+}
+
+.button {
+    background-color: #652b32;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #4a1f25;
+    /* Darker shade of #652b32 */
+}
+
+.card {
+    background-color: white;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.sidebarCard {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    border: 1px solid #f3f4f6;
+}
+
+.input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    outline: none;
+    transition: all 0.2s;
+}
+
+.input:focus {
+    border-color: #652b32;
+    box-shadow: 0 0 0 2px rgba(101, 43, 50, 0.1);
+}
+
+.heading {
+    font-weight: 700;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+}
+
+.accordionItem {
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.accordionTrigger {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 1rem 0;
+    font-weight: 600;
+    color: #1a1a1a;
+    text-align: left;
+}
+
+.accordionContent {
+    padding-bottom: 1rem;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+/* Blog Content Styles */
+.blogContent {
+    color: #374151;
+    font-size: 1.125rem;
+    line-height: 1.8;
+}
+
+.blogContent h1,
+.blogContent h2,
+.blogContent h3,
+.blogContent h4,
+.blogContent h5,
+.blogContent h6 {
+    color: #652b32;
+    font-weight: 800;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+    line-height: 1.3;
+}
+
+.blogContent h2 {
+    font-size: 1.875rem;
+}
+
+.blogContent h3 {
+    font-size: 1.5rem;
+}
+
+.blogContent h4 {
+    font-size: 1.25rem;
+}
+
+.blogContent p {
+    margin-bottom: 1.5rem;
+}
+
+.blogContent ul,
+.blogContent ol {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+}
+
+.blogContent ul {
+    list-style-type: disc;
+}
+
+.blogContent ol {
+    list-style-type: decimal;
+}
+
+.blogContent li {
+    margin-bottom: 0.5rem;
+}
+
+.blogContent a {
+    color: #652b32;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+}
+
+.blogContent a:hover {
+    text-decoration: none;
+}
+
+.blogContent blockquote {
+    border-left: 4px solid #652b32;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    background-color: rgba(101, 43, 50, 0.05);
+    border-radius: 0 12px 12px 0;
+    font-style: italic;
+    font-weight: 500;
+    color: #4a1f25;
+}
+
+.blogContent img {
+    border-radius: 12px;
+    margin: 2rem 0;
+    width: 100%;
+    height: auto;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.blogContent pre {
+    background-color: #1a1a1a;
+    color: #faf3e0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 2rem 0;
+}

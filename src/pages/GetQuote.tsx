@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { SEO } from "@/components/SEO";
 import ReactCountryFlag from "react-country-flag";
 import { createPortal } from "react-dom";
+import { SuccessPopup } from "@/components/SuccessPopup";
 
 interface Country {
     code: string;
@@ -239,6 +240,7 @@ const GetQuote = () => {
     });
 
     const [isSending, setIsSending] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
 
     const validateForm = useCallback(() => {
@@ -271,41 +273,32 @@ const GetQuote = () => {
             setIsSending(true);
 
             try {
-                const response = await fetch("http://localhost:8000/api/contact/quote/", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(formData),
+                // Use the centralized API function
+                const { sendQuoteRequest } = await import("@/services/api");
+                await sendQuoteRequest(formData);
+
+                toast.success("Quote request sent successfully!", {
+                    description: "We'll get back to you within 24-48 hours.",
                 });
 
-                const data = await response.json();
+                setShowSuccess(true);
 
-                if (response.ok) {
-                    toast.success("Quote request sent successfully!", {
-                        description: "We'll get back to you within 24-48 hours.",
-                    });
-
-                    setFormData({
-                        firstName: "",
-                        lastName: "",
-                        phone: "",
-                        dialCode: "+1",
-                        countryCode: "US",
-                        email: "",
-                        startDate: "",
-                        selectedService: "",
-                        message: "",
-                    });
-                    setErrors({});
-                } else {
-                    toast.error("Failed to send request", {
-                        description: data.message || "Please try again later.",
-                    });
-                }
-            } catch (error) {
-                toast.error("Network error", {
-                    description: "Please check your connection and try again.",
+                setFormData({
+                    firstName: "",
+                    lastName: "",
+                    phone: "",
+                    dialCode: "+1",
+                    countryCode: "US",
+                    email: "",
+                    startDate: "",
+                    selectedService: "",
+                    message: "",
+                });
+                setErrors({});
+            } catch (error: any) {
+                console.error("Quote submission error:", error);
+                toast.error("Failed to send request", {
+                    description: error.message || "Please check your connection and try again.",
                 });
             } finally {
                 setIsSending(false);
@@ -322,7 +315,14 @@ const GetQuote = () => {
             <SEO
                 title="Get in Touch | MediaMatic Studio"
                 description="Share your project details and get a customized quote."
-                canonical="/get-quote"
+                canonical="/contact-us/"
+            />
+
+            <SuccessPopup
+                isOpen={showSuccess}
+                onClose={() => setShowSuccess(false)}
+                title="Quote Request Sent!"
+                message="Thank you for your interest! We have received your details and will get back to you with a customized quote within 24-48 hours."
             />
 
             <main className="min-h-screen bg-[#faf3e0] font-sans text-[#652b32] flex items-center justify-center px-4 sm:px-6 md:px-8 pt-24 sm:pt-28 md:pt-32 pb-8 md:pb-12 lg:pb-16 relative overflow-hidden">

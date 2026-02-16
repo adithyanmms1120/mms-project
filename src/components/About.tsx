@@ -1,10 +1,7 @@
-import { useEffect, useRef, useState, memo, useMemo } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
-
-import { ArrowRight, ChevronDown, ExternalLink } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { ArrowRight, ExternalLink } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import StatsCard from "@/components/StatsCard";
 import CoreValueCard from "@/components/CoreValueCard";
@@ -26,12 +23,12 @@ import {
   LineChart,
 } from "lucide-react";
 
-import aboutVideo from "../assets/hero_optim.mp4";
+import aboutImg from "@/assets/about.png";
 import ceoImg from "../assets/ZU-01.webp";
 import cooImg from "../assets/TH-01.webp";
 import adminImg from "../assets/Re-01.webp";
 
-gsap.registerPlugin(ScrollTrigger);
+
 
 /* =========================
           DATA
@@ -127,76 +124,14 @@ const workStages = [
 ];
 
 export const About = () => {
-  const heroRef = useRef<HTMLDivElement | null>(null);
-  const videoWrapRef = useRef<HTMLDivElement | null>(null);
-  const targetRef = useRef<HTMLDivElement | null>(null);
-  const contentRef = useRef<HTMLDivElement | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Check for mobile view
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 1024);
-    };
-
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  /* =========================
+      HERO SECTION (Simplified)
+  ========================= */
 
   /* =========================
       VIDEO FULL → CARD
   ========================= */
-  useEffect(() => {
-    if (isMobile) {
-      // On mobile, ensure video plays automatically
-      if (videoRef.current) {
-        videoRef.current.play().catch(e => console.log("Autoplay prevented:", e));
-      }
-      return;
-    }
 
-    if (!heroRef.current || !videoWrapRef.current || !targetRef.current || !contentRef.current)
-      return;
-
-    const ctx = gsap.context(() => {
-      const heroBox = heroRef.current!.getBoundingClientRect();
-      const targetBox = targetRef.current!.getBoundingClientRect();
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: "top top",
-          end: "+=700",
-          scrub: true,
-          pin: true,
-        },
-      });
-
-      tl.fromTo(
-        videoWrapRef.current,
-        {
-          width: heroBox.width,
-          height: heroBox.height,
-          borderRadius: 0,
-          x: 0,
-          y: 0,
-        },
-        {
-          width: 420,
-          height: 260,
-          borderRadius: 24,
-          x: targetBox.left - heroBox.left,
-          y: targetBox.top - heroBox.top,
-          ease: "none",
-        }
-      ).to(contentRef.current, { opacity: 1 }, "-=0.2");
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, [isMobile]);
 
   /* =========================
         ANIMATION VARIANTS
@@ -276,213 +211,85 @@ export const About = () => {
     }
   };
 
-  const WordReveal = memo(({ text, className = "" }: { text: string; className?: string }) => {
-    const words = useMemo(() => text.split(" "), [text]);
-    return (
-      <div className={`flex flex-wrap ${className}`}>
-        {words.map((word, i) => (
-          <span key={i} className="inline-block overflow-hidden mr-[0.2em] py-[0.1em]">
-            <motion.span
-              initial={{ y: "100%", opacity: 0 }}
-              whileInView={{ y: 0, opacity: 1 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{
-                duration: 0.8,
-                delay: i * 0.02,
-                ease: [0.215, 0.61, 0.355, 1],
-              }}
-              className="inline-block will-change-transform"
-            >
-              {word === "" ? "\u00A0" : word}
-            </motion.span>
-          </span>
-        ))}
-      </div>
-    );
-  });
 
-  WordReveal.displayName = "WordReveal";
+
+  /* =========================
+      SCROLL ON MOUNT
+  ========================= */
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.hash === "#about") {
+      setTimeout(() => {
+        const el = document.getElementById("about");
+        if (el) {
+          const offset = 80;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        }
+      }, 500); // Delay to ensure rendering
+    }
+  }, [location]);
 
   return (
     <section className="bg-[#652b32] text-primary-foreground relative z-0" id="about">
-      {/* Subtle Background Gradient for Depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-transparent pointer-events-none" />
+
 
       {/* ================= HERO ================= */}
-      <div ref={heroRef} className={`relative ${isMobile ? "min-h-[60vh]" : "h-screen"} overflow-hidden bg-[#652b32]`}>
-        {/* VIDEO - Mobile responsive behavior */}
-        {isMobile ? (
-          /* MOBILE VIDEO LAYOUT */
-          <div className="container mx-auto px-4 pt-8">
-            <div className="text-[#fdf3b7] text-center mb-8">
-              <motion.span
-                className="text-sm font-semibold tracking-wider"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-              >
-                About Us
-              </motion.span>
+      <div className="relative">
 
-              <motion.h1
-                className="text-3xl font-extrabold mt-2 mb-4"
-                variants={fadeUp}
-                initial="hidden"
-                animate="visible"
-                custom={1}
-              >
-                MediaMatic Studio
-              </motion.h1>
 
-              <WordReveal
-                text="MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities."
-                className="text-base mb-6 max-w-xl mx-auto justify-center"
-              />
-            </div>
 
-            {/* MOBILE VIDEO PLAYER - Simple version */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="relative w-full max-w-2xl mx-auto rounded-2xl overflow-hidden shadow-2xl bg-black/5"
-            >
-              <video
-                ref={videoRef}
-                src={aboutVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="metadata"
-                className="w-full h-auto aspect-video object-cover"
-              />
-            </motion.div>
+        <div className="container mx-auto px-6 py-24 grid lg:grid-cols-2 gap-16 items-center">
 
-            {/* Content below video on mobile */}
-            <motion.div
-              variants={fadeUp}
-              initial="hidden"
-              animate="visible"
-              custom={3}
-              className="mt-8 text-center"
-            >
-              <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
-                <a href="#studio">
-                  Visit Our Studio <ArrowRight className="ml-2" size={20} />
-                </a>
-              </Button>
+          {/* LEFT CONTENT */}
+          <div>
+            <span className="text-sm font-semibold tracking-wider text-[#fdf3b7]">
+              About Us
+            </span>
 
-              <div className="mt-12 space-y-6">
-                <WordReveal
-                  text="Since our journey began in 2017, we have been passionate about delivering exceptional services focused on connecting ideas to audiences globally."
-                  className="text-base text-[#fdf3b7]/90 justify-center"
-                />
+            <h1 className="text-4xl md:text-6xl font-extrabold mt-4 mb-6 leading-tight text-[#fdf3b7]">
+              MediaMatic Studio
+            </h1>
 
-                <WordReveal
-                  text="Over the years, we have built a reputation for being innovative, reliable, and committed to excellence."
-                  className="text-base text-[#fdf3b7]/90 justify-center"
-                />
-              </div>
+            <p className="text-lg mb-6 max-w-xl text-[#fdf3b7]/90">
+              MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally.
+            </p>
 
-              {/* Scroll indicator for mobile */}
-              <motion.div
-                animate={{ y: [0, 10, 0] }}
-                transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-                className="mt-12 flex flex-col items-center"
-              >
-                <span className="text-sm text-[#fdf3b7]/70 mb-2">Scroll to explore more</span>
-                <ChevronDown className="text-[#fdf3b7]" />
-              </motion.div>
-            </motion.div>
+            <p className="text-lg mb-8 max-w-xl text-[#fdf3b7]/90">
+              Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
+            </p>
+
+            <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
+              <a href="#studio">
+                Visit Our Studio <ArrowRight className="ml-2" size={20} />
+              </a>
+            </Button>
           </div>
-        ) : (
-          /* DESKTOP LAYOUT */
-          <>
-            {/* VIDEO */}
-            <div
-              ref={videoWrapRef}
-              className="absolute inset-0 z-10 overflow-hidden"
-            >
-              <video
-                ref={videoRef}
-                src={aboutVideo}
-                autoPlay
-                muted
-                loop
-                playsInline
-                preload="auto"
-                className="w-full h-full object-cover transform-gpu"
-                style={{ willChange: "transform, width, height, border-radius" }}
+
+          {/* RIGHT IMAGE CARD */}
+          <div className="relative flex justify-center lg:justify-end">
+
+            {/* Rounded Card */}
+            <div className="relative">
+              <img
+                src={aboutImg}
+                alt="MediaMatic Studio"
+                className="w-[350px] md:w-[420px] rounded-[30px] object-cover"
               />
             </div>
 
-            {/* HERO CONTENT */}
-            <motion.div
-              ref={contentRef}
-              initial={{ opacity: 0, y: 20 }}
-              className="relative z-20 container mx-auto px-8 h-full grid lg:grid-cols-2 items-center gap-16"
-            >
-              {/* TEXT */}
-              <div className="text-[#fdf3b7]">
-                <motion.span
-                  className="text-sm font-semibold tracking-wider"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                >
-                  About Us
-                </motion.span>
-
-                <motion.h1
-                  className="text-5xl font-extrabold mt-4 mb-6"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={1}
-                >
-                  MediaMatic Studio
-                </motion.h1>
-
-                <motion.p
-                  className="text-lg mb-4 max-w-xl"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={2}
-                >
-                  MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally.
-                </motion.p>
-
-                <motion.p
-                  className="text-lg mb-8 max-w-xl"
-                  variants={fadeUp}
-                  initial="hidden"
-                  animate="visible"
-                  custom={3}
-                >
-                  Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
-                </motion.p>
-
-                <motion.div variants={fadeUp} initial="hidden" animate="visible" custom={4}>
-                  <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
-                    <a href="#studio">
-                      Visit Our Studio <ArrowRight className="ml-2" size={20} />
-                    </a>
-                  </Button>
-                </motion.div>
-              </div>
-
-              {/* VIDEO TARGET */}
-              <div ref={targetRef} className="hidden lg:block h-[260px]" />
-            </motion.div>
-          </>
-        )}
+          </div>
+        </div>
       </div>
 
       {/* ================= MAIN CONTENT ================= */}
-      <div className="bg-[#652b32] relative z-10 -mt-[1px]">
-        <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-20">
+      <div className="relative z-10">
+        <div className="container mx-auto px-4 lg:px-8 pb-12 lg:pb-20">
           {/* Company Story */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -511,7 +318,7 @@ export const About = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 whileHover="hover"
-                className="bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
+                className="bg-[#652b32] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl"
               >
                 <h3 className="text-xl lg:text-2xl font-bold mb-6 text-[#fdf3b7]">Our Journey</h3>
                 <div className="space-y-4">
@@ -583,7 +390,7 @@ export const About = () => {
                   viewport={{ once: true }}
                   custom={i}
                   whileHover="hover"
-                  className="bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] p-6 lg:p-8 rounded-[2rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
+                  className="bg-[#652b32] p-6 lg:p-8 rounded-[2rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="p-3 bg-[#fdf3b7]/5 rounded-2xl group-hover:bg-[#fdf3b7]/10 transition-colors">
@@ -620,7 +427,7 @@ export const About = () => {
                   whileHover="hover"
                   className="group"
                 >
-                  <div className="h-full bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] p-7 md:p-8 rounded-[2.5rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500 will-change-transform transform-gpu">
+                  <div className="h-full bg-[#652b32] p-7 md:p-8 rounded-[2.5rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500 will-change-transform transform-gpu">
                     <div className="p-4 bg-white/5 rounded-2xl w-fit mb-6 group-hover:bg-white/10 transition-all duration-500">
                       <value.icon className="w-7 h-7 lg:w-8 lg:h-8 text-[#fdf3b7] group-hover:scale-110 transition-transform duration-500" />
                     </div>
@@ -655,7 +462,7 @@ export const About = () => {
                   whileHover="hover"
                   className="group"
                 >
-                  <div className="h-full bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 rounded-3xl shadow-lg shadow-[#fdf3b7]/10 border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all relative overflow-hidden">
+                  <div className="h-full bg-[#652b32] p-6 rounded-3xl shadow-lg shadow-[#fdf3b7]/10 border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 transition-all relative overflow-hidden">
                     <div className="absolute top-0 left-0 w-1 h-full bg-gradient-to-b from-[#fdf3b7] via-[#fdf3b7]/50 to-transparent group-hover:from-[#fdf3b7] group-hover:via-[#fdf3b7]/70 group-hover:to-transparent transition-all"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-[#fdf3b7]/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     <div className="ml-4 relative z-10">
@@ -680,11 +487,9 @@ export const About = () => {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true }}
-            className="mb-12 lg:mb-20 bg-gradient-to-br from-[#652b32] via-[#6e1e2d] to-[#652b32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500"
+            className="mb-12 lg:mb-20 bg-[#652b32] rounded-[2.5rem] p-8 md:p-12 relative overflow-hidden shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all duration-500"
           >
-            {/* Background Decorative Circles */}
-            <div className="absolute -top-20 -right-20 w-80 h-80 bg-yellow-400/5 rounded-full blur-[100px]" />
-            <div className="absolute -bottom-20 -left-20 w-80 h-80 bg-white/5 rounded-full blur-[100px]" />
+
 
             <div className="relative z-10 flex flex-col lg:flex-row gap-8 lg:gap-16 items-center lg:items-start">
               <div className="flex-1">
@@ -732,7 +537,7 @@ export const About = () => {
                   className="flex flex-wrap gap-6 pt-4"
                 >
                   <Link
-                    to="/get-quote"
+                    to="/get-quote/"
                     className="px-6 py-4 rounded-xl font-bold bg-transparent border-2 border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-[#652b32] transition-all duration-300 uppercase tracking-widest text-xs"
                   >
                     Start Your Brand Journey

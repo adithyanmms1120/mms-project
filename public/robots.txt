@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://www.mediamaticstudio.com/sitemap.xml
+Sitemap: https://mediamaticstudio.com/sitemap.xml

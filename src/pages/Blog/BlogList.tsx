@@ -1,26 +1,51 @@
-import { useNavigate, Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { SEO } from "@/components/SEO";
-import { dummyPosts } from "@/data/dummyBlogs";
-import { Calendar, User, ArrowRight, Clock, ArrowLeft } from "lucide-react";
+import { fetchBlogPosts } from "@/services/api";
+import { ArrowLeft, ArrowRight, Loader2 } from "lucide-react";
+import BlogCard from "./components/BlogCard";
+import BlogSkeleton from "./components/BlogSkeleton";
 
 const BlogList = () => {
     const navigate = useNavigate();
+    const location = useLocation();
+
+    // Parse page from URL or default to 1
+    const queryParams = new URLSearchParams(location.search);
+    const initialPage = parseInt(queryParams.get("page") || "1", 10);
+    const [page, setPage] = useState(initialPage);
+
+    // Fetch posts with auto-refresh every 30 seconds
+    const { data, isLoading, isError, error, isFetching } = useQuery({
+        queryKey: ["blog-posts", page],
+        queryFn: () => fetchBlogPosts(page),
+        staleTime: 1000 * 30, // Data is fresh for 30s
+        refetchInterval: 1000 * 30, // Auto-refresh every 30s
+        placeholderData: (previousData) => previousData, // Keep previous data while fetching new page
+    });
+
+    const handlePageChange = (newPage: number) => {
+        setPage(newPage);
+        navigate(`?page=${newPage}`);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     return (
         <>
             <SEO
-                title="Blog | MediaMatic Studio"
+                title={`Blog - Page ${page} | MediaMatic Studio`}
                 description="Read the latest insights, tips, and updates from MediaMatic Studio. Explore articles on digital marketing, web development, design, and more."
-                canonical="/blog"
+                canonical={`/blog/?page=${page}`}
                 keywords="blog, digital marketing blog, web development articles, design tips, MediaMatic Studio blog"
             />
 
-            <main className="min-h-screen bg-background py-20 md:py-28">
+            <main className="min-h-screen bg-[#faf3e0] py-20 md:py-28">
                 {/* Background Pattern */}
                 <div
                     className="absolute inset-0 opacity-[0.025] pointer-events-none"
                     style={{
-                        backgroundImage: `radial-gradient(circle at 2px 2px, hsl(var(--foreground)) 1px, transparent 0)`,
+                        backgroundImage: `radial-gradient(circle at 2px 2px, #652b32 1px, transparent 0)`,
                         backgroundSize: "50px 50px",
                     }}
                 />
@@ -28,10 +53,10 @@ const BlogList = () => {
                 <div className="container mx-auto px-6 relative z-10">
                     {/* Back Button */}
                     <button
-                        onClick={() => navigate(-1)}
-                        className="mb-12 flex items-center gap-2 text-foreground/50 hover:text-foreground transition-all group font-bold uppercase tracking-widest text-[10px]"
+                        onClick={() => navigate("/")}
+                        className="mb-12 flex items-center gap-2 text-[#652b32]/50 hover:text-[#652b32] transition-all group font-bold uppercase tracking-widest text-[10px]"
                     >
-                        <div className="w-8 h-8 rounded-full border border-foreground/10 flex items-center justify-center group-hover:bg-foreground group-hover:text-background transition-all">
+                        <div className="w-8 h-8 rounded-full border border-[#652b32]/10 flex items-center justify-center group-hover:bg-[#652b32] group-hover:text-white transition-all">
                             <ArrowLeft size={14} />
                         </div>
                         Back to Website
@@ -39,80 +64,74 @@ const BlogList = () => {
 
                     {/* Header */}
                     <div className="text-center mb-14 md:mb-20">
-                        <span className="block text-[10px] uppercase tracking-[0.25em] text-foreground/40 font-semibold mb-4">
+                        <span className="block text-[10px] uppercase tracking-[0.25em] text-[#652b32]/40 font-semibold mb-4">
                             Our Blog
                         </span>
-                        <h1 className="text-4xl md:text-5xl lg:text-3xl font-black text-foreground leading-tight mb-8">
+                        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#652b32] leading-tight mb-8">
                             Latest Insights
                         </h1>
-                        <div className="w-24 h-[1.5px] bg-foreground/30 mx-auto rounded-full" />
+                        <div className="w-24 h-[1.5px] bg-[#652b32]/30 mx-auto rounded-full" />
                     </div>
 
-                    {/* Blog Posts Grid */}
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                        {dummyPosts.map((post) => (
-                            <Link
-                                key={post.slug}
-                                to={`/blog/${post.slug}`}
-                                className="group bg-white border border-gray-100 rounded-[2rem] overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 flex flex-col h-full"
+                    {/* Content Area */}
+                    {isLoading ? (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                            {[...Array(6)].map((_, i) => (
+                                <BlogSkeleton key={i} />
+                            ))}
+                        </div>
+                    ) : isError ? (
+                        <div className="text-center py-20">
+                            <p className="text-red-500 font-bold mb-4">{error instanceof Error ? error.message : "Failed to load posts"}</p>
+                            <button
+                                onClick={() => window.location.reload()}
+                                className="px-6 py-3 bg-[#652b32] text-white rounded-lg font-bold hover:bg-[#4a1f25] transition-all"
                             >
-                                {/* Featured Image */}
-                                <div className="aspect-[16/10] overflow-hidden relative">
-                                    <div className="absolute top-4 left-4 z-10">
-                                        <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-red-600 text-[10px] font-bold uppercase tracking-wider rounded-full shadow-sm">
-                                            {post.category}
-                                        </span>
+                                Try Again
+                            </button>
+                        </div>
+                    ) : (
+                        <>
+                            {/* Posts Grid */}
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto mb-16 relative">
+                                {data?.posts.map((post) => (
+                                    <BlogCard key={post.slug} post={post} />
+                                ))}
+                                {isFetching && !isLoading && (
+                                    <div className="absolute inset-0 bg-[#faf3e0]/50 flex items-start justify-center pt-20 z-10 backdrop-blur-[1px]">
+                                        <Loader2 className="w-8 h-8 text-[#652b32] animate-spin" />
                                     </div>
-                                    <img
-                                        src={post.featured_image}
-                                        alt={post.title}
-                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                                    />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                )}
+                            </div>
+
+                            {/* Pagination */}
+                            {data && data.totalPages > 1 && (
+                                <div className="flex justify-center items-center gap-4">
+                                    <button
+                                        onClick={() => handlePageChange(page - 1)}
+                                        disabled={page === 1}
+                                        className="w-12 h-12 rounded-full border-2 border-[#652b32]/10 flex items-center justify-center text-[#652b32] hover:bg-[#652b32] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[#652b32] transition-all"
+                                        aria-label="Previous Page"
+                                    >
+                                        <ArrowLeft size={20} />
+                                    </button>
+
+                                    <span className="text-sm font-bold text-[#652b32] tracking-widest">
+                                        PAGE {page} OF {data.totalPages}
+                                    </span>
+
+                                    <button
+                                        onClick={() => handlePageChange(page + 1)}
+                                        disabled={page >= data.totalPages}
+                                        className="w-12 h-12 rounded-full border-2 border-[#652b32]/10 flex items-center justify-center text-[#652b32] hover:bg-[#652b32] hover:text-white disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-[#652b32] transition-all"
+                                        aria-label="Next Page"
+                                    >
+                                        <ArrowRight size={20} />
+                                    </button>
                                 </div>
-
-                                {/* Content */}
-                                <div className="p-8 flex flex-col flex-1">
-                                    {/* Meta Info */}
-                                    <div className="flex items-center gap-4 text-xs text-gray-400 mb-4">
-                                        <div className="flex items-center gap-1.5">
-                                            <Calendar className="w-3.5 h-3.5" />
-                                            <span>{post.publish_date}</span>
-                                        </div>
-                                        <div className="flex items-center gap-1.5">
-                                            <Clock className="w-3.5 h-3.5" />
-                                            <span>{post.read_time}</span>
-                                        </div>
-                                    </div>
-
-                                    {/* Title */}
-                                    <h2 className="text-xl font-bold text-gray-900 mb-4 group-hover:text-red-600 transition-colors line-clamp-2 leading-snug">
-                                        {post.title}
-                                    </h2>
-
-                                    {/* Excerpt */}
-                                    <p className="text-gray-500 text-sm mb-6 line-clamp-3 leading-relaxed">
-                                        {post.excerpt}
-                                    </p>
-
-                                    {/* Footer Info */}
-                                    <div className="mt-auto pt-6 border-t border-gray-50 flex items-center justify-between">
-                                        <div className="flex items-center gap-3">
-                                            <img
-                                                src={post.author.avatar}
-                                                alt={post.author.name}
-                                                className="w-8 h-8 rounded-full object-cover ring-2 ring-gray-50"
-                                            />
-                                            <span className="text-xs font-semibold text-gray-700">{post.author.name}</span>
-                                        </div>
-                                        <div className="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-red-50 group-hover:translate-x-1 transition-all">
-                                            <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-red-600" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
-                    </div>
+                            )}
+                        </>
+                    )}
                 </div>
             </main>
         </>

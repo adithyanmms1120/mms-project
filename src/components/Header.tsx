@@ -15,16 +15,17 @@ const navLinks = [
   { label: "Services", href: "#services", id: "services", hasDropdown: true },
   { label: "STUDIO HUB", href: "#studio", id: "studio" },
   { label: "Brand Management", href: "#brandstatements", id: "brandstatements" },
-  { label: "Contact Us", href: "/get-quote", isSubPage: true },
+  { label: "Blog", href: "/blog/", isSubPage: true },
+  { label: "Contact Us", href: "/contact-us/", isSubPage: true, id: "contact" },
 ];
 
 const serviceLinks = [
-  { label: "2D & 3D Animation Videos", href: "/services/animation" },
-  { label: "Content Management", href: "/services/contentmanagement" },
-  { label: "Website & App Development", href: "/services/web-development" },
-  { label: "Designing", href: "/services/designing" },
-  { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "VPS Web Hosting Service", href: "/services/webhosting" },
+  { label: "2D & 3D Animation Videos", href: "/services/animation/" },
+  { label: "Content Management", href: "/services/contentmanagement/" },
+  { label: "Website & App Development", href: "/services/web-development/" },
+  { label: "Designing", href: "/services/designing/" },
+  { label: "Digital Marketing", href: "/services/digital-marketing/" },
+  { label: "VPS Web Hosting Service", href: "/services/webhosting/" },
 ];
 
 /* ================= COMPONENT ================= */
@@ -44,6 +45,7 @@ export const Header = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const isScrollSpyPage = location.pathname === "/" || location.pathname === "/about-us/";
 
   /* Header entry animation */
   useEffect(() => {
@@ -63,7 +65,7 @@ export const Header = () => {
       const isHomePage = location.pathname === "/";
 
       // Detect active section for ScrollSpy
-      if (isHomePage) {
+      if (isScrollSpyPage) {
         const sections = navLinks
           .filter(link => link.id)
           .map(link => document.getElementById(link.id!));
@@ -81,7 +83,7 @@ export const Header = () => {
       }
 
       // Determine direction for hiding
-      if (isHomePage && currentScrollY > lastScrollY.current && currentScrollY > 100) {
+      if (isScrollSpyPage && currentScrollY > lastScrollY.current && currentScrollY > 100) {
         setIsVisible(false);
       } else {
         setIsVisible(true);
@@ -94,7 +96,7 @@ export const Header = () => {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [location.pathname, activeSection]);
+  }, [location.pathname, activeSection, isScrollSpyPage]);
 
   /* Mobile menu animation */
   useEffect(() => {
@@ -141,7 +143,33 @@ export const Header = () => {
 
     // Anchor links
     if (location.pathname !== "/") {
-      navigate("/" + href);
+      navigate("/");
+      setTimeout(() => {
+        const el = document.querySelector(href);
+        if (el) {
+          const offset = 80;
+          const elementPosition = el.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
+        } else {
+          // Fallback if element not found immediately (e.g. lazy loaded)
+          setTimeout(() => {
+            const elRetry = document.querySelector(href);
+            if (elRetry) {
+              const offset = 80;
+              const elementPosition = elRetry.getBoundingClientRect().top;
+              const offsetPosition = elementPosition + window.pageYOffset - offset;
+              window.scrollTo({
+                top: offsetPosition,
+                behavior: "smooth"
+              });
+            }
+          }, 500);
+        }
+      }, 100);
       return;
     }
 
@@ -152,7 +180,7 @@ export const Header = () => {
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       window.scrollTo({
         top: offsetPosition,
-        behavior: "auto" // Changed to instant jump
+        behavior: href === "#studio" ? "auto" : "smooth"
       });
     }
   };
@@ -206,7 +234,7 @@ export const Header = () => {
                         e.preventDefault();
                         handleNavClick(link.href);
                       }}
-                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${activeSection === "services" ? "after:w-full text-primary" : "after:w-0"}`}
+                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === "services" || location.pathname.startsWith("/services/")) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                     >
                       Services <ChevronDown size={14} />
                     </a>
@@ -230,14 +258,6 @@ export const Header = () => {
                       </div>
                     )}
                   </div>
-                ) : link.label === "Contact Us" ? (
-                  <Link
-                    key={link.label}
-                    to="/get-quote"
-                    className="px-5 xl:px-7 py-2 rounded-full font-bold text-[#faf3e0] bg-[#652b32] hover:bg-[#652b32]/90 hover:scale-105 active:scale-95 transition-all duration-300 shadow-md inline-block text-center text-[10px] xl:text-[12px] uppercase tracking-[0.15em] whitespace-nowrap"
-                  >
-                    {link.label}
-                  </Link>
                 ) : (
                   <a
                     key={link.label}
@@ -246,7 +266,7 @@ export const Header = () => {
                       e.preventDefault();
                       handleNavClick(link.href, (link as any).isSubPage);
                     }}
-                    className={`relative text-[12px] xl:text-[13px] uppercase tracking-wider whitespace-nowrap after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all hover:after:w-full ${activeSection === link.id ? "after:w-full text-primary font-bold" : "after:w-0"}`}
+                    className={`relative text-[12px] xl:text-[13px] uppercase tracking-wider whitespace-nowrap after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all hover:after:w-full ${(link.id && activeSection === link.id) || (!isScrollSpyPage && link.isSubPage && location.pathname === link.href) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                   >
                     {link.label}
                   </a>
@@ -255,12 +275,22 @@ export const Header = () => {
 
               {/* GET QUOTE Button */}
               <a
-                href="/get-quote"
+                href="/get-quote/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="ml-4 px-6 xl:px-9 py-3.5 rounded-xl font-black text-[#faf3e0] bg-[#652b32] hover:bg-[#652b32]/90 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 inline-block text-center text-[10px] xl:text-[12px] uppercase tracking-[0.15em] whitespace-nowrap cursor-pointer"
+              >
+                GET QUOTE
+              </a>
+
+              {/* PAY NOW Button */}
+              <a
+                href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-2 xl:ml-4 px-6 xl:px-9 py-3.5 rounded-xl font-black text-[#652b32] bg-yellow-400 hover:bg-yellow-300 transition-all duration-300 shadow-[0_0_20px_rgba(250,204,21,0.3)] hover:shadow-[0_0_30px_rgba(250,204,21,0.5)] hover:scale-105 active:scale-95 inline-block text-center text-[10px] xl:text-[12px] uppercase tracking-[0.15em]"
               >
-                GET QUOTE
+                PAY NOW
               </a>
             </div>
 
@@ -269,91 +299,94 @@ export const Header = () => {
               {isOpen ? <X /> : <Menu />}
             </button>
           </nav>
-        </div>
-      </header>
+        </div >
+      </header >
 
       {/* Mobile Menu */}
-      {isOpen && (
-        <div ref={menuRef} className="fixed inset-0 z-40 bg-primary text-white">
-          <div
-            ref={linksRef}
-            className="h-full flex flex-col items-center justify-center gap-6"
-          >
-            {navLinks.map((link) =>
-              link.hasDropdown ? (
-                <div key={link.label} className="text-center w-full px-6">
-                  <div className="flex items-center justify-center gap-4">
-                    <a
-                      href={link.href}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavClick(link.href);
-                      }}
-                      className="text-2xl"
-                    >
-                      Services
-                    </a>
-                    <button
-                      onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
-                      className="p-1 rounded-full bg-white/10"
-                    >
-                      <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${mobileServiceOpen ? 'rotate-180' : ''}`} />
-                    </button>
-                  </div>
-
-                  {mobileServiceOpen && (
-                    <div className="mt-4 space-y-2 w-full">
-                      {serviceLinks.map((s) => (
-                        <a
-                          key={s.label}
-                          href={s.href}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            handleNavClick(s.href, true);
-                          }}
-                          className="block py-3 px-6 rounded-xl text-lg opacity-80 hover:opacity-100 hover:bg-[#652b32] hover:text-[#faf3e0] transition-all duration-300"
-                        >
-                          {s.label}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ) : link.label === "Contact Us" ? (
-                <Link
-                  key={link.label}
-                  to="/get-quote"
-                  onClick={() => setIsOpen(false)}
-                  className="px-10 py-4 rounded-full font-bold text-[#faf3e0] bg-[#652b32] active:scale-95 transition-all shadow-xl inline-block text-center text-2xl uppercase tracking-widest"
-                >
-                  {link.label}
-                </Link>
-              ) : (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavClick(link.href, (link as any).isSubPage);
-                  }}
-                  className="text-2xl"
-                >
-                  {link.label}
-                </a>
-              )
-            )}
-
-            <a
-              href="/get-quote"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-8 px-10 py-5 rounded-2xl bg-yellow-400 text-[#652b32] font-black text-xl uppercase tracking-widest shadow-2xl hover:bg-yellow-300 transition-all active:scale-95"
+      {
+        isOpen && (
+          <div ref={menuRef} className="fixed inset-0 z-40 bg-primary text-white">
+            <div
+              ref={linksRef}
+              className="h-full flex flex-col items-center justify-center gap-6"
             >
-              GET QUOTE
-            </a>
+              {navLinks.map((link) =>
+                link.hasDropdown ? (
+                  <div key={link.label} className="text-center w-full px-6">
+                    <div className="flex items-center justify-center gap-4">
+                      <a
+                        href={link.href}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleNavClick(link.href);
+                        }}
+                        className={`text-2xl transition-all duration-300 ${(activeSection === "services" || location.pathname.startsWith("/services/")) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
+                      >
+                        Services
+                      </a>
+                      <button
+                        onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
+                        className="p-1 rounded-full bg-white/10"
+                      >
+                        <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${mobileServiceOpen ? 'rotate-180' : ''}`} />
+                      </button>
+                    </div>
+
+                    {mobileServiceOpen && (
+                      <div className="mt-4 space-y-2 w-full">
+                        {serviceLinks.map((s) => (
+                          <a
+                            key={s.label}
+                            href={s.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavClick(s.href, true);
+                            }}
+                            className="block py-3 px-6 rounded-xl text-lg opacity-80 hover:opacity-100 hover:bg-[#652b32] hover:text-[#faf3e0] transition-all duration-300"
+                          >
+                            {s.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleNavClick(link.href, (link as any).isSubPage);
+                    }}
+                    className={`text-2xl transition-all duration-300 ${(link.id && activeSection === link.id) || (!isScrollSpyPage && link.isSubPage && location.pathname === link.href) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
+
+              <a
+                href="/get-quote/"
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => setIsOpen(false)}
+                className="mt-4 px-10 py-5 rounded-2xl bg-[#652b32] text-[#faf3e0] font-black text-xl uppercase tracking-widest shadow-2xl hover:bg-[#652b32]/90 transition-all active:scale-95 cursor-pointer"
+              >
+                GET QUOTE
+              </a>
+
+              <a
+                href="https://www.paypal.com/ncp/payment/Q54LAB9Y3BBLS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-8 px-10 py-5 rounded-2xl bg-yellow-400 text-[#652b32] font-black text-xl uppercase tracking-widest shadow-2xl hover:bg-yellow-300 transition-all active:scale-95"
+              >
+                PAY NOW
+              </a>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
     </>
   );
 };

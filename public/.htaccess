@@ -35,21 +35,29 @@
 <IfModule mod_headers.c>
   Header unset ETag
 </IfModule>
-FileETag None
-
-# SPA Routing
+# SPA Routing & Redirects
 Options -MultiViews
-<IfModule mod_rewrite.c>
-  RewriteEngine On
-  RewriteBase /
+RewriteEngine On
+RewriteBase /
 
-  # Redirect non-www to www
-  RewriteCond %{HTTP_HOST} ^mediamaticstudio\.com [NC]
-  RewriteRule ^(.*)$ https://www.mediamaticstudio.com/$1 [L,R=301]
+# Force HTTPS + remove www (single redirect for speed/SEO)
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} ^www\.mediamaticstudio\.com$ [NC]
+RewriteRule ^ https://mediamaticstudio.com%{REQUEST_URI} [L,R=301]
 
-  RewriteRule ^index\.html$ - [L]
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule . /index.html [L]
-</IfModule>
+# Redirect index.html to / (avoid duplicate content)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
+RewriteRule ^index\.html$ / [R=301,L]
+
+# Force trailing slash for all URLs (except files)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_URI} !/$
+RewriteCond %{REQUEST_URI} !^/index\.html$
+RewriteRule ^(.*)$ /$1/ [L,R=301]
+
+# Handle SPA Routing (React)
+# If the requested filename exists, serve it; otherwise serve index.html
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [L]
 

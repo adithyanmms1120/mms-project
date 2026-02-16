@@ -3,9 +3,10 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { Header } from "./components/Header";
+import GetQuote from "./pages/GetQuote";
 // import { WhatsAppWidget } from "./components/WhatsAppWidget"; // Removed to lazy load
 import ClickSpark from "./components/ClickSpark";
 import { CookieConsent } from "./components/CookieConsent";
@@ -23,7 +24,7 @@ const Contact = lazy(() => import("./components/Contact").then(module => ({ defa
 const WhatsAppWidget = lazy(() => import("./components/WhatsAppWidget").then(m => ({ default: m.WhatsAppWidget })));
 const BlogList = lazy(() => import("./pages/Blog/BlogList"));
 const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
-const GetQuote = lazy(() => import("./pages/GetQuote"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
 
 const LoadingSpinner = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-[#faf3e0] z-50">
@@ -58,16 +59,19 @@ const App = () => (
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/services/digital-marketing" element={<DigitalMarketing />} />
-                <Route path="/services/web-development" element={<WebDevelopment />} />
-                <Route path="/services/designing" element={<Designing />} />
-                <Route path="/services/animation" element={<Animation />} />
-                <Route path="/services/contentmanagement" element={<Content />} />
-                <Route path="/services/webhosting" element={<Hosting />} />
-                <Route path="/blog" element={<BlogList />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/contact/" element={<Contact />} />
+                <Route path="/services/digital-marketing/" element={<DigitalMarketing />} />
+                <Route path="/services/web-development/" element={<WebDevelopment />} />
+                <Route path="/services/designing/" element={<Designing />} />
+                <Route path="/services/animation/" element={<Animation />} />
+                <Route path="/services/contentmanagement/" element={<Content />} />
+                <Route path="/services/webhosting/" element={<Hosting />} />
+                <Route path="/blog/" element={<BlogList />} />
+                <Route path="/blog/:slug/" element={<BlogPost />} />
+                <Route path="/contact-us/" element={<GetQuote />} />
+                <Route path="/about-us/" element={<Navigate to="/#about" replace />} />
                 <Route path="/get-quote" element={<GetQuote />} />
+                <Route path="/get-quote/" element={<GetQuote />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

@@ -15,53 +15,74 @@ const routes = [
         canonical: 'https://www.mediamaticstudio.com/'
     },
     {
-        path: '/contact',
+        path: '/contact-us/',
         title: 'Contact Us | MediaMatic Studio',
         description: 'Get in touch with MediaMatic Studio. Let\'s create something amazing together. Contact us for digital marketing, web development, and creative services.',
         keywords: 'contact MediaMatic Studio, get in touch, digital marketing contact, web development inquiry',
-        canonical: 'https://www.mediamaticstudio.com/contact'
+        canonical: 'https://www.mediamaticstudio.com/contact-us/'
     },
     {
-        path: '/services/digital-marketing',
+        path: '/get-quote/',
+        title: 'Get a Quote | MediaMatic Studio',
+        description: 'Request a customized quote for our digital marketing, web development, and creative services. Let us help you grow your business.',
+        keywords: 'get quote, digital marketing quote, web development price, contact MediaMatic Studio',
+        canonical: 'https://www.mediamaticstudio.com/get-quote/'
+    },
+    {
+        path: '/services/digital-marketing/',
         title: 'Digital Marketing Services | MediaMatic Studio',
         description: 'Data-driven digital marketing solutions including SEO, SMM, SEM, email marketing, and Google Ads that increase conversions, engagement, and visibility.',
         keywords: 'digital marketing, SEO, SMM, SEM, Google Ads, email marketing, social media marketing, content marketing, MediaMatic Studio',
-        canonical: 'https://www.mediamaticstudio.com/services/digital-marketing'
+        canonical: 'https://www.mediamaticstudio.com/services/digital-marketing/'
     },
     {
-        path: '/services/web-development',
+        path: '/services/web-development/',
         title: 'Web & App Development Services | MediaMatic Studio',
         description: 'Your one-stop digital partner for cutting-edge web and mobile experiences. Expert mobile app development, website development, e-commerce solutions, and custom web applications.',
         keywords: 'web development, app development, mobile apps, website design, e-commerce, custom web applications, UI/UX design, responsive design, MediaMatic Studio',
-        canonical: 'https://www.mediamaticstudio.com/services/web-development'
+        canonical: 'https://www.mediamaticstudio.com/services/web-development/'
     },
     {
-        path: '/services/designing',
+        path: '/services/designing/',
         title: 'Designing Services | MediaMatic Studio',
         description: 'Design That Tells Your Story. Logos, branding, and marketing visuals crafted to speak directly to your audience. Professional logo design, brand identity, and creative marketing materials.',
         keywords: 'graphic design, logo design, brand identity, marketing visuals, social media graphics, print media design, brand guidelines, creative design, MediaMatic Studio',
-        canonical: 'https://www.mediamaticstudio.com/services/designing'
+        canonical: 'https://www.mediamaticstudio.com/services/designing/'
     },
     {
-        path: '/services/animation',
+        path: '/services/animation/',
         title: '2D & 3D Animation Services | MediaMatic Studio',
         description: 'Creative studio transforming business ideas into compelling visual stories through 2D & 3D animation. Expert explainer videos, branding videos, and custom animation solutions.',
         keywords: '2D animation, 3D animation, explainer videos, branding videos, animated videos, storyboarding, video production, animation studio, MediaMatic Studio',
-        canonical: 'https://www.mediamaticstudio.com/services/animation'
+        canonical: 'https://www.mediamaticstudio.com/services/animation/'
     },
     {
-        path: '/services/contentmanagement',
+        path: '/services/contentmanagement/',
         title: 'Content Management Services | MediaMatic Studio',
         description: 'Expert content writing services including SEO-friendly content, web copywriting, social media content, and technical documentation that connects your brand with audiences.',
         keywords: 'content writing, content management, SEO content, web copywriting, social media content, technical documentation, blog posts, content marketing, MediaMatic Studio',
-        canonical: 'https://www.mediamaticstudio.com/services/contentmanagement'
+        canonical: 'https://www.mediamaticstudio.com/services/contentmanagement/'
     },
     {
-        path: '/services/webhosting',
+        path: '/services/webhosting/',
         title: 'Web Hosting Services | MediaMatic Studio',
         description: 'Top-notch web hosting and domain services with 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts. Reliable shared and dedicated hosting solutions.',
         keywords: 'web hosting, domain registration, shared hosting, dedicated hosting, cPanel, business email, domain transfer, hosting services, MediaMatic Studio',
-        canonical: 'https://www.mediamaticstudio.com/services/webhosting'
+        canonical: 'https://www.mediamaticstudio.com/services/webhosting/'
+    },
+    {
+        path: '/about-us/',
+        title: 'About Us | MediaMatic Studio',
+        description: 'Learn more about MediaMatic Studio, our journey, vision, and the team driving digital excellence in Coimbatore and beyond.',
+        keywords: 'About MediaMatic Studio, Branding Agency Coimbatore, Digital Marketing Team, Web Development Company History',
+        canonical: 'https://www.mediamaticstudio.com/about-us/'
+    },
+    {
+        path: '/blog/',
+        title: 'Blog | MediaMatic Studio',
+        description: 'Insights, trends, and tips on digital marketing, web development, design, and technology from the experts at MediaMatic Studio.',
+        keywords: 'digital marketing blog, web development tips, design trends, technology news, MediaMatic Studio blog',
+        canonical: 'https://www.mediamaticstudio.com/blog/'
     }
 ];
 

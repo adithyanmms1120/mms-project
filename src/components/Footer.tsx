@@ -34,7 +34,7 @@ const usefulLinks = [
   { label: "Services", href: "#services", hasDropdown: true },
   { label: "STUDIO HUB", href: "#studio" },
   { label: "Brand Management", href: "#brandstatements" },
-
+  // { label: "Blog", href: "/blog" },
 ];
 
 const serviceLinks = [

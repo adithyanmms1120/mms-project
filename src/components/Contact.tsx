@@ -5,6 +5,7 @@ import { Send, Mail, Phone, MapPin, CheckCircle, ArrowUpRight, ChevronDown, Sear
 import { toast } from "sonner";
 import { createPortal } from "react-dom";
 import ReactCountryFlag from "react-country-flag";
+import { SuccessPopup } from "@/components/SuccessPopup";
 
 
 gsap.registerPlugin(ScrollTrigger);
@@ -226,6 +227,7 @@ export const Contact = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const [isSending, setIsSending] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
   const [showCountryDropdown, setShowCountryDropdown] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<Country>(
     countries.find(c => c.code === "US") || countries[0]
@@ -509,8 +511,8 @@ export const Contact = () => {
     // API call
     try {
       const response = await fetch(
-        "https://mediamaticstudio.com/api/contact/send/",
-        // "http://127.0.0.1:8000/api/mail/send/",
+        // "https://mediamaticstudio.com/api/contact/send/",
+        "http://127.0.0.1:8000/api/contact/send/",
         {
           method: "POST",
           headers: {
@@ -530,6 +532,8 @@ export const Contact = () => {
         description: "We'll get back to you soon.",
         icon: <CheckCircle className="w-5 h-5" />,
       });
+
+      setShowSuccess(true);
 
       // Reset form
       setFormData({ name: "", email: "", phone: "", message: "" });
@@ -559,6 +563,12 @@ export const Contact = () => {
 
   return (
     <section id="contact" ref={sectionRef} className="min-h-screen bg-background py-12 md:py-16 relative overflow-hidden">
+      <SuccessPopup
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Message Sent!"
+        message="Thank you for reaching out! We've received your message and will be in touch shortly."
+      />
       {/* Background */}
       <div className="absolute inset-0 opacity-[0.025]" style={{
         backgroundImage: `
