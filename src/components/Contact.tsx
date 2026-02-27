@@ -330,7 +330,7 @@ export const Contact = () => {
           force3D: true,
           scrollTrigger: {
             trigger: section,
-            start: "top 70%",
+            start: "top 95%",
             once: true,
           },
         }
@@ -348,7 +348,7 @@ export const Contact = () => {
           force3D: true,
           scrollTrigger: {
             trigger: section,
-            start: "top 60%",
+            start: "top 95%",
             once: true,
           },
         }
@@ -367,7 +367,7 @@ export const Contact = () => {
           force3D: true,
           scrollTrigger: {
             trigger: ".info-cards-container",
-            start: "top 80%",
+            start: "top 95%",
             once: true,
           },
         }
@@ -511,8 +511,8 @@ export const Contact = () => {
     // API call
     try {
       const response = await fetch(
-        // "https://mediamaticstudio.com/api/contact/send/",
-        "http://127.0.0.1:8000/api/contact/send/",
+        "https://mediamaticstudio.com/api/contact/send/",
+
         {
           method: "POST",
           headers: {
@@ -539,10 +539,11 @@ export const Contact = () => {
       setFormData({ name: "", email: "", phone: "", message: "" });
       setErrors({ name: "", email: "", phone: "", message: "" });
 
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
+      const errorMessage = error instanceof Error ? error.message : "Please try again later";
       toast.error("Something went wrong", {
-        description: error.message || "Please try again later",
+        description: errorMessage,
       });
     } finally {
       setIsSending(false);
@@ -553,7 +554,7 @@ export const Contact = () => {
     return text.split("").map((char, i) => (
       <span
         key={i}
-        className="contact-char inline-block"
+        className="contact-char inline-block text-inherit"
         style={{ display: char === " " ? "inline" : "inline-block" }}
       >
         {char === " " ? "\u00A0" : char}
@@ -580,11 +581,12 @@ export const Contact = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-10 md:mb-14" style={{ perspective: "1000px" }}>
-          <span className="block text-[10px] uppercase tracking-[0.25em] text-foreground/40 font-semibold mb-4">
+          <span className="block text-base font-semibold tracking-wider text-foreground/40 mb-4 uppercase">
             Get In Touch
           </span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-foreground leading-tight mb-8">
-            {splitHeading("Contact Us")}
+          <h2 className="text-[clamp(3rem,10vw,7.5rem)] font-black text-foreground leading-[0.85] mb-12 flex flex-col md:flex-row items-center md:items-baseline justify-center md:gap-6">
+            <span className="text-inherit uppercase">{splitHeading("Contact")}</span>
+            <span className="italic font-normal text-foreground/60 text-[0.35em] md:text-[0.3em] tracking-tight">{splitHeading("Us")}</span>
           </h2>
           <div className="w-24 h-[1.5px] bg-foreground/30 mx-auto rounded-full" />
         </div>
@@ -592,14 +594,14 @@ export const Contact = () => {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 max-w-6xl mx-auto">
           {/* Form */}
           <div>
-            <p className="contact-item text-base md:text-lg text-foreground/50 mb-8">
+            <p className="contact-item text-lg md:text-xl text-foreground/50 mb-8">
               You have a project in mind? Let's create something amazing together for you.
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-5" noValidate>
               {/* Name Field */}
               <div className="contact-item">
-                <label className="block text-sm md:text-xs font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
+                <label className="block text-base md:text-sm font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
                   Name *
                 </label>
                 <input
@@ -607,7 +609,7 @@ export const Contact = () => {
                   value={formData.name}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   required
-                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.name ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-lg md:text-base ${errors.name ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="Your name"
                 />
@@ -621,7 +623,7 @@ export const Contact = () => {
 
               {/* Email Field */}
               <div className="contact-item">
-                <label className="block text-sm md:text-xs font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
+                <label className="block text-base md:text-sm font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
                   Email *
                 </label>
                 <input
@@ -629,7 +631,7 @@ export const Contact = () => {
                   value={formData.email}
                   onChange={(e) => handleInputChange("email", e.target.value)}
                   required
-                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.email ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-lg md:text-base ${errors.email ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="your@email.com"
                 />
@@ -643,7 +645,7 @@ export const Contact = () => {
 
               {/* Phone Input with Country Dropdown */}
               <div className="contact-item">
-                <label className="block text-sm md:text-xs font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
+                <label className="block text-base md:text-sm font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
                   Phone Number {formData.phone.length > 0 ? "" : "(Optional)"}
                 </label>
                 <div className="relative" ref={dropdownRef}>
@@ -736,7 +738,7 @@ export const Contact = () => {
                         type="tel"
                         value={formData.phone}
                         onChange={handlePhoneChange}
-                        className={`w-full px-4 md:px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                        className={`w-full px-4 md:px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all text-foreground placeholder:text-foreground/50 font-medium text-lg md:text-base ${errors.phone ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                           }`}
                         placeholder="Enter 10-digit number"
                         maxLength={10}
@@ -766,7 +768,7 @@ export const Contact = () => {
 
               {/* Message Field */}
               <div className="contact-item">
-                <label className="block text-sm md:text-xs font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
+                <label className="block text-base md:text-sm font-bold text-foreground/80 mb-2 uppercase tracking-[0.15em]">
                   Message *
                 </label>
                 <textarea
@@ -774,7 +776,7 @@ export const Contact = () => {
                   onChange={(e) => handleInputChange("message", e.target.value)}
                   required
                   rows={5}
-                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/50 font-medium text-base md:text-sm ${errors.message ? "border-red-500" : "border-foreground/20 focus:border-foreground"
+                  className={`w-full px-5 py-3 bg-transparent border-[1.5px] rounded-xl focus:outline-none transition-all resize-none text-foreground placeholder:text-foreground/50 font-medium text-lg md:text-base ${errors.message ? "border-red-500" : "border-foreground/20 focus:border-foreground"
                     }`}
                   placeholder="Tell us about your project..."
                 />

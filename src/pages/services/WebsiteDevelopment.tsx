@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Monitor, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { generateBreadcrumbSchema, generateServiceSchema, generateOrganizationSchema } from "@/utils/seo-schemas";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +23,7 @@ const WebDevelopment = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "auto" });
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -48,7 +49,7 @@ const WebDevelopment = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".content-section",
-            start: "top 85%",
+            start: "top 95%",
           },
         }
       );
@@ -64,7 +65,7 @@ const WebDevelopment = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".features-list",
-            start: "top 85%",
+            start: "top 95%",
           },
         }
       );
@@ -78,8 +79,20 @@ const WebDevelopment = () => {
       <SEO
         title="Web & App Development Services | MediaMatic Studio"
         description="Your one-stop digital partner for cutting-edge web and mobile experiences. Expert mobile app development, website development, e-commerce solutions, and custom web applications."
-        canonical="/services/web-development"
+        canonical="/services/web-development/"
         keywords="web development, app development, mobile apps, website design, e-commerce, custom web applications, UI/UX design, responsive design, MediaMatic Studio"
+        structuredData={[
+          generateBreadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Services", url: "/services/" },
+            { name: "Web Development", url: "/services/web-development/" }
+          ]),
+          generateServiceSchema({
+            name: "Web Development Services",
+            description: "Expert web and mobile app development including custom applications, e-commerce solutions, and responsive design."
+          }),
+          generateOrganizationSchema()
+        ]}
       />
 
       <div className="min-h-screen bg-background">
@@ -88,12 +101,12 @@ const WebDevelopment = () => {
           {/* Hero */}
           <section className="pt-32 pb-20 bg-primary text-primary-foreground">
             <div className="container mx-auto px-6">
-              <button
-                onClick={() => navigate(-1)}
+              <Link
+                to="/services/"
                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8"
               >
                 <ArrowLeft size={18} /> Back
-              </button>
+              </Link>
 
               <div className="service-hero-content max-w-4xl">
                 <div className="inline-flex items-center gap-3 mb-6">

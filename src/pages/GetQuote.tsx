@@ -333,10 +333,10 @@ const GetQuote = () => {
                         <div className="space-y-6 md:space-y-8">
                             {/* Title Section */}
                             <div>
-                                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#652b32] leading-tight">
-                                    Get in <span className="text-[#652b32]">touch</span>
+                                <h1 className="text-4xl md:text-6xl font-black tracking-tight text-[#652b32] leading-tight">
+                                    Get In Touch
                                 </h1>
-                                <p className="mt-3 md:mt-4 text-sm sm:text-base text-[#652b32]/70 leading-relaxed max-w-lg">
+                                <p className="mt-4 text-sm text-[#652b32]/50 leading-relaxed max-w-lg">
                                     I'd like to hear from you! Whether you have questions, need support, or want to discuss a project, feel free to reach out.
                                 </p>
                             </div>

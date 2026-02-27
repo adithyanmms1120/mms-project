@@ -1,11 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, FileText, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
-
+import { generateBreadcrumbSchema, generateServiceSchema, generateOrganizationSchema } from "@/utils/seo-schemas";
 gsap.registerPlugin(ScrollTrigger);
 
 const features = [
@@ -40,7 +40,7 @@ const ContentManagement = () => {
           stagger: 0.1,
           duration: 0.6,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".features-list", start: "top 85%" },
+          scrollTrigger: { trigger: ".features-list", start: "top 95%" },
         }
       );
 
@@ -53,7 +53,7 @@ const ContentManagement = () => {
           stagger: 0.2,
           duration: 0.7,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".content-blocks", start: "top 85%" },
+          scrollTrigger: { trigger: ".content-blocks", start: "top 95%" },
         }
       );
     }, sectionRef);
@@ -66,8 +66,20 @@ const ContentManagement = () => {
       <SEO
         title="Content Management Services | MediaMatic Studio"
         description="Expert content writing services including SEO-friendly content, web copywriting, social media content, and technical documentation that connects your brand with audiences."
-        canonical="/services/contentmanagement"
+        canonical="/services/contentmanagement/"
         keywords="content writing, content management, SEO content, web copywriting, social media content, technical documentation, blog posts, content marketing, MediaMatic Studio"
+        structuredData={[
+          generateBreadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Services", url: "/services/" },
+            { name: "Content Management", url: "/services/contentmanagement/" }
+          ]),
+          generateServiceSchema({
+            name: "Content Management Services",
+            description: "Professional content creation including SEO writing, copywriting, blog posts, and social media content."
+          }),
+          generateOrganizationSchema()
+        ]}
       />
 
       <div className="min-h-screen bg-background">
@@ -80,12 +92,12 @@ const ContentManagement = () => {
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
-              <button
-                onClick={() => navigate(-1)}
+              <Link
+                to="/services/"
                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8 transition-colors"
               >
                 <ArrowLeft size={18} /> Back
-              </button>
+              </Link>
 
               <div className="service-hero-content max-w-4xl">
                 <div className="inline-flex items-center gap-3 mb-6">

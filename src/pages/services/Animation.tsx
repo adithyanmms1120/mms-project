@@ -1,11 +1,10 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Clapperboard, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
-import { SEO } from "@/components/SEO";
-
+import { SEO } from "@/components/SEO"; import { generateBreadcrumbSchema, generateServiceSchema, generateOrganizationSchema } from "@/utils/seo-schemas";
 gsap.registerPlugin(ScrollTrigger);
 
 const features = [
@@ -32,7 +31,7 @@ const Animation = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "auto" });
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -58,7 +57,7 @@ const Animation = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".content-blocks",
-            start: "top 85%",
+            start: "top 95%",
           },
         }
       );
@@ -74,7 +73,7 @@ const Animation = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: ".features-list",
-            start: "top 85%",
+            start: "top 95%",
           },
         }
       );
@@ -88,8 +87,20 @@ const Animation = () => {
       <SEO
         title="2D & 3D Animation Services | MediaMatic Studio"
         description="Creative studio transforming business ideas into compelling visual stories through 2D & 3D animation. Expert explainer videos, branding videos, and custom animation solutions."
-        canonical="/services/animation"
+        canonical="/services/animation/"
         keywords="2D animation, 3D animation, explainer videos, branding videos, animated videos, storyboarding, video production, animation studio, MediaMatic Studio"
+        structuredData={[
+          generateBreadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Services", url: "/services/" },
+            { name: "Animation", url: "/services/animation/" }
+          ]),
+          generateServiceSchema({
+            name: "Animation Services",
+            description: "Professional 2D and 3D animation services including explainer videos, branding animations, and video production."
+          }),
+          generateOrganizationSchema()
+        ]}
       />
 
       <div className="min-h-screen bg-background">
@@ -98,12 +109,12 @@ const Animation = () => {
           {/* HERO */}
           <section className="pt-32 pb-20 bg-primary text-primary-foreground">
             <div className="container mx-auto px-6">
-              <button
-                onClick={() => navigate(-1)}
+              <Link
+                to="/services/"
                 className="flex items-center gap-2 mb-8 opacity-70 hover:opacity-100"
               >
                 <ArrowLeft size={18} /> Back
-              </button>
+              </Link>
 
               <div className="service-hero-content max-w-4xl">
                 <div className="flex items-center gap-3 mb-6">

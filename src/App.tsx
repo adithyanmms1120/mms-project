@@ -20,11 +20,13 @@ const Animation = lazy(() => import("./pages/services/Animation"));
 const Content = lazy(() => import("./pages/services/ContentManagement"));
 const Hosting = lazy(() => import("./pages/services/WebHosting"));
 const Designing = lazy(() => import("./pages/services/Designing"));
+const ServiceSubPage = lazy(() => import("./pages/services/ServiceSubPage"));
 const Contact = lazy(() => import("./components/Contact").then(module => ({ default: module.Contact })));
 const WhatsAppWidget = lazy(() => import("./components/WhatsAppWidget").then(m => ({ default: m.WhatsAppWidget })));
 const BlogList = lazy(() => import("./pages/Blog/BlogList"));
 const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
+const ServicesPage = lazy(() => import("./pages/ServicesPage"));
 
 const LoadingSpinner = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-[#faf3e0] z-50">
@@ -59,6 +61,7 @@ const App = () => (
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/services/" element={<ServicesPage />} />
                 <Route path="/contact/" element={<Contact />} />
                 <Route path="/services/digital-marketing/" element={<DigitalMarketing />} />
                 <Route path="/services/web-development/" element={<WebDevelopment />} />
@@ -66,6 +69,7 @@ const App = () => (
                 <Route path="/services/animation/" element={<Animation />} />
                 <Route path="/services/contentmanagement/" element={<Content />} />
                 <Route path="/services/webhosting/" element={<Hosting />} />
+                <Route path="/services/:serviceSlug/:subSlug/" element={<ServiceSubPage />} />
                 <Route path="/blog/" element={<BlogList />} />
                 <Route path="/blog/:slug/" element={<BlogPost />} />
                 <Route path="/contact-us/" element={<GetQuote />} />

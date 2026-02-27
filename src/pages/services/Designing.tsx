@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Palette, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { generateBreadcrumbSchema, generateServiceSchema, generateOrganizationSchema } from "@/utils/seo-schemas";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +23,7 @@ const Designing = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        window.scrollTo(0, 0);
+        window.scrollTo({ top: 0, behavior: "auto" });
 
         const ctx = gsap.context(() => {
             gsap.fromTo(
@@ -48,7 +49,7 @@ const Designing = () => {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: ".content-section",
-                        start: "top 85%",
+                        start: "top 95%",
                     },
                 }
             );
@@ -64,7 +65,7 @@ const Designing = () => {
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: ".features-list",
-                        start: "top 85%",
+                        start: "top 95%",
                     },
                 }
             );
@@ -78,8 +79,20 @@ const Designing = () => {
             <SEO
                 title="Designing Services | MediaMatic Studio"
                 description="Design That Tells Your Story. Logos, branding, and marketing visuals crafted to speak directly to your audience. Professional logo design, brand identity, and creative marketing materials."
-                canonical="/services/designing"
+                canonical="/services/designing/"
                 keywords="graphic design, logo design, brand identity, marketing visuals, social media graphics, print media design, brand guidelines, creative design, MediaMatic Studio"
+                structuredData={[
+                    generateBreadcrumbSchema([
+                        { name: "Home", url: "/" },
+                        { name: "Services", url: "/services/" },
+                        { name: "Designing", url: "/services/designing/" }
+                    ]),
+                    generateServiceSchema({
+                        name: "Graphic Design Services",
+                        description: "Professional graphic design including logos, brand identity, marketing visuals, and print design."
+                    }),
+                    generateOrganizationSchema()
+                ]}
             />
 
             <div className="min-h-screen bg-background">
@@ -87,12 +100,12 @@ const Designing = () => {
                     {/* Hero */}
                     <section className="pt-32 pb-20 bg-primary text-primary-foreground">
                         <div className="container mx-auto px-6">
-                            <button
-                                onClick={() => navigate(-1)}
+                            <Link
+                                to="/services/"
                                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8"
                             >
                                 <ArrowLeft size={18} /> Back
-                            </button>
+                            </Link>
 
                             <div className="service-hero-content max-w-4xl">
                                 <div className="inline-flex items-center gap-3 mb-6">

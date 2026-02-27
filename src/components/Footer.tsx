@@ -34,7 +34,7 @@ const usefulLinks = [
   { label: "Services", href: "#services", hasDropdown: true },
   { label: "STUDIO HUB", href: "#studio" },
   { label: "Brand Management", href: "#brandstatements" },
-  // { label: "Blog", href: "/blog" },
+  { label: "Blog", href: "/blog" },
 ];
 
 const serviceLinks = [
@@ -67,7 +67,7 @@ export const Footer = () => {
           ease: "power3.out",
           scrollTrigger: {
             trigger: footerRef.current,
-            start: "top 90%",
+            start: "top 100%",
           },
         }
       );

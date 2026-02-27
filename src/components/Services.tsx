@@ -107,7 +107,7 @@ export const Services = () => {
           force3D: true,
           scrollTrigger: {
             trigger: ".services-heading",
-            start: "top 70%", // Trigger earlier
+            start: "top 95%",
           },
         }
       );
@@ -126,7 +126,7 @@ export const Services = () => {
           force3D: true,
           scrollTrigger: {
             trigger: ".services-grid",
-            start: "top 75%", // Trigger earlier
+            start: "top 95%",
           },
         }
       );
@@ -153,13 +153,14 @@ export const Services = () => {
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-12 md:mb-20">
-          <span className="block text-[10px] md:text-xs uppercase tracking-[0.3em] text-foreground/40 font-bold mb-4">
+          <span className="block text-base font-semibold tracking-wider text-foreground/40 mb-4 uppercase">
             What We Do
           </span>
-          <h2 className="services-heading font-display text-[clamp(2rem,7vw,5rem)] leading-[1.1] font-black text-foreground text-balance px-4">
-            Our <span className="italic font-normal text-foreground/60">Services</span>
+          <h2 className="services-heading font-display text-[clamp(3rem,10vw,7.5rem)] leading-[0.85] font-black text-foreground text-balance px-4 flex flex-col md:flex-row items-center md:items-baseline justify-center md:gap-6">
+            <span className="text-inherit uppercase">Our</span>
+            <span className="italic font-normal text-foreground/60 text-[0.35em] md:text-[0.3em] tracking-tight">Services</span>
           </h2>
-          <p className="text-sm md:text-lg text-foreground/50 max-w-xl mx-auto mt-4 md:mt-6 leading-relaxed px-6">
+          <p className="text-base text-foreground/50 max-w-xl mx-auto mt-4 md:mt-6 leading-relaxed px-6">
             A complete creative powerhouse for all your branding and digital needs
           </p>
         </div>
@@ -184,7 +185,7 @@ export const Services = () => {
               {/* Card Header */}
               <div className="p-6 md:p-8">
                 {/* Index */}
-                <span className="absolute top-4 right-4 text-5xl font-display font-bold text-foreground/[0.03]">
+                <span className="absolute top-4 right-4 text-5xl font-display font-bold text-foreground/[0.03] large-number">
                   {String(index + 1).padStart(2, "0")}
                 </span>
 

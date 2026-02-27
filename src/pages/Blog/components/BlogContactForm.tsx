@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { toast } from "sonner";
-import { Loader2, Send } from "lucide-react";
+import { Loader2, Send, User, Mail, Phone, MessageSquare } from "lucide-react";
 import styles from "../Blog.module.css";
 
-const BlogContactForm = () => {
+interface BlogContactFormProps {
+    variant?: 'card' | 'ghost';
+}
+
+const BlogContactForm = ({ variant = 'card' }: BlogContactFormProps) => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
@@ -39,32 +43,48 @@ const BlogContactForm = () => {
     };
 
     return (
-        <div className={styles.sidebarCard}>
-            <h3 className={`text-xl font-bold mb-4 text-[#652b32]`}>Get in Touch</h3>
-            <form onSubmit={handleSubmit} className="space-y-4">
-                <div>
-                    <input
-                        type="text"
-                        name="name"
-                        placeholder="Your Name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={styles.input}
-                    />
+        <div className={variant === 'card' ? styles.sidebarCard : "relative"}>
+            <div className="mb-8">
+                <h3 className="text-2xl md:text-3xl font-black text-[#652b32] mb-2 tracking-tight">Get in Touch</h3>
+                <p className="text-[#652b32]/60 text-sm font-medium">Have questions? We'd love to hear from you.</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid md:grid-cols-2 gap-5">
+                    <div className="relative group">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#652b32]/30 group-focus-within:text-[#652b32] transition-colors">
+                            <User size={18} />
+                        </div>
+                        <input
+                            type="text"
+                            name="name"
+                            placeholder="Your Name"
+                            required
+                            value={formData.name}
+                            onChange={handleChange}
+                            className={`${styles.input} !pl-12`}
+                        />
+                    </div>
+                    <div className="relative group">
+                        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#652b32]/30 group-focus-within:text-[#652b32] transition-colors">
+                            <Mail size={18} />
+                        </div>
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Your Email"
+                            required
+                            value={formData.email}
+                            onChange={handleChange}
+                            className={`${styles.input} !pl-12`}
+                        />
+                    </div>
                 </div>
-                <div>
-                    <input
-                        type="email"
-                        name="email"
-                        placeholder="Your Email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={styles.input}
-                    />
-                </div>
-                <div>
+
+                <div className="relative group">
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-[#652b32]/30 group-focus-within:text-[#652b32] transition-colors">
+                        <Phone size={18} />
+                    </div>
                     <input
                         type="tel"
                         name="phone"
@@ -72,26 +92,31 @@ const BlogContactForm = () => {
                         required
                         value={formData.phone}
                         onChange={handleChange}
-                        className={styles.input}
+                        className={`${styles.input} !pl-12`}
                     />
                 </div>
-                <div>
+
+                <div className="relative group">
+                    <div className="absolute left-4 top-4 text-[#652b32]/30 group-focus-within:text-[#652b32] transition-colors">
+                        <MessageSquare size={18} />
+                    </div>
                     <textarea
                         name="message"
                         placeholder="Your Message..."
                         required
-                        rows={4}
+                        rows={5}
                         value={formData.message}
                         onChange={handleChange}
-                        className={styles.input}
+                        className={`${styles.input} !pl-12 !pt-3.5`}
                     />
                 </div>
+
                 <button
                     type="submit"
                     disabled={isSending}
-                    className={`w-full py-3 rounded-lg font-bold flex items-center justify-center gap-2 ${styles.button}`}
+                    className={`w-full py-4 rounded-xl font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 transition-all active:scale-[0.98] shadow-lg shadow-[#652b32]/10 ${styles.button}`}
                 >
-                    {isSending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
+                    {isSending ? <Loader2 className="w-4 h-4 animate-spin text-white" /> : <Send className="w-4 h-4 text-white" />}
                     {isSending ? "Sending..." : "Send Message"}
                 </button>
             </form>

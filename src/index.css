@@ -99,23 +99,92 @@
   }
 
   html {
-    /* Set to auto for instant jumps as requested */
     scroll-behavior: auto;
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-family: var(--font-body);
+    @apply bg-background text-foreground antialiased;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: hidden;
   }
 
-  h1,
-  h2,
-  h3,
+  /*
+     STRICT FONT SIZE RULE
+     Apply 14px to standard text elements EXCEPT:
+     1. Inside #home (Hero/Home section is 100% protected)
+     2. h1 and h2 tags (Protected)
+     3. Elements with specific protection classes
+  */
+  p:not(#home *):not([class*="text-"]),
+  span:not(#home *):not(.hero-char):not([class*="text-"]),
+  li:not(#home *):not([class*="text-"]),
+  a:not(#home *):not([class*="text-"]),
+  small:not(#home *):not([class*="text-"]),
+  label:not(#home *):not([class*="text-"]),
+  div:not(#home *):not([class*="text-"]):not(:has(*)) {
+    font-size: 14px;
+  }
+
+  /* RESCUING PROTECTED CONTENT FROM GLOBAL 14PX */
+  .undo-14px {
+    font-size: 18px !important;
+    letter-spacing: 0.2em !important;
+  }
+
+  p.undo-14px {
+    font-size: 20px !important;
+    line-height: 1.6 !important;
+    opacity: 0.8 !important;
+  }
+
+  .large-number {
+    font-size: 6rem !important;
+    opacity: 0.08 !important;
+  }
+
+  .protected-headline-char {
+    font-size: inherit !important;
+  }
+
+  /* FONT FAMILY FOR HEADINGS (EXCEPT HERO) */
+  :not(#home) h1,
+  :not(#home) h2,
+  :not(#home) h3,
   h4,
   h5,
   h6 {
-    font-family: var(--font-display);
+    font-family: "Poppins", sans-serif;
     text-wrap: balance;
+  }
+
+  /* GLOBAL BODY FONT (EXCEPT HERO) */
+  :not(#home) p,
+  :not(#home) li,
+  :not(#home) span,
+  :not(#home) a {
+    font-family: "Poppins", sans-serif;
+  }
+
+  /* BRAND BACKGROUND SCOPED RULE */
+  .bg-\[\#652b32\] {
+    @apply text-white;
+  }
+
+  /* PROTECTED ELEMENTS - PRESERVING EXACT SCALES */
+  /* Crafting identities that resonate... */
+  .protected-text-resonate {
+    font-size: clamp(1rem, 2vw, 1.5rem) !important;
+  }
+
+  /* Branding is the process... */
+  .protected-branding-quote {
+    font-size: clamp(1rem, 2vw, 1.5rem) !important;
+  }
+
+  /* Why Branding Matters Bullets - Preserve original weights/scales */
+  .brand-bullet-text {
+    font-size: clamp(0.9rem, 1.5vw, 1.25rem) !important;
   }
 
   section {
@@ -130,6 +199,8 @@
   img {
     content-visibility: auto;
     image-rendering: -webkit-optimize-contrast;
+    max-width: 100%;
+    height: auto;
   }
 
   /* GPU Acceleration for animations */

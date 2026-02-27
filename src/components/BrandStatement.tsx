@@ -30,7 +30,7 @@ export const BrandStatement = () => {
             ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 70%",
+              start: "top 95%",
             },
           }
         );
@@ -50,7 +50,7 @@ export const BrandStatement = () => {
             ease: "power3.out",
             scrollTrigger: {
               trigger: sectionRef.current,
-              start: "top 70%",
+              start: "top 95%",
             },
           }
         );
@@ -67,7 +67,7 @@ export const BrandStatement = () => {
           ease: "power2.out",
           scrollTrigger: {
             trigger: sectionRef.current,
-            start: "top 80%",
+            start: "top 95%",
           },
         }
       );
@@ -85,7 +85,7 @@ export const BrandStatement = () => {
             ease: "power2.out",
             scrollTrigger: {
               trigger: cardsRef.current,
-              start: "top 75%",
+              start: "top 95%",
             },
           }
         );
@@ -104,7 +104,7 @@ export const BrandStatement = () => {
             ease: "power2.out",
             scrollTrigger: {
               trigger: whyRef.current,
-              start: "top 80%",
+              start: "top 95%",
             },
           }
         );
@@ -116,7 +116,7 @@ export const BrandStatement = () => {
 
   const renderTextWithChars = (text: string) =>
     text.split("").map((char, i) => (
-      <span key={i} className="char inline-block">
+      <span key={i} className="char inline-block protected-headline-char">
         {char === " " ? "\u00A0" : char}
       </span>
     ));
@@ -124,7 +124,7 @@ export const BrandStatement = () => {
   return (
     <section
       ref={sectionRef}
-      className="relative bg-[#652b32] py-32 md:py-48 overflow-hidden"
+      className="relative bg-[#652b32] text-white py-32 md:py-48 overflow-hidden"
       id="brandstatements"
     >
       {/* Decorative Background */}
@@ -156,7 +156,7 @@ export const BrandStatement = () => {
               {renderTextWithChars("WE MANAGE")}
             </h2>
           </div>
-          <p className="max-w-2xl mx-auto text-base md:text-xl lg:text-2xl text-[#faf3e0]/60 mt-6 md:mt-10 font-normal leading-relaxed px-4">
+          <p className="max-w-2xl mx-auto text-base md:text-xl lg:text-2xl text-[#faf3e0]/60 mt-6 md:mt-10 font-normal leading-relaxed px-4 protected-text-resonate">
             Crafting identities that resonate, communicate, and endure in an ever-evolving digital landscape.
           </p>
         </div>
@@ -220,7 +220,7 @@ export const BrandStatement = () => {
               Why Branding <br />
               <span className="italic opacity-80 decoration-4 underline decoration-[#faf3e0]/20">Matters</span>
             </h3>
-            <p className="text-xl md:text-2xl text-[#faf3e0]/80 font-light italic leading-relaxed border-l-4 border-[#faf3e0]/20 pl-6 my-8">
+            <p className="text-xl md:text-2xl text-[#faf3e0]/80 font-light italic leading-relaxed border-l-4 border-[#faf3e0]/20 pl-6 my-8 protected-branding-quote">
               “Branding is the process of defining and communicating a business identity
               and value proposition, shaping perceptions and building long-term loyalty.”
             </p>
@@ -237,7 +237,7 @@ export const BrandStatement = () => {
                 "Supports premium pricing and loyalty.",
                 "Helps businesses stand out in competitive markets."
               ].map((item, idx) => (
-                <li key={idx} className="flex items-center gap-4 text-lg md:text-xl font-medium">
+                <li key={idx} className="flex items-center gap-4 text-lg md:text-xl font-medium brand-bullet-text">
                   <div className="w-2 h-2 rounded-full bg-[#652b32] flex-shrink-0" />
                   {item}
                 </li>

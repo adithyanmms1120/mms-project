@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 const navLinks = [
   { label: "Home", href: "#home", id: "home" },
   { label: "About Us", href: "#about", id: "about" },
-  { label: "Services", href: "#services", id: "services", hasDropdown: true },
+  { label: "Services", href: "/services/", id: "services", hasDropdown: true },
   { label: "STUDIO HUB", href: "#studio", id: "studio" },
   { label: "Brand Management", href: "#brandstatements", id: "brandstatements" },
   { label: "Blog", href: "/blog/", isSubPage: true },
@@ -129,7 +129,7 @@ export const Header = () => {
 
     // If we're already on that page and it's a sub-page link, do nothing
     if (isSubPage && location.pathname === href) {
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.scrollTo({ top: 0, behavior: "auto" });
       return;
     }
 
@@ -152,7 +152,7 @@ export const Header = () => {
           const offsetPosition = elementPosition + window.pageYOffset - offset;
           window.scrollTo({
             top: offsetPosition,
-            behavior: "smooth"
+            behavior: "auto"
           });
         } else {
           // Fallback if element not found immediately (e.g. lazy loaded)
@@ -164,7 +164,7 @@ export const Header = () => {
               const offsetPosition = elementPosition + window.pageYOffset - offset;
               window.scrollTo({
                 top: offsetPosition,
-                behavior: "smooth"
+                behavior: "auto"
               });
             }
           }, 500);
@@ -180,7 +180,7 @@ export const Header = () => {
       const offsetPosition = elementPosition + window.pageYOffset - offset;
       window.scrollTo({
         top: offsetPosition,
-        behavior: href === "#studio" ? "auto" : "smooth"
+        behavior: "auto"
       });
     }
   };
@@ -266,7 +266,7 @@ export const Header = () => {
                       e.preventDefault();
                       handleNavClick(link.href, (link as any).isSubPage);
                     }}
-                    className={`relative text-[12px] xl:text-[13px] uppercase tracking-wider whitespace-nowrap after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all hover:after:w-full ${(link.id && activeSection === link.id) || (!isScrollSpyPage && link.isSubPage && location.pathname === link.href) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
+                    className={`relative text-[12px] xl:text-[13px] uppercase tracking-wider whitespace-nowrap after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all hover:after:w-full ${(link.id && activeSection === link.id) || (!isScrollSpyPage && link.isSubPage && (location.pathname === link.href || (link.href !== '/' && location.pathname.startsWith(link.href)))) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                   >
                     {link.label}
                   </a>
@@ -358,7 +358,7 @@ export const Header = () => {
                       e.preventDefault();
                       handleNavClick(link.href, (link as any).isSubPage);
                     }}
-                    className={`text-2xl transition-all duration-300 ${(link.id && activeSection === link.id) || (!isScrollSpyPage && link.isSubPage && location.pathname === link.href) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
+                    className={`text-2xl transition-all duration-300 ${(link.id && activeSection === link.id) || (!isScrollSpyPage && link.isSubPage && (location.pathname === link.href || (link.href !== '/' && location.pathname.startsWith(link.href)))) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
                   >
                     {link.label}
                   </a>

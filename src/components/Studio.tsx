@@ -185,10 +185,10 @@ export const Studio: React.FC = () => {
             transition={{ duration: 0.8 }}
             className="px-4"
           >
-            <span className="text-[#652b32]/40 tracking-[0.2em] md:tracking-[0.3em] font-bold uppercase text-[10px] md:text-sm">
+            <span className="block text-sm font-semibold tracking-wider text-[#652b32]/40 mb-4 uppercase">
               Our Creative Hub
             </span>
-            <h2 className="text-3xl md:text-5xl lg:text-7xl font-black text-[#652b32] mt-3 md:mt-6 leading-[1.1]">
+            <h2 className="text-4xl md:text-6xl font-black text-[#652b32] leading-tight">
               MEDIAMATIC STUDIO
             </h2>
             <p className="text-sm md:text-lg lg:text-xl text-[#652b32]/70 mt-4 md:mt-8 max-w-2xl mx-auto leading-relaxed">
@@ -260,7 +260,7 @@ export const Studio: React.FC = () => {
         </div>
 
         {/* Features */}
-        <div className="bg-[#652b32] rounded-[2rem] md:rounded-[3.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-2xl">
+        <div className="bg-[#652b32] text-white rounded-[2rem] md:rounded-[3.5rem] p-8 md:p-12 lg:p-16 relative overflow-hidden shadow-2xl">
           <div className="grid lg:grid-cols-2 gap-10 md:gap-16 items-center">
             <div className="space-y-4 md:space-y-6 text-center lg:text-left">
               <h3 className="text-3xl md:text-4xl lg:text-5xl font-black text-[#faf3e0] leading-tight text-balance">

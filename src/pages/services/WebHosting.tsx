@@ -1,10 +1,11 @@
 import { useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ArrowLeft, Globe, CheckCircle, ArrowRight } from "lucide-react";
 import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
+import { generateBreadcrumbSchema, generateServiceSchema, generateOrganizationSchema } from "@/utils/seo-schemas";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -22,7 +23,7 @@ const WebHosting = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "auto" });
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -40,7 +41,7 @@ const WebHosting = () => {
           stagger: 0.1,
           duration: 0.6,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".features-list", start: "top 85%" },
+          scrollTrigger: { trigger: ".features-list", start: "top 95%" },
         }
       );
 
@@ -53,7 +54,7 @@ const WebHosting = () => {
           stagger: 0.2,
           duration: 0.7,
           ease: "power3.out",
-          scrollTrigger: { trigger: ".content-blocks", start: "top 85%" },
+          scrollTrigger: { trigger: ".content-blocks", start: "top 95%" },
         }
       );
     }, sectionRef);
@@ -66,8 +67,20 @@ const WebHosting = () => {
       <SEO
         title="Web Hosting Services | MediaMatic Studio"
         description="Top-notch web hosting and domain services with 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts. Reliable shared and dedicated hosting solutions."
-        canonical="/services/webhosting"
+        canonical="/services/webhosting/"
         keywords="web hosting, domain registration, shared hosting, dedicated hosting, cPanel, business email, domain transfer, hosting services, MediaMatic Studio"
+        structuredData={[
+          generateBreadcrumbSchema([
+            { name: "Home", url: "/" },
+            { name: "Services", url: "/services/" },
+            { name: "Web Hosting", url: "/services/webhosting/" }
+          ]),
+          generateServiceSchema({
+            name: "Web Hosting Services",
+            description: "Reliable hosting solutions including shared hosting, dedicated servers, domain registration, and business email accounts."
+          }),
+          generateOrganizationSchema()
+        ]}
       />
 
       <div className="min-h-screen bg-background">
@@ -80,12 +93,12 @@ const WebHosting = () => {
             </div>
 
             <div className="container mx-auto px-6 relative z-10">
-              <button
-                onClick={() => navigate(-1)}
+              <Link
+                to="/services/"
                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8 transition-colors"
               >
                 <ArrowLeft size={18} /> Back
-              </button>
+              </Link>
 
               <div className="service-hero-content max-w-4xl">
                 <div className="inline-flex items-center gap-3 mb-6">

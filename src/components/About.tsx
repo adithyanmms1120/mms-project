@@ -48,7 +48,7 @@ const leaders = [
     link: "https://www.linkedin.com/in/szulfikar"
   },
   {
-    name: "Thasleema N",
+    name: "Thasleema Nasrin",
     role: "Co-Founder & COO",
     img: cooImg,
     link: "https://www.linkedin.com/in/thasleema-nasrin-338685330/"
@@ -236,7 +236,7 @@ export const About = () => {
   }, [location]);
 
   return (
-    <section className="bg-[#652b32] text-primary-foreground relative z-0" id="about">
+    <section className="bg-[#652b32] text-white relative z-0" id="about">
 
 
       {/* ================= HERO ================= */}
@@ -256,11 +256,11 @@ export const About = () => {
               MediaMatic Studio
             </h1>
 
-            <p className="text-lg mb-6 max-w-xl text-[#fdf3b7]/90">
+            <p className="mb-6 max-w-xl text-[#fdf3b7]/90">
               MediaMatic Studio (P)vt. Ltd., (MMS) is your perfect one-stop solution to manage all your Branding Activities. Since our journey began in 2017, we have been passionately committed to deliver exceptional services focused on connecting ideas to audiences globally.
             </p>
 
-            <p className="text-lg mb-8 max-w-xl text-[#fdf3b7]/90">
+            <p className="mb-8 max-w-xl text-[#fdf3b7]/90">
               Over the years, we have built a reputation for being innovative, reliable, and committed to excellence.
             </p>
 
@@ -304,10 +304,10 @@ export const About = () => {
                   Our Legacy
                 </h2>
                 <div className="space-y-4 md:space-y-6 text-[#fdf3b7]/90">
-                  <p className="text-base md:text-lg lg:text-xl leading-relaxed">
+                  <p className="leading-relaxed">
                     MediaMatic Studio, incorporated in 2017 – one of India's eminent startup branding firms, supporting various industries in the field of branding services.
                   </p>
-                  <p className="text-base md:text-lg lg:text-xl leading-relaxed">
+                  <p className="leading-relaxed">
                     MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website / App Development & Designing , Digital Marketing, and Content Management company in Coimbatore,India. we also serve clients in USA, Canada, UK, Europe, Middle East, Australia, and India.
                   </p>
                 </div>
@@ -380,25 +380,27 @@ export const About = () => {
             <h3 className="text-2xl md:text-3xl lg:text-3xl font-black text-center mb-6 lg:mb-10 text-[#fdf3b7] uppercase tracking-wider">
               Our 2026 Vision
             </h3>
-            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 lg:gap-4">
               {vision2026.map((item, i) => (
                 <motion.div
                   key={item.label}
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: i * 0.1 }}
                   viewport={{ once: true }}
-                  custom={i}
-                  whileHover="hover"
-                  className="bg-[#652b32] p-6 lg:p-8 rounded-[2rem] shadow-xl shadow-black/20 border border-[#fdf3b7]/10 hover:border-[#fdf3b7]/30 transition-all group"
+                  className="bg-gradient-to-br from-[#652b32] via-[#6a1c2b] to-[#652b32] p-6 lg:p-8 rounded-3xl border border-[#fdf3b7]/20 hover:border-[#fdf3b7]/40 shadow-xl group"
                 >
-                  <div className="flex items-center gap-4 mb-4">
-                    <div className="p-3 bg-[#fdf3b7]/5 rounded-2xl group-hover:bg-[#fdf3b7]/10 transition-colors">
-                      <item.icon className="w-6 h-6 lg:w-7 lg:h-7 text-[#fdf3b7] group-hover:scale-110 transition-transform duration-500" />
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="p-2.5 bg-[#fdf3b7]/5 rounded-xl group-hover:bg-[#fdf3b7]/10 transition-colors">
+                      <item.icon className="w-5 h-5 text-[#fdf3b7] group-hover:scale-110 transition-transform duration-500" />
                     </div>
-                    <span className="text-2xl lg:text-3xl font-black text-[#fdf3b7] tracking-tighter">{item.value}</span>
                   </div>
-                  <p className="text-sm md:text-base lg:text-lg text-[#fdf3b7]/70 font-medium group-hover:text-[#fdf3b7]/90 transition-colors">{item.label}</p>
+                  <h3 className="text-4xl lg:text-5xl font-extrabold text-[#fdf3b7] mb-2 tracking-tighter">
+                    {item.value}
+                  </h3>
+                  <p className="text-[#fdf3b7]/70 tracking-wide font-medium group-hover:text-[#fdf3b7] transition-colors">
+                    {item.label}
+                  </p>
                 </motion.div>
               ))}
             </div>

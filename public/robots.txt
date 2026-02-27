@@ -1,4 +1,19 @@
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /wp-admin/
+Disallow: /wp-includes/
+Disallow: /api/
 
+# Crawl delays
+User-agent: Googlebot
+Crawl-delay: 0
+
+User-agent: Bingbot
+Crawl-delay: 1
+
+User-agent: *
+Crawl-delay: 2
+
+# Sitemap
 Sitemap: https://mediamaticstudio.com/sitemap.xml
