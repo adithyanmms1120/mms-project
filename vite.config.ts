@@ -31,13 +31,7 @@ export default defineConfig(({ mode }) => {
           headless: true,
           args: ["--no-sandbox", "--disable-setuid-sandbox"]
         }),
-        postProcess(renderedRoute: any) {
-          // The vite plugin doesn't want a returned Route, it modifies in place
-          renderedRoute.html = renderedRoute.html.replace(
-            /<script(?!\s+type=["']application\/ld\+json["'])[^>]*>[\s\S]*?<\/script>/gi,
-            '' // Strip scripts to reduce JS payload on static HTML if needed, or leave intact for hydration
-          );
-        },
+
       }),
     ],
     assetsInclude: ["**/*.JPG", "**/*.JPEG"],
@@ -48,11 +42,14 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       outDir: "dist",
+      assetsDir: "assets",
+      emptyOutDir: true,
+      modulePreload: true, // CRITICAL: Disable to prevent preload fetch errors on certain servers
       cssCodeSplit: true,
       sourcemap: false,
       reportCompressedSize: false,
       chunkSizeWarningLimit: 1200,
-      target: "esnext",
+      target: "es2020", // Safer target for broad compatibility
       minify: "terser",
       terserOptions: {
         compress: {
@@ -70,6 +67,10 @@ export default defineConfig(({ mode }) => {
       },
       rollupOptions: {
         output: {
+          // Ensure predictable hashing and structure
+          entryFileNames: "assets/[name].[hash].js",
+          chunkFileNames: "assets/[name].[hash].js",
+          assetFileNames: "assets/[name].[hash].[ext]",
           manualChunks: {
             "vendor-core": [
               "react",

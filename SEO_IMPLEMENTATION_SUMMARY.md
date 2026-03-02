@@ -98,7 +98,7 @@ npm run build:seo
 
 ✅ Generated: /index.html
 ✅ Generated: /contact/index.html
-✅ Generated: /services/digital-marketing/index.html
+✅ Generated: /services/digital-marketing-agency/index.html
 ✅ Generated: /services/web-development/index.html
 ✅ Generated: /services/designing/index.html
 ✅ Generated: /services/animation/index.html
@@ -109,7 +109,7 @@ npm run build:seo
 ```
 
 ### **Verify Generated HTML:**
-Check `dist/services/digital-marketing/index.html`:
+Check `dist/services/digital-marketing-agency/index.html`:
 - ✅ Title: "Digital Marketing Services | MediaMatic Studio"
 - ✅ Description: "Data-driven digital marketing solutions..."
 - ✅ Keywords: "digital marketing, SEO, SMM, SEM..."

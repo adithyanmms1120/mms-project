@@ -31,7 +31,7 @@ const services = [
     description:
       "Transform your business ideas into compelling visual stories with high-quality 2D & 3D animation, explainer videos, and branding videos.",
     features: ["Explainer Videos", "Brand Videos", "Motion Graphics", "VFX"],
-    href: "/services/animation",
+    href: "/services/animation/",
   },
   {
     icon: FileText,
@@ -41,7 +41,7 @@ const services = [
     description:
       "SEO-friendly content, web copywriting, engaging social media content, technical writing, and brand-building content that connects with your audience.",
     features: ["Blog Posts", "SEO Articles", "Technical Docs", "Social Media"],
-    href: "/services/contentmanagement",
+    href: "/services/contentmanagement/",
   },
   {
     icon: MonitorSmartphone,
@@ -51,7 +51,7 @@ const services = [
     description:
       " Websites that don't just look good but bring in customers. Mobile apps your customers can't stop using.Clean, responsive design.",
     features: ["Mobile Apps", "Websites", "E-Commerce", "Custom Solutions"],
-    href: "/services/web-development",
+    href: "/services/web-development/",
   },
   {
     icon: Palette,
@@ -61,7 +61,7 @@ const services = [
     description:
       "Logos, branding, and marketing visuals crafted to speak directly to your audience. We build visual identities that resonate.",
     features: ["Logo Design", "Branding", "Marketing Visuals", "Social Media"],
-    href: "/services/designing",
+    href: "/services/designing/",
   },
   {
     icon: Megaphone,
@@ -71,7 +71,7 @@ const services = [
     description:
       "SEO, SMO, SEM, SMM expertise. Data-driven digital marketing solutions that increase conversions, engagement, and visibility.",
     features: ["SEO", "Social Media", "Email Marketing", "Google Ads", "Meta Ads"],
-    href: "/services/digital-marketing",
+    href: "/services/digital-marketing-agency/",
   },
   {
     icon: Globe,
@@ -81,7 +81,7 @@ const services = [
     description:
       "Top-notch web hosting and domain services. 24/7 support, 99.9% uptime guarantee, cPanel access, and business email accounts.",
     features: ["Shared Hosting", "Dedicated", "Domain", "Email"],
-    href: "/services/webhosting",
+    href: "/services/webhosting/",
   },
 
 

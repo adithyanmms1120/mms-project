@@ -37,11 +37,11 @@ const staticRoutes = [
         priority: '0.8'
     },
     {
-        path: '/services/digital-marketing/',
+        path: '/services/digital-marketing-agency/',
         title: 'Digital Marketing Services | MediaMatic Studio',
         description: 'Data-driven digital marketing solutions including SEO, SMM, SEM, email marketing, and Google Ads that increase conversions, engagement, and visibility.',
         keywords: 'digital marketing, SEO, SMM, SEM, Google Ads, email marketing, social media marketing, content marketing',
-        canonical: `${SITE_URL}/services/digital-marketing/`,
+        canonical: `${SITE_URL}/services/digital-marketing-agency/`,
         changefreq: 'weekly',
         priority: '0.9'
     },

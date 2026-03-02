@@ -80,12 +80,13 @@ const ServiceSubPage = () => {
         <div className="min-h-screen bg-background flex flex-col items-center justify-center">
           <h1 className="text-4xl font-bold mb-4">Service Not Found</h1>
           <button
-            onClick={() => navigate("/services/")}
+            onClick={() => navigate("/#services")}
             className="text-primary hover:underline flex items-center gap-2"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Services
           </button>
+
         </div>
       </>
     );

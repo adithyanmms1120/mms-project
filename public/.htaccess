@@ -60,6 +60,23 @@ RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\.mediamaticstudio\.com$ [NC]
 RewriteRule ^ https://mediamaticstudio.com%{REQUEST_URI} [L,R=301]
 
+# MIME Types & Headers for Production Stability
+<IfModule mod_mime.c>
+  AddType application/javascript .js
+  AddType application/javascript .mjs
+</IfModule>
+
+<IfModule mod_headers.c>
+  # Ensure JS modules can be loaded cross-origin (needed for some LiteSpeed configs)
+  <FilesMatch "\.(js|mjs|css|json|woff|woff2|ttf|otf)$">
+    Header set Access-Control-Allow-Origin "*"
+  </FilesMatch>
+  
+  # Ensure caches are handled correctly when compression is used
+  Header append Vary Accept-Encoding
+</IfModule>
+
+
 # Redirect index.html to / (avoid duplicate content)
 RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /index\.html\ HTTP/
 RewriteRule ^index\.html$ / [R=301,L]
@@ -71,8 +88,18 @@ RewriteCond %{REQUEST_URI} !^/index\.html$
 RewriteRule ^(.*)$ /$1/ [L,R=301]
 
 # Handle SPA Routing (React)
-# If the requested filename exists, serve it; otherwise serve index.html
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+# 1. Skip paths that are real files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# 2. Skip any requests starting with assets/ or having common file extensions
+# This prevents 404 assets from being served as index.html (which causes JS errors)
+RewriteCond %{REQUEST_URI} ^/assets/ [OR]
+RewriteCond %{REQUEST_URI} \.(js|css|ico|png|jpg|jpeg|gif|svg|webp|woff|woff2|ttf|otf|mp4|webm|wav|mp3|m4a|aac|oga)$ [NC]
+RewriteRule ^ - [L]
+
+# 3. Everything else goes to index.html
 RewriteRule ^ index.html [L]
+
 

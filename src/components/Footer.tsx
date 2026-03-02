@@ -31,19 +31,19 @@ const socialLinks = [
 const usefulLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
-  { label: "Services", href: "#services", hasDropdown: true },
+  { label: "Services", href: "/services/", hasDropdown: true },
   { label: "STUDIO HUB", href: "#studio" },
   { label: "Brand Management", href: "#brandstatements" },
-  { label: "Blog", href: "/blog" },
+  { label: "Blog", href: "/blog/" },
 ];
 
 const serviceLinks = [
-  { label: "2D & 3D Animation Videos", href: "/services/animation" },
-  { label: "Content Management", href: "/services/contentmanagement" },
-  { label: "Website & App Development", href: "/services/web-development" },
-  { label: "Designing", href: "/services/designing" },
-  { label: "Digital Marketing", href: "/services/digital-marketing" },
-  { label: "Web Hosting Service", href: "/services/webhosting" },
+  { label: "2D & 3D Animation Videos", href: "/services/animation/" },
+  { label: "Content Management", href: "/services/contentmanagement/" },
+  { label: "Website & App Development", href: "/services/web-development/" },
+  { label: "Designing", href: "/services/designing/" },
+  { label: "Digital Marketing", href: "/services/digital-marketing-agency/" },
+  { label: "Web Hosting Service", href: "/services/webhosting/" },
 ];
 
 /* ================= COMPONENT ================= */

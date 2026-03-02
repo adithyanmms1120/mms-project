@@ -249,11 +249,12 @@ const DigitalMarketing = () => {
           {/* Back Button */}
           <div className="absolute top-24 left-6 z-20">
             <Link
-              to="/services/"
+              to="/#services"
               className="inline-flex items-center gap-2 text-[#faf3e0]/60 hover:text-[#faf3e0] transition-colors font-medium group"
             >
               <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" /> Back
             </Link>
+
           </div>
 
           <div className="absolute inset-0 opacity-10">

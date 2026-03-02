@@ -12,7 +12,7 @@
   - [ ] Verify 8 HTML files created:
     - [ ] `dist/index.html`
     - [ ] `dist/contact/index.html`
-    - [ ] `dist/services/digital-marketing/index.html`
+    - [ ] `dist/services/digital-marketing-agency/index.html`
     - [ ] `dist/services/web-development/index.html`
     - [ ] `dist/services/designing/index.html`
     - [ ] `dist/services/animation/index.html`
@@ -20,7 +20,7 @@
     - [ ] `dist/services/webhosting/index.html`
 
 - [ ] **Verify meta tags**
-  - [ ] Open `dist/services/digital-marketing/index.html` in text editor
+  - [ ] Open `dist/services/digital-marketing-agency/index.html` in text editor
   - [ ] Check for unique `<title>` tag
   - [ ] Check for unique `<meta name="description">`
   - [ ] Check for `<link rel="canonical">`

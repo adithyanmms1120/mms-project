@@ -128,7 +128,7 @@ Create `dist/_redirects`:
 ```
 # Serve pre-rendered HTML for routes
 /contact                           /contact/index.html                           200
-/services/digital-marketing        /services/digital-marketing/index.html        200
+/services/digital-marketing        /services/digital-marketing-agency/index.html        200
 /services/web-development          /services/web-development/index.html          200
 /services/designing                /services/designing/index.html                200
 /services/animation                /services/animation/index.html                200
@@ -147,7 +147,7 @@ Create `vercel.json` in your project root:
 {
   "rewrites": [
     { "source": "/contact", "destination": "/contact/index.html" },
-    { "source": "/services/digital-marketing", "destination": "/services/digital-marketing/index.html" },
+    { "source": "/services/digital-marketing", "destination": "/services/digital-marketing-agency/index.html" },
     { "source": "/services/web-development", "destination": "/services/web-development/index.html" },
     { "source": "/services/designing", "destination": "/services/designing/index.html" },
     { "source": "/services/animation", "destination": "/services/animation/index.html" },

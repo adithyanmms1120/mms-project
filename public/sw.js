@@ -1,10 +1,8 @@
-const CACHE_NAME = 'mms-image-cache-v1';
+const CACHE_NAME = 'mms-image-cache-' + Date.now();
 const IMAGE_TYPES = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
 
 // Pre-cache critical UI assets
 const PRE_CACHE_ASSETS = [
-    '/',
-    '/index.html',
     '/download.jpg',
     '/favicon.ico'
 ];

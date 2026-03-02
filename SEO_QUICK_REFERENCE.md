@@ -112,7 +112,7 @@ mms-project/
 
 ### **2. Check Generated HTML**
 1. Run `npm run build:seo`
-2. Open `dist/services/digital-marketing/index.html` in text editor
+2. Open `dist/services/digital-marketing-agency/index.html` in text editor
 3. Verify unique meta tags in `<head>`
 
 ### **3. Test in Production**

@@ -11,28 +11,49 @@ import GetQuote from "./pages/GetQuote";
 import ClickSpark from "./components/ClickSpark";
 import { CookieConsent } from "./components/CookieConsent";
 
-// Lazy loading pages for better performance
-const Index = lazy(() => import("./pages/Index"));
-const NotFound = lazy(() => import("./pages/NotFound"));
-const DigitalMarketing = lazy(() => import("./pages/services/DigitalMarketing"));
-const WebDevelopment = lazy(() => import("./pages/services/WebsiteDevelopment"));
-const Animation = lazy(() => import("./pages/services/Animation"));
-const Content = lazy(() => import("./pages/services/ContentManagement"));
-const Hosting = lazy(() => import("./pages/services/WebHosting"));
-const Designing = lazy(() => import("./pages/services/Designing"));
-const ServiceSubPage = lazy(() => import("./pages/services/ServiceSubPage"));
-const Contact = lazy(() => import("./components/Contact").then(module => ({ default: module.Contact })));
-const WhatsAppWidget = lazy(() => import("./components/WhatsAppWidget").then(m => ({ default: m.WhatsAppWidget })));
-const BlogList = lazy(() => import("./pages/Blog/BlogList"));
-const BlogPost = lazy(() => import("./pages/Blog/BlogPost"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const ServicesPage = lazy(() => import("./pages/ServicesPage"));
+// Helper for robust lazy loading in production (handles chunk loading failures)
+const robustLazy = (componentImport: () => Promise<any>) =>
+  lazy(async () => {
+    try {
+      return await componentImport();
+    } catch (error) {
+      console.error("Chunk loading failed:", error);
+      // Check if we've already tried to reload in the last 10 seconds to avoid loops
+      const lastReload = sessionStorage.getItem("chunk-error-reload");
+      const now = Date.now();
+      if (!lastReload || now - parseInt(lastReload) > 10000) {
+        sessionStorage.setItem("chunk-error-reload", now.toString());
+        window.location.reload();
+      }
+      throw error;
+    }
+  });
+
+// Lazy loading pages with robust error handling
+const Index = robustLazy(() => import("./pages/Index"));
+const NotFound = robustLazy(() => import("./pages/NotFound"));
+const DigitalMarketing = robustLazy(() => import("./pages/services/DigitalMarketing"));
+const WebDevelopment = robustLazy(() => import("./pages/services/WebsiteDevelopment"));
+const Animation = robustLazy(() => import("./pages/services/Animation"));
+const Content = robustLazy(() => import("./pages/services/ContentManagement"));
+const Hosting = robustLazy(() => import("./pages/services/WebHosting"));
+const Designing = robustLazy(() => import("./pages/services/Designing"));
+const ServiceSubPage = robustLazy(() => import("./pages/services/ServiceSubPage"));
+const Contact = robustLazy(() => import("./components/Contact").then(module => ({ default: module.Contact })));
+const WhatsAppWidget = robustLazy(() => import("./components/WhatsAppWidget").then(m => ({ default: m.WhatsAppWidget })));
+const BlogList = robustLazy(() => import("./pages/Blog/BlogList"));
+const BlogPost = robustLazy(() => import("./pages/Blog/BlogPost"));
+const AboutPage = robustLazy(() => import("./pages/AboutPage"));
+const ServicesPage = robustLazy(() => import("./pages/ServicesPage"));
+
 
 const LoadingSpinner = () => (
   <div className="fixed inset-0 flex items-center justify-center bg-[#faf3e0] z-50">
     <div className="w-12 h-12 border-4 border-[#652b32] border-t-transparent rounded-full animate-spin"></div>
   </div>
 );
+
+import ScrollToHash from "./components/ScrollToHash";
 
 const queryClient = new QueryClient();
 
@@ -57,13 +78,15 @@ const App = () => (
               v7_relativeSplatPath: true,
             }}
           >
+            <ScrollToHash />
             <Header />
             <Suspense fallback={<LoadingSpinner />}>
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/services/" element={<ServicesPage />} />
                 <Route path="/contact/" element={<Contact />} />
-                <Route path="/services/digital-marketing/" element={<DigitalMarketing />} />
+
+                <Route path="/services/digital-marketing-agency/" element={<DigitalMarketing />} />
                 <Route path="/services/web-development/" element={<WebDevelopment />} />
                 <Route path="/services/designing/" element={<Designing />} />
                 <Route path="/services/animation/" element={<Animation />} />

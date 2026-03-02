@@ -12,7 +12,7 @@ gsap.registerPlugin(ScrollTrigger);
 const navLinks = [
   { label: "Home", href: "#home", id: "home" },
   { label: "About Us", href: "#about", id: "about" },
-  { label: "Services", href: "/services/", id: "services", hasDropdown: true },
+  { label: "Services", href: "/services/", id: "services", hasDropdown: true, isSubPage: true },
   { label: "STUDIO HUB", href: "#studio", id: "studio" },
   { label: "Brand Management", href: "#brandstatements", id: "brandstatements" },
   { label: "Blog", href: "/blog/", isSubPage: true },
@@ -24,7 +24,7 @@ const serviceLinks = [
   { label: "Content Management", href: "/services/contentmanagement/" },
   { label: "Website & App Development", href: "/services/web-development/" },
   { label: "Designing", href: "/services/designing/" },
-  { label: "Digital Marketing", href: "/services/digital-marketing/" },
+  { label: "Digital Marketing", href: "/services/digital-marketing-agency/" },
   { label: "VPS Web Hosting Service", href: "/services/webhosting/" },
 ];
 

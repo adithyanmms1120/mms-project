@@ -94,11 +94,12 @@ const WebHosting = () => {
 
             <div className="container mx-auto px-6 relative z-10">
               <Link
-                to="/services/"
+                to="/#services"
                 className="flex items-center gap-2 text-primary-foreground/70 hover:text-primary-foreground mb-8 transition-colors"
               >
                 <ArrowLeft size={18} /> Back
               </Link>
+
 
               <div className="service-hero-content max-w-4xl">
                 <div className="inline-flex items-center gap-3 mb-6">

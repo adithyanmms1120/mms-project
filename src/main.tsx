@@ -18,15 +18,32 @@ window.addEventListener("load", () => {
     }, 1500); // 1.5s delay to ensure content/APIs load before snapshot
 });
 
-// Register Service Worker for image caching and fast loading
+// Register Service Worker and handle updates
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then(registration => {
                 console.log('SW registered: ', registration);
+
+                // Handle updates: if a new version is found, clear cache and reload
+                registration.onupdatefound = () => {
+                    const installingWorker = registration.installing;
+                    if (installingWorker) {
+                        installingWorker.onstatechange = () => {
+                            if (installingWorker.state === 'installed') {
+                                if (navigator.serviceWorker.controller) {
+                                    console.log('New content available; please refresh.');
+                                    // Optionally force a reload here if you want to be aggressive
+                                    // window.location.reload();
+                                }
+                            }
+                        };
+                    }
+                };
             })
             .catch(registrationError => {
                 console.log('SW registration failed: ', registrationError);
             });
     });
 }
+
