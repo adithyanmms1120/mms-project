@@ -45,6 +45,7 @@ const BlogList = robustLazy(() => import("./pages/Blog/BlogList"));
 const BlogPost = robustLazy(() => import("./pages/Blog/BlogPost"));
 const AboutPage = robustLazy(() => import("./pages/AboutPage"));
 const ServicesPage = robustLazy(() => import("./pages/ServicesPage"));
+const PodcastStudioPage = robustLazy(() => import("./pages/coimbatorePodcast"));
 
 
 const LoadingSpinner = () => (
@@ -93,6 +94,7 @@ const App = () => (
                 <Route path="/services/contentmanagement/" element={<Content />} />
                 <Route path="/services/webhosting/" element={<Hosting />} />
                 <Route path="/services/:serviceSlug/:subSlug/" element={<ServiceSubPage />} />
+                <Route path="/studio/podcast-recording-studio-Coimbatore/" element={<PodcastStudioPage />} />
                 <Route path="/blog/" element={<BlogList />} />
                 <Route path="/blog/:slug/" element={<BlogPost />} />
                 <Route path="/contact-us/" element={<GetQuote />} />

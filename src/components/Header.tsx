@@ -13,7 +13,7 @@ const navLinks = [
   { label: "Home", href: "#home", id: "home" },
   { label: "About Us", href: "#about", id: "about" },
   { label: "Services", href: "/services/", id: "services", hasDropdown: true, isSubPage: true },
-  { label: "STUDIO HUB", href: "#studio", id: "studio" },
+  { label: "STUDIO HUB", href: "#", id: "studio", hasDropdown: true },
   { label: "Brand Management", href: "#brandstatements", id: "brandstatements" },
   { label: "Blog", href: "/blog/", isSubPage: true },
   { label: "Contact Us", href: "/contact-us/", isSubPage: true, id: "contact" },
@@ -34,7 +34,9 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
+  const [studioOpen, setStudioOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
+  const [mobileStudioOpen, setMobileStudioOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const lastScrollY = useRef(0);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -119,7 +121,9 @@ export const Header = () => {
   const handleNavClick = (href: string, isSubPage?: boolean) => {
     setIsOpen(false);
     setMobileServiceOpen(false);
+    setMobileStudioOpen(false);
     setServiceOpen(false);
+    setStudioOpen(false);
 
     // External links
     if (href.startsWith("http")) {
@@ -222,24 +226,28 @@ export const Header = () => {
                     className="relative"
                     onMouseEnter={() => {
                       if (timeoutRef.current) clearTimeout(timeoutRef.current);
-                      setServiceOpen(true);
+                      setServiceOpen(link.id === "services");
+                      setStudioOpen(link.id === "studio");
                     }}
                     onMouseLeave={() => {
-                      timeoutRef.current = setTimeout(() => setServiceOpen(false), 200);
+                      timeoutRef.current = setTimeout(() => {
+                        setServiceOpen(false);
+                        setStudioOpen(false);
+                      }, 200);
                     }}
                   >
                     <a
                       href={link.href}
                       onClick={(e) => {
                         e.preventDefault();
-                        handleNavClick(link.href);
+                        handleNavClick(link.href, (link as any).isSubPage);
                       }}
-                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === "services" || location.pathname.startsWith("/services/")) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
+                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.startsWith("/studio/"))) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                     >
-                      Services <ChevronDown size={14} />
+                      {link.label} <ChevronDown size={14} />
                     </a>
 
-                    {serviceOpen && (
+                    {link.id === "services" && serviceOpen && (
                       <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10 border border-foreground/5">
                         {serviceLinks.map((s) => (
                           <a
@@ -247,7 +255,7 @@ export const Header = () => {
                             href={s.href}
                             onClick={(e) => {
                               e.preventDefault();
-                              setServiceOpen(false); // Close dropdown
+                              setServiceOpen(false);
                               handleNavClick(s.href, true);
                             }}
                             className="block px-5 py-3 text-sm transition-all duration-300 hover:bg-[#652b32] hover:text-[#faf3e0] text-foreground/70 font-medium"
@@ -255,6 +263,22 @@ export const Header = () => {
                             {s.label}
                           </a>
                         ))}
+                      </div>
+                    )}
+
+                    {link.id === "studio" && studioOpen && (
+                      <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10 border border-foreground/5">
+                        <a
+                          href="/studio/podcast-recording-studio-Coimbatore/"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setStudioOpen(false);
+                            handleNavClick("/studio/podcast-recording-studio-Coimbatore/", true);
+                          }}
+                          className="block px-5 py-3 text-sm transition-all duration-300 hover:bg-[#652b32] hover:text-[#faf3e0] text-foreground/70 font-medium"
+                        >
+                          Coimbatore Branch
+                        </a>
                       </div>
                     )}
                   </div>
@@ -318,21 +342,24 @@ export const Header = () => {
                         href={link.href}
                         onClick={(e) => {
                           e.preventDefault();
-                          handleNavClick(link.href);
+                          handleNavClick(link.href, (link as any).isSubPage);
                         }}
-                        className={`text-2xl transition-all duration-300 ${(activeSection === "services" || location.pathname.startsWith("/services/")) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
+                        className={`text-2xl transition-all duration-300 ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.startsWith("/studio/"))) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
                       >
-                        Services
+                        {link.label}
                       </a>
                       <button
-                        onClick={() => setMobileServiceOpen(!mobileServiceOpen)}
+                        onClick={() => {
+                          if (link.id === "services") setMobileServiceOpen(!mobileServiceOpen);
+                          else if (link.id === "studio") setMobileStudioOpen(!mobileStudioOpen);
+                        }}
                         className="p-1 rounded-full bg-white/10"
                       >
-                        <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${mobileServiceOpen ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${(link.id === "services" ? mobileServiceOpen : mobileStudioOpen) ? 'rotate-180' : ''}`} />
                       </button>
                     </div>
 
-                    {mobileServiceOpen && (
+                    {link.id === "services" && mobileServiceOpen && (
                       <div className="mt-4 space-y-2 w-full">
                         {serviceLinks.map((s) => (
                           <a
@@ -347,6 +374,21 @@ export const Header = () => {
                             {s.label}
                           </a>
                         ))}
+                      </div>
+                    )}
+
+                    {link.id === "studio" && mobileStudioOpen && (
+                      <div className="mt-4 space-y-2 w-full">
+                        <a
+                          href="/studio/podcast-recording-studio-Coimbatore/"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            handleNavClick("/studio/podcast-recording-studio-Coimbatore/", true);
+                          }}
+                          className="block py-3 px-6 rounded-xl text-lg opacity-80 hover:opacity-100 hover:bg-[#652b32] hover:text-[#faf3e0] transition-all duration-300"
+                        >
+                          Coimbatore Branch
+                        </a>
                       </div>
                     )}
                   </div>

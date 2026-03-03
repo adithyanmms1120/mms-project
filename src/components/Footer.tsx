@@ -32,7 +32,6 @@ const usefulLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
   { label: "Services", href: "/services/", hasDropdown: true },
-  { label: "STUDIO HUB", href: "#studio" },
   { label: "Brand Management", href: "#brandstatements" },
   { label: "Blog", href: "/blog/" },
 ];
@@ -55,25 +54,43 @@ export const Footer = () => {
 
   /* GSAP Animation */
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".footer-item",
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.15,
-          duration: 0.8,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: footerRef.current,
-            start: "top 100%",
+    let ctx: gsap.Context;
+    // Small delay to ensure all dynamic content above it has rendered
+    const timer = setTimeout(() => {
+      ctx = gsap.context(() => {
+        gsap.fromTo(
+          ".footer-item",
+          {
+            y: 50,
+            opacity: 0,
+            scale: 0.98
           },
-        }
-      );
-    }, footerRef);
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            stagger: {
+              amount: 0.4,
+              from: "start"
+            },
+            duration: 1,
+            ease: "power2.out",
+            clearProps: "opacity,transform",
+            scrollTrigger: {
+              trigger: footerRef.current,
+              start: "top bottom-=50",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
+      }, footerRef);
+    }, 100);
 
-    return () => ctx.revert();
+    return () => {
+      clearTimeout(timer);
+      if (ctx) ctx.revert();
+    };
   }, []);
 
   /* SAME NAV LOGIC AS HEADER */
@@ -112,7 +129,7 @@ export const Footer = () => {
         <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-16 pb-16 justify-items-center text-center">
 
           {/* LOGO + SOCIAL */}
-          <div className="footer-item space-y-8 flex flex-col items-center">
+          <div className="footer-item space-y-8 flex flex-col items-center" style={{ willChange: "transform, opacity" }}>
             <img src={logo} alt="MediaMatic Studio" loading="lazy" decoding="async" className="w-60" />
 
             <div className="flex gap-4 justify-center">
@@ -131,7 +148,7 @@ export const Footer = () => {
           </div>
 
           {/* USEFUL LINKS */}
-          <div className="footer-item">
+          <div className="footer-item" style={{ willChange: "transform, opacity" }}>
             <h4 className="font-semibold mb-6">Useful Links</h4>
             <ul className="space-y-3 opacity-80">
               {usefulLinks.map((link) => (
@@ -152,7 +169,7 @@ export const Footer = () => {
           </div>
 
           {/* OUR SERVICES */}
-          <div className="footer-item">
+          <div className="footer-item" style={{ willChange: "transform, opacity" }}>
             <h4 className="font-semibold mb-6">Our Services</h4>
             <ul className="space-y-3 opacity-80">
               {serviceLinks.map((service) => (

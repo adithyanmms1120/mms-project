@@ -406,12 +406,12 @@ const DigitalMarketing = () => {
                 <p className="text-[#faf3e0]/80 text-lg max-w-2xl mx-auto mb-10 leading-relaxed">
                   Collaborate with Mediamatic Studio - the most dedicated digital marketing firm that focuses on growth, visibility, and revenue generation. We should develop strong tactics that will transform clicks into customers and grow your business to a higher level.
                 </p>
-                <Link
-                  to="/contact-us/"
+                <button
+                  onClick={() => setIsAuditModalOpen(true)}
                   className="inline-flex items-center gap-2 bg-[#faf3e0] text-[#652b32] px-10 py-4 rounded-full font-semibold shadow-xl hover:bg-white transition-all text-lg"
                 >
                   Get Started Today <ArrowRight className="w-5 h-5" />
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -552,12 +552,12 @@ const DigitalMarketing = () => {
           </div>
         </section>
 
-        <Footer />
-        <MarketingAuditDialog
-          isOpen={isAuditModalOpen}
-          onOpenChange={setIsAuditModalOpen}
-        />
       </div>
+      <Footer />
+      <MarketingAuditDialog
+        isOpen={isAuditModalOpen}
+        onOpenChange={setIsAuditModalOpen}
+      />
     </>
   );
 };

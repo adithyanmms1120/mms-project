@@ -187,15 +187,6 @@
     font-size: clamp(0.9rem, 1.5vw, 1.25rem) !important;
   }
 
-  section {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 1000px;
-  }
-
-  #home {
-    content-visibility: visible;
-  }
-
   img {
     content-visibility: auto;
     image-rendering: -webkit-optimize-contrast;

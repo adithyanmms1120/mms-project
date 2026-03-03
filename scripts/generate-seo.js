@@ -93,7 +93,7 @@ const staticRoutes = [
     {
         path: '/about-us/',
         title: 'About Us | MediaMatic Studio',
-        description: 'Learn more about MediaMatic Studio, our journey, vision, and the team driving digital excellence in Coimbatore and beyond.',
+        description: 'Learn more about MediaMatic Studio, our journey, vision, and the team driving digital excellence In Coimbatore and beyond.',
         keywords: 'About MediaMatic Studio, Branding Agency Coimbatore, Digital Marketing Team, Web Development Company History',
         canonical: `${SITE_URL}/about-us/`,
         changefreq: 'monthly',

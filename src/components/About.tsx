@@ -265,9 +265,9 @@ export const About = () => {
             </p>
 
             <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
-              <a href="#studio">
+              <Link to="/studio/podcast-recording-studio-Coimbatore/">
                 Visit Our Studio <ArrowRight className="ml-2" size={20} />
-              </a>
+              </Link>
             </Button>
           </div>
 
@@ -308,7 +308,7 @@ export const About = () => {
                     MediaMatic Studio, incorporated in 2017 – one of India's eminent startup branding firms, supporting various industries in the field of branding services.
                   </p>
                   <p className="leading-relaxed">
-                    MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website / App Development & Designing , Digital Marketing, and Content Management company in Coimbatore,India. we also serve clients in USA, Canada, UK, Europe, Middle East, Australia, and India.
+                    MediaMatic Studio is a leading 2D & 3D Animation, Corporate Shoot, Website / App Development & Designing , Digital Marketing, and Content Management company In Coimbatore,India. we also serve clients in USA, Canada, UK, Europe, Middle East, Australia, and India.
                   </p>
                 </div>
               </div>

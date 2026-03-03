@@ -7,8 +7,8 @@ import { SEO } from "@/components/SEO";
 // Lazy load heavy sections
 const About = lazy(() => import("@/components/About").then(m => ({ default: m.About })));
 const Services = lazy(() => import("@/components/Services").then(m => ({ default: m.Services })));
-const Studio = lazy(() => import("@/components/Studio").then(m => ({ default: m.Studio })));
 const BrandStatement = lazy(() => import("@/components/BrandStatement").then(m => ({ default: m.BrandStatement })));
+const RecentBlog = lazy(() => import("@/components/RecentBlog").then(m => ({ default: m.RecentBlog })));
 const Contact = lazy(() => import("@/components/Contact").then(m => ({ default: m.Contact })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
 
@@ -43,8 +43,8 @@ const Index = () => {
         <Suspense fallback={<SectionLoader />}>
           <About />
           <Services />
-          <Studio />
           <BrandStatement />
+          <RecentBlog />
           <Contact />
           <Footer />
         </Suspense>

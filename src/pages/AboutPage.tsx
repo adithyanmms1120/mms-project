@@ -5,7 +5,6 @@ import { SEO } from "@/components/SEO";
 // Lazy load sections to avoid heavy bundle
 const About = lazy(() => import("@/components/About").then(m => ({ default: m.About })));
 const Services = lazy(() => import("@/components/Services").then(m => ({ default: m.Services })));
-const Studio = lazy(() => import("@/components/Studio").then(m => ({ default: m.Studio })));
 const BrandStatement = lazy(() => import("@/components/BrandStatement").then(m => ({ default: m.BrandStatement })));
 const Contact = lazy(() => import("@/components/Contact").then(m => ({ default: m.Contact })));
 const Footer = lazy(() => import("@/components/Footer").then(m => ({ default: m.Footer })));
@@ -21,7 +20,7 @@ const AboutPage = () => {
         <>
             <SEO
                 title="About Us | MediaMatic Studio"
-                description="Learn more about MediaMatic Studio, our journey, vision, and the team driving digital excellence in Coimbatore and beyond."
+                description="Learn more about MediaMatic Studio, our journey, vision, and the team driving digital excellence In Coimbatore and beyond."
                 canonical="/about-us/"
                 keywords="About MediaMatic Studio, Branding Agency Coimbatore, Digital Marketing Team, Web Development Company History"
             />
@@ -30,7 +29,6 @@ const AboutPage = () => {
                 <Suspense fallback={<SectionLoader />}>
                     <About />
                     <Services />
-                    <Studio />
                     <BrandStatement />
                     <Contact />
                 </Suspense>
