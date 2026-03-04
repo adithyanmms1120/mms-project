@@ -8,7 +8,7 @@ import {
   Youtube,
 } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
-import logo from "@/assets/mediamatic-logo.webp";
+import logo from "@/assets/lOGO.webp";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -32,7 +32,6 @@ const usefulLinks = [
   { label: "Home", href: "#home" },
   { label: "About Us", href: "#about" },
   { label: "Services", href: "/services/", hasDropdown: true },
-  { label: "Brand Management", href: "#brandstatements" },
   { label: "Blog", href: "/blog/" },
 ];
 
@@ -123,34 +122,49 @@ export const Footer = () => {
   return (
     <footer
       ref={footerRef}
-      className="pt-20 bg-background text-foreground"
+      className="pt-8 pb-4 bg-[#652b32] text-[#faf3e0]"
     >
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-16 pb-16 justify-items-center text-center">
+        <div className="grid lg:grid-cols-3 md:grid-cols-1 gap-8 pb-6 items-start">
 
-          {/* LOGO + SOCIAL */}
-          <div className="footer-item space-y-8 flex flex-col items-center" style={{ willChange: "transform, opacity" }}>
-            <img src={logo} alt="MediaMatic Studio" loading="lazy" decoding="async" className="w-60" />
+          {/* LOGO + BRANDING + SOCIAL */}
+          <div className="footer-item flex flex-col items-center space-y-4" style={{ willChange: "transform, opacity" }}>
+            <div className="flex flex-col items-center space-y-4">
+              <div className="rounded-full border-2 border-[#faf3e0]/10 p-1.5 shadow-lg">
+                <div className="w-28 h-28 bg-[#faf3e0] rounded-full shadow-2xl flex items-center justify-center border-[6px] border-[#652b32]/5 hover:scale-105 transition-all duration-300">
+                  <img
+                    src={logo}
+                    alt="MediaMatic Studio"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-16 drop-shadow-md"
+                  />
+                </div>
+              </div>
+              <div className="text-center">
+                <h3 className="text-[11px] font-black tracking-[0.2em] uppercase leading-tight text-[#faf3e0]">Mediamatic Studio Pvt. Ltd.,</h3>
+              </div>
+            </div>
 
-            <div className="flex gap-4 justify-center">
+            <div className="flex gap-3 justify-center pt-1">
               {socialLinks.map((social, i) => (
                 <a
                   key={i}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-10 h-10 rounded-full border border-foreground text-foreground flex items-center justify-center transition hover:scale-105"
+                  className="w-11 h-11 rounded-full border border-[#faf3e0]/30 text-[#faf3e0] flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-[#faf3e0] hover:text-[#652b32] shadow-sm"
                 >
-                  <social.icon size={18} />
+                  <social.icon size={20} />
                 </a>
               ))}
             </div>
           </div>
 
           {/* USEFUL LINKS */}
-          <div className="footer-item" style={{ willChange: "transform, opacity" }}>
-            <h4 className="font-semibold mb-6">Useful Links</h4>
-            <ul className="space-y-3 opacity-80">
+          <div className="footer-item text-center flex flex-col items-center pt-2" style={{ willChange: "transform, opacity" }}>
+            <h4 className="font-black text-sm uppercase tracking-widest mb-4 relative after:absolute after:bottom-[-8px] after:left-1/2 after:-translate-x-1/2 after:w-8 after:h-0.5 after:bg-[#faf3e0]/30">Useful Links</h4>
+            <ul className="space-y-3 opacity-90 text-[13px] font-medium">
               {usefulLinks.map((link) => (
                 <li key={link.label}>
                   <a
@@ -159,7 +173,7 @@ export const Footer = () => {
                       e.preventDefault();
                       handleNavClick(link.href);
                     }}
-                    className="hover:opacity-100 transition"
+                    className="hover:text-white transition-colors"
                   >
                     {link.label}
                   </a>
@@ -169,9 +183,9 @@ export const Footer = () => {
           </div>
 
           {/* OUR SERVICES */}
-          <div className="footer-item" style={{ willChange: "transform, opacity" }}>
-            <h4 className="font-semibold mb-6">Our Services</h4>
-            <ul className="space-y-3 opacity-80">
+          <div className="footer-item text-center flex flex-col items-center pt-2" style={{ willChange: "transform, opacity" }}>
+            <h4 className="font-black text-sm uppercase tracking-widest mb-4 relative after:absolute after:bottom-[-8px] after:left-1/2 after:-translate-x-1/2 after:w-8 after:h-0.5 after:bg-[#faf3e0]/30">Our Services</h4>
+            <ul className="space-y-3 opacity-90 text-[13px] font-medium">
               {serviceLinks.map((service) => (
                 <li key={service.label}>
                   <a
@@ -180,7 +194,7 @@ export const Footer = () => {
                       e.preventDefault();
                       handleNavClick(service.href, true);
                     }}
-                    className="hover:opacity-100 transition"
+                    className="hover:text-white transition-colors"
                   >
                     {service.label}
                   </a>
@@ -193,12 +207,12 @@ export const Footer = () => {
 
       {/* BOTTOM BAR */}
       <div
-        className="py-4 text-center text-sm bg-background text-foreground"
+        className="py-4 text-center text-[10px] tracking-wider uppercase font-semibold bg-[#652b32] text-[#faf3e0]/60 border-t border-[#faf3e0]/10"
       >
-        © Copyright MediaMatic. All Rights Reserved
-        <br />
+        © {new Date().getFullYear()} MediaMatic Studio. All Rights Reserved
+        <span className="mx-2">|</span>
         Developed & Designed by{" "}
-        <span className="font-semibold">MediaMatic Studio</span>
+        <span className="text-[#faf3e0]">MediaMatic Studio</span>
       </div>
     </footer>
   );

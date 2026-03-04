@@ -63,6 +63,7 @@
 
     /* Custom tokens */
     --gold: var(--primary-light);
+    --brown: #3d1c1c;
 
     --font-display: 'Poppins', system-ui, sans-serif;
     --font-body: 'Poppins', system-ui, sans-serif;

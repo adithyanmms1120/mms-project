@@ -14,7 +14,6 @@ const navLinks = [
   { label: "About Us", href: "#about", id: "about" },
   { label: "Services", href: "/services/", id: "services", hasDropdown: true, isSubPage: true },
   { label: "STUDIO HUB", href: "#", id: "studio", hasDropdown: true },
-  { label: "Brand Management", href: "#brandstatements", id: "brandstatements" },
   { label: "Blog", href: "/blog/", isSubPage: true },
   { label: "Contact Us", href: "/contact-us/", isSubPage: true, id: "contact" },
 ];
@@ -242,7 +241,7 @@ export const Header = () => {
                         e.preventDefault();
                         handleNavClick(link.href, (link as any).isSubPage);
                       }}
-                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.startsWith("/studio/"))) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
+                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.includes("podcast-recording-studio-in-Coimbatore/"))) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                     >
                       {link.label} <ChevronDown size={14} />
                     </a>
@@ -269,11 +268,11 @@ export const Header = () => {
                     {link.id === "studio" && studioOpen && (
                       <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10 border border-foreground/5">
                         <a
-                          href="/studio/podcast-recording-studio-Coimbatore/"
+                          href="/podcast-recording-studio-in-Coimbatore/"
                           onClick={(e) => {
                             e.preventDefault();
                             setStudioOpen(false);
-                            handleNavClick("/studio/podcast-recording-studio-Coimbatore/", true);
+                            handleNavClick("/podcast-recording-studio-in-Coimbatore/", true);
                           }}
                           className="block px-5 py-3 text-sm transition-all duration-300 hover:bg-[#652b32] hover:text-[#faf3e0] text-foreground/70 font-medium"
                         >
@@ -344,7 +343,7 @@ export const Header = () => {
                           e.preventDefault();
                           handleNavClick(link.href, (link as any).isSubPage);
                         }}
-                        className={`text-2xl transition-all duration-300 ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.startsWith("/studio/"))) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
+                        className={`text-2xl transition-all duration-300 ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.includes("podcast-recording-studio-in-Coimbatore/"))) ? "text-yellow-400 font-bold" : "opacity-80 hover:opacity-100"}`}
                       >
                         {link.label}
                       </a>
@@ -380,10 +379,10 @@ export const Header = () => {
                     {link.id === "studio" && mobileStudioOpen && (
                       <div className="mt-4 space-y-2 w-full">
                         <a
-                          href="/studio/podcast-recording-studio-Coimbatore/"
+                          href="/podcast-recording-studio-in-Coimbatore/"
                           onClick={(e) => {
                             e.preventDefault();
-                            handleNavClick("/studio/podcast-recording-studio-Coimbatore/", true);
+                            handleNavClick("/podcast-recording-studio-in-Coimbatore/", true);
                           }}
                           className="block py-3 px-6 rounded-xl text-lg opacity-80 hover:opacity-100 hover:bg-[#652b32] hover:text-[#faf3e0] transition-all duration-300"
                         >

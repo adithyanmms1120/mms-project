@@ -265,7 +265,7 @@ export const About = () => {
             </p>
 
             <Button asChild className="bg-[#fdf3b7] text-[#652b32] hover:bg-[#e6d9a5] hover:text-[#652b32] shadow-lg hover:shadow-xl transition-all">
-              <Link to="/studio/podcast-recording-studio-Coimbatore/">
+              <Link to="/podcast-recording-studio-in-Coimbatore/">
                 Visit Our Studio <ArrowRight className="ml-2" size={20} />
               </Link>
             </Button>

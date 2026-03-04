@@ -94,7 +94,7 @@ const App = () => (
                 <Route path="/services/contentmanagement/" element={<Content />} />
                 <Route path="/services/webhosting/" element={<Hosting />} />
                 <Route path="/services/:serviceSlug/:subSlug/" element={<ServiceSubPage />} />
-                <Route path="/studio/podcast-recording-studio-Coimbatore/" element={<PodcastStudioPage />} />
+                <Route path="/podcast-recording-studio-in-Coimbatore/" element={<PodcastStudioPage />} />
                 <Route path="/blog/" element={<BlogList />} />
                 <Route path="/blog/:slug/" element={<BlogPost />} />
                 <Route path="/contact-us/" element={<GetQuote />} />

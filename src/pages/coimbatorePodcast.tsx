@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { PodcastBookingDialog } from "@/components/PodcastBookingDialog";
@@ -35,14 +36,13 @@ import BlogCard from "./Blog/components/BlogCard";
 import { Loader2, ArrowRight } from "lucide-react";
 
 // Assets imports
-import heroImage from "@/assets/cbe podcast/bg3.JPG";
-import servicesBg from "@/assets/cbe podcast/bg2.JPG";
-import podcastImg from "@/assets/cbe podcast/Podcast Recording.png";
-import distributionImg from "@/assets/cbe podcast/Distribution & Platform Management.jpg";
-import launchImg from "@/assets/cbe podcast/Podcast Launch Support.jpg";
-import brandingImg from "@/assets/cbe podcast/Individual Branding.png";
-import featureAudio from "@/assets/cbe podcast/podcast about.png";
-import dubbingStudioImg from "@/assets/cbe podcast/Dubbing Studio.png";
+import heroImage from "@/assets/cbe podcast/bg3-opt.webp";
+import podcastImg from "@/assets/cbe podcast/Podcast Recording.webp";
+import distributionImg from "@/assets/cbe podcast/Distribution & Platform Management.webp";
+import launchImg from "@/assets/cbe podcast/Podcast Launch Support.webp";
+import brandingImg from "@/assets/cbe podcast/Individual Branding.webp";
+import featureAudio from "@/assets/cbe podcast/podcast about.webp";
+import dubbingStudioImg from "@/assets/cbe podcast/Dubbing Studio.webp";
 import podcastStudio from "@/assets/cbe podcast/Podcast Recording Studio.webp";
 import businessPortrait from "@/assets/cbe podcast/Product Photo Shoot.webp";
 import dubbingStudio from "@/assets/cbe podcast/audio.webp";
@@ -218,19 +218,24 @@ const PodcastStudioPage = () => {
 
     return (
         <div className="bg-[#faf3e0]">
+            <Helmet>
+                <link rel="preload" as="image" href={heroImage} fetchPriority="high" />
+            </Helmet>
             <SEO
                 title="Best Podcast Recording Studio In Coimbatore"
                 description="Professional podcast studio In Coimbatore with 4K video, expert editing, branding, and multi-platform publishing support."
-                canonical="/studio/podcast-recording-studio-Coimbatore/"
+                canonical="/podcast-recording-studio-in-Coimbatore/"
             />
 
             <main className="overflow-x-hidden pt-20">
-                <section className="relative min-h-[85vh] flex items-center overflow-hidden">
+                <section className="relative min-h-[85vh] flex items-center overflow-hidden" style={{ backgroundColor: '#1a0a0c' }}>
                     <div className="absolute inset-0">
                         <img
                             src={heroImage}
                             alt="Professional podcast recording studio In Coimbatore"
                             className="w-full h-full object-cover"
+                            loading="eager"
+                            fetchPriority="high"
                         />
                         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent" />
                     </div>
@@ -239,7 +244,7 @@ const PodcastStudioPage = () => {
                         <motion.div
                             initial={{ opacity: 0, y: 30 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ duration: 0.8, ease: "easeOut" }}
+                            transition={{ duration: 0.5, ease: "easeOut" }}
                             className="max-w-3xl"
                         >
                             <h1 className="text-3xl md:text-5xl lg:text-7xl font-bold text-white leading-[1.1] mb-6 drop-shadow-lg">
@@ -247,7 +252,7 @@ const PodcastStudioPage = () => {
                             </h1>
                             <motion.p
                                 whileHover={{ backgroundColor: "rgba(101, 43, 50, 0.2)", scale: 1.02 }}
-                                transition={{ duration: 0.3 }}
+                                transition={{ duration: 0.1 }}
                                 className="text-[#faf3e0]/80 mb-8 max-w-2xl leading-relaxed p-6 rounded-2xl bg-black/20 backdrop-blur-sm border border-white/10 cursor-default"
                             >
                                 Are you looking for a seasoned podcast studio In Coimbatore to create excellent content? For creators, business owners, and brands, our fully furnished podcast recording studio provides an excellent audio recording experience. Our cutting-edge studio facility is made to provide excellence, whether you're looking to or require full-service podcasting.
@@ -273,7 +278,7 @@ const PodcastStudioPage = () => {
                                 initial={{ opacity: 0, x: -30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.6 }}
+                                transition={{ duration: 0.4 }}
                                 className="w-full md:w-1/2"
                             >
                                 <img
@@ -286,7 +291,7 @@ const PodcastStudioPage = () => {
                                 initial={{ opacity: 0, x: 30 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 viewport={{ once: true }}
-                                transition={{ duration: 0.6 }}
+                                transition={{ duration: 0.4 }}
                                 className="w-full md:w-1/2"
                             >
                                 <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-8 text-[#652b32]">
@@ -319,18 +324,17 @@ const PodcastStudioPage = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     whileHover={{
-                                        backgroundColor: "#652b32",
                                         scale: 1.02,
-                                        transition: { duration: 0.15 }
+                                        transition: { duration: 0.1 }
                                     }}
-                                    transition={{ delay: i * 0.1, duration: 0.5 }}
-                                    className="p-8 rounded-[2rem] border border-[#652b32]/10 bg-white shadow-xl hover:shadow-2xl transition-all duration-300 group"
+                                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                                    className="p-8 rounded-[2rem] border border-[#652b32]/10 bg-white shadow-xl hover:shadow-2xl hover:bg-[#652b32] transition-all duration-150 group"
                                 >
                                     <div className="w-16 h-16 rounded-2xl bg-[#652b32]/10 flex items-center justify-center mb-6 group-hover:bg-white/20 transition-colors">
-                                        <reason.icon className="w-8 h-8 text-[#652b32] group-hover:text-white transition-colors" />
+                                        <reason.icon className="w-8 h-8 text-[#652b32] group-hover:text-[#faf3e0] transition-colors" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-4 text-[#652b32] group-hover:text-white transition-colors">{reason.title}</h3>
-                                    <p className="text-[#652b32]/70 leading-relaxed group-hover:text-white/80 transition-colors">{reason.description}</p>
+                                    <h3 className="text-xl font-bold mb-4 text-[#652b32] group-hover:text-[#faf3e0] transition-colors">{reason.title}</h3>
+                                    <p className="text-[#652b32]/70 leading-relaxed group-hover:text-[#faf3e0]/80 transition-colors">{reason.description}</p>
                                 </motion.div>
                             ))}
                         </div>
@@ -355,22 +359,14 @@ const PodcastStudioPage = () => {
 
                 {/* ── Bento Grid Services Section ──────────────────────────────────────── */}
                 <section id="services-grid" className="relative py-16 overflow-hidden">
-                    {/* Background Image for Services Section */}
-                    <div className="absolute inset-0 z-0">
-                        <img
-                            src={servicesBg}
-                            alt="Podcast Studio Background"
-                            className="w-full h-full object-cover opacity-10"
-                        />
-                        <div className="absolute inset-0 bg-[#faf3e0]/90" />
-                    </div>
+
 
                     <div className="relative z-10 container mx-auto px-4 md:px-8">
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ duration: 0.6 }}
+                            transition={{ duration: 0.4 }}
                             className="text-center mb-20"
                         >
                             <h2 className="text-4xl md:text-6xl font-bold mb-6 text-[#652b32]">
@@ -391,7 +387,7 @@ const PodcastStudioPage = () => {
                                 className="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-[2.5rem] p-8 bg-[#652b32] text-[#faf3e0] shadow-2xl flex flex-col justify-end"
                             >
                                 <div className="absolute inset-0 z-0">
-                                    <img src={podcastImg} alt="" className="w-full h-full object-cover opacity-30 transition-transform group-hover:scale-110 duration-700" />
+                                    <img src={podcastImg} alt="" className="w-full h-full object-cover opacity-30 transition-transform group-hover:scale-110 duration-700" loading="lazy" decoding="async" />
                                     <div className="absolute inset-0 bg-gradient-to-t from-[#652b32] via-[#652b32]/40 to-transparent" />
                                 </div>
                                 <div className="z-10 relative">
@@ -407,16 +403,17 @@ const PodcastStudioPage = () => {
                                 initial={{ opacity: 0, scale: 0.95 }}
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
+                                whileHover={{ scale: 1.02, transition: { duration: 0.1 } }}
                                 transition={{ delay: 0.1 }}
-                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-[#faf3e0] border-2 border-[#652b32]/10 flex flex-col justify-between"
+                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-[#faf3e0] border-2 border-[#652b32]/10 flex flex-col justify-between hover:bg-[#652b32] transition-all duration-150"
                             >
-                                <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-40 transition-opacity">
+                                <div className="absolute inset-0 z-0 opacity-20 group-hover:opacity-10 transition-opacity">
                                     {/* Video editor black glyph removed */}
                                 </div>
-                                <Film className="w-12 h-12 text-[#652b32] mb-4 relative z-10" />
+                                <Film className="w-12 h-12 text-[#652b32] group-hover:text-[#faf3e0] mb-4 relative z-10 transition-colors" />
                                 <div className="relative z-10">
-                                    <h3 className="text-xl font-bold text-[#652b32] mb-3">{services[1].title}</h3>
-                                    <p className="text-[#652b32]/80 leading-snug">
+                                    <h3 className="text-xl font-bold text-[#652b32] group-hover:text-[#faf3e0] mb-3 transition-colors">{services[1].title}</h3>
+                                    <p className="text-[#652b32]/80 group-hover:text-[#faf3e0]/80 leading-snug transition-colors">
                                         {services[1].description}
                                     </p>
                                 </div>
@@ -428,17 +425,16 @@ const PodcastStudioPage = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 whileHover={{
-                                    backgroundColor: "#652b32",
                                     scale: 1.02,
-                                    transition: { duration: 0.15 }
+                                    transition: { duration: 0.1 }
                                 }}
                                 transition={{ delay: 0.2 }}
-                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-white border-2 border-[#652b32]/5 flex flex-col justify-between"
+                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-white border-2 border-[#652b32]/5 flex flex-col justify-between hover:bg-[#652b32] transition-all duration-150"
                             >
-                                <FileText className="w-12 h-12 text-[#652b32] group-hover:text-white transition-colors mb-4" />
+                                <FileText className="w-12 h-12 text-[#652b32] group-hover:text-[#faf3e0] transition-colors mb-4" />
                                 <div>
-                                    <h3 className="text-xl font-bold text-[#652b32] group-hover:text-white transition-colors mb-3">{services[2].title}</h3>
-                                    <p className="text-[#652b32]/80 group-hover:text-white/80 leading-snug transition-colors">
+                                    <h3 className="text-xl font-bold text-[#652b32] group-hover:text-[#faf3e0] mb-3 transition-colors">{services[2].title}</h3>
+                                    <p className="text-[#652b32]/80 group-hover:text-[#faf3e0]/80 leading-snug transition-colors">
                                         {services[2].description}
                                     </p>
                                 </div>
@@ -451,10 +447,10 @@ const PodcastStudioPage = () => {
                                 viewport={{ once: true }}
                                 whileHover={{ scale: 1.01 }}
                                 transition={{ delay: 0.3 }}
-                                className="md:col-span-1 md:row-span-2 relative group overflow-hidden rounded-[2.5rem] p-8 bg-gradient-to-br from-[#652b32] to-[#80353e] text-[#faf3e0] shadow-xl flex flex-col justify-end"
+                                className="md:col-span-1 md:row-span-2 relative group overflow-hidden rounded-[2.5rem] p-8 bg-gradient-to-br from-[#652b32] to-[#80353e] text-[#faf3e0] shadow-xl flex flex-col justify-end transition-all duration-150"
                             >
                                 <div className="absolute inset-0 z-0">
-                                    <img src={brandingImg} alt="" className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" />
+                                    <img src={brandingImg} alt="" className="w-full h-full object-cover opacity-30 group-hover:scale-105 transition-transform duration-700" loading="lazy" decoding="async" />
                                 </div>
                                 <div className="relative z-10">
                                     <h3 className="text-2xl font-bold mb-6">{services[3].title}</h3>
@@ -470,22 +466,21 @@ const PodcastStudioPage = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 whileHover={{
-                                    backgroundColor: "#652b32",
                                     scale: 1.01,
-                                    transition: { duration: 0.15 }
+                                    transition: { duration: 0.1 }
                                 }}
                                 transition={{ delay: 0.4 }}
-                                className="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-[2.5rem] p-8 bg-[#faf3e0] border-2 border-[#652b32]/10 flex flex-col md:flex-row md:items-center gap-6 group"
+                                className="md:col-span-2 md:row-span-1 relative group overflow-hidden rounded-[2.5rem] p-8 bg-[#faf3e0] border-2 border-[#652b32]/10 flex flex-col md:flex-row md:items-center gap-6 hover:bg-[#652b32] transition-all duration-150"
                             >
                                 <div className="absolute inset-0 z-0 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <img src={launchImg} alt="" className="w-full h-full object-cover" />
+                                    <img src={launchImg} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                                 </div>
                                 <div className="w-20 h-20 rounded-3xl bg-[#652b32] group-hover:bg-white/20 flex items-center justify-center shrink-0 shadow-lg relative z-10 transition-colors">
                                     <Rocket className="w-10 h-10 text-[#faf3e0] group-hover:text-white transition-colors" />
                                 </div>
                                 <div className="relative z-10">
-                                    <h3 className="text-3xl font-bold text-[#652b32] group-hover:text-white mb-3 transition-colors">{services[4].title}</h3>
-                                    <p className="text-[#652b32]/80 group-hover:text-white/80 transition-colors">
+                                    <h3 className="text-3xl font-bold text-[#652b32] group-hover:text-[#faf3e0] mb-3 transition-colors">{services[4].title}</h3>
+                                    <p className="text-[#652b32]/80 group-hover:text-[#faf3e0]/80 transition-colors">
                                         {services[4].description}
                                     </p>
                                 </div>
@@ -497,7 +492,7 @@ const PodcastStudioPage = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.5 }}
-                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-white border-2 border-[#652b32]/5 flex flex-col justify-between hover:bg-[#652b32] transition-colors duration-500"
+                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-white border-2 border-[#652b32]/5 flex flex-col justify-between hover:bg-[#652b32] transition-colors duration-150"
                             >
                                 <Megaphone className="w-12 h-12 text-[#652b32] group-hover:text-[#faf3e0] transition-colors" />
                                 <div>
@@ -514,20 +509,19 @@ const PodcastStudioPage = () => {
                                 whileInView={{ opacity: 1, scale: 1 }}
                                 viewport={{ once: true }}
                                 whileHover={{
-                                    backgroundColor: "#652b32",
                                     scale: 1.02,
-                                    transition: { duration: 0.15 }
+                                    transition: { duration: 0.1 }
                                 }}
                                 transition={{ delay: 0.6 }}
-                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-[#652b32]/5 border-2 border-[#652b32]/10 flex flex-col justify-between"
+                                className="md:col-span-1 md:row-span-1 relative group overflow-hidden rounded-3xl p-6 bg-[#652b32]/5 border-2 border-[#652b32]/10 flex flex-col justify-between hover:bg-[#652b32] transition-all duration-150"
                             >
-                                <div className="absolute inset-0 z-0 opacity-10 group-hover:opacity-20 transition-opacity">
-                                    <img src={distributionImg} alt="" className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 z-0 opacity-10 group-hover:opacity-5 transition-opacity">
+                                    <img src={distributionImg} alt="" className="w-full h-full object-cover" loading="lazy" decoding="async" />
                                 </div>
-                                <Settings className="w-12 h-12 text-[#652b32] group-hover:text-white transition-colors relative z-10" />
+                                <Settings className="w-12 h-12 text-[#652b32] group-hover:text-[#faf3e0] transition-colors relative z-10" />
                                 <div className="relative z-10">
-                                    <h3 className="text-xl font-bold text-[#652b32] group-hover:text-white transition-colors mb-3">{services[6].title}</h3>
-                                    <p className="text-[#652b32]/80 group-hover:text-white/80 transition-colors leading-relaxed">
+                                    <h3 className="text-xl font-bold text-[#652b32] group-hover:text-[#faf3e0] transition-colors mb-3">{services[6].title}</h3>
+                                    <p className="text-[#652b32]/80 group-hover:text-[#faf3e0]/80 transition-colors leading-relaxed">
                                         {services[6].description}
                                     </p>
                                 </div>
@@ -572,18 +566,17 @@ const PodcastStudioPage = () => {
                                     whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
                                     whileHover={{
-                                        backgroundColor: "#652b32",
                                         scale: 1.05,
-                                        transition: { duration: 0.15 }
+                                        transition: { duration: 0.1 }
                                     }}
-                                    transition={{ delay: i * 0.1, duration: 0.4 }}
-                                    className="text-center p-6 rounded-2xl transition-all duration-300 group border border-transparent hover:border-[#652b32]/10"
+                                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                                    className="text-center p-6 rounded-2xl transition-all duration-150 group border border-transparent hover:bg-[#652b32] hover:border-[#652b32]/10"
                                 >
                                     <div className="w-16 h-16 rounded-full bg-[#652b32]/10 flex items-center justify-center mx-auto mb-6 group-hover:bg-white/20 transition-colors">
-                                        <f.icon className="w-8 h-8 text-[#652b32] group-hover:text-white transition-colors" />
+                                        <f.icon className="w-8 h-8 text-[#652b32] group-hover:text-[#faf3e0] transition-colors" />
                                     </div>
-                                    <h3 className="font-bold mb-3 text-[#652b32] group-hover:text-white text-lg leading-tight transition-colors">{f.title}</h3>
-                                    <p className="text-[#652b32]/70 group-hover:text-white/80 leading-relaxed transition-colors">{f.desc}</p>
+                                    <h3 className="font-bold mb-3 text-[#652b32] group-hover:text-[#faf3e0] text-lg leading-tight transition-colors">{f.title}</h3>
+                                    <p className="text-[#652b32]/70 group-hover:text-[#faf3e0]/80 leading-relaxed transition-colors">{f.desc}</p>
                                 </motion.div>
                             ))}
                         </div>
@@ -609,23 +602,24 @@ const PodcastStudioPage = () => {
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     whileHover={{
-                                        backgroundColor: "#652b32",
                                         scale: 1.02,
-                                        transition: { duration: 0.15 }
+                                        transition: { duration: 0.1 }
                                     }}
-                                    transition={{ delay: i * 0.1, duration: 0.5 }}
-                                    className="group rounded-3xl overflow-hidden border border-[#652b32]/5 bg-white shadow-xl hover:shadow-2xl transition-all duration-500"
+                                    transition={{ delay: i * 0.05, duration: 0.3 }}
+                                    className="group rounded-3xl overflow-hidden border border-[#652b32]/5 bg-white shadow-xl hover:shadow-2xl hover:bg-[#652b32] transition-all duration-150"
                                 >
                                     <div className="overflow-hidden aspect-square">
                                         <img
                                             src={tour.image}
                                             alt={tour.title}
                                             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                            loading="lazy"
+                                            decoding="async"
                                         />
                                     </div>
                                     <div className="p-8">
-                                        <h3 className="font-bold text-xl mb-3 text-[#652b32] group-hover:text-white transition-colors">{tour.title}</h3>
-                                        <p className="text-[#652b32]/70 leading-relaxed group-hover:text-white/80 transition-colors">{tour.description}</p>
+                                        <h3 className="font-bold text-xl mb-3 text-[#652b32] group-hover:text-[#faf3e0] transition-colors">{tour.title}</h3>
+                                        <p className="text-[#652b32]/70 leading-relaxed group-hover:text-[#faf3e0]/80 transition-colors">{tour.description}</p>
                                     </div>
                                 </motion.div>
                             ))}
@@ -692,6 +686,153 @@ const PodcastStudioPage = () => {
                                 ))}
                             </div>
                         )}
+                    </div>
+                </section>
+
+                {/* Find Us / Map Section */}
+                <section className="py-16 bg-[#faf3e0] relative overflow-hidden">
+                    {/* Decorative Map & Location Doodles */}
+                    <motion.div
+                        initial={{ opacity: 0, x: -50 }}
+                        whileInView={{ opacity: 0.2, x: 0 }}
+                        transition={{ duration: 1.2 }}
+                        className="absolute top-10 left-10 text-[#652b32] hidden lg:block pointer-events-none"
+                    >
+                        {/* Hand-drawn Folded Map Doodle */}
+                        <svg width="140" height="140" viewBox="0 0 140 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M20 40L60 20L100 40L140 20V100L100 120L60 100L20 120V40Z" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                            <path d="M60 20V100" stroke="currentColor" strokeWidth="2" strokeDasharray="6 6" />
+                            <path d="M100 40V120" stroke="currentColor" strokeWidth="2" strokeDasharray="6 6" />
+                            <circle cx="80" cy="70" r="10" stroke="currentColor" strokeWidth="2" />
+                            <path d="M80 65V75M75 70H85" stroke="currentColor" strokeWidth="2" />
+                        </svg>
+                    </motion.div>
+
+                    {/* NEW: Microphone Doodle */}
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, rotate: 15 }}
+                        whileInView={{ opacity: 0.15, y: 0, rotate: 0 }}
+                        transition={{ duration: 1.5, delay: 0.2 }}
+                        className="absolute top-20 right-20 text-[#652b32] hidden lg:block pointer-events-none"
+                    >
+                        <svg width="100" height="130" viewBox="0 0 100 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="30" y="10" width="40" height="60" rx="20" stroke="currentColor" strokeWidth="4" />
+                            <path d="M20 50V60C20 76.5 33.5 90 50 90C66.5 90 80 76.5 80 60V50" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                            <path d="M50 90V110M35 110H65" stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                        </svg>
+                    </motion.div>
+
+                    {/* NEW: Magnifying Glass Doodle */}
+                    <motion.div
+                        animate={{ scale: [1, 1.1, 1] }}
+                        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute top-1/2 left-4 -translate-y-1/2 text-yellow-500/20 hidden lg:block pointer-events-none"
+                    >
+                        <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="50" cy="50" r="30" stroke="currentColor" strokeWidth="4" />
+                            <path d="M72 72L100 100" stroke="currentColor" strokeWidth="6" strokeLinecap="round" />
+                            <path d="M40 40C40 40 45 35 55 40" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                        </svg>
+                    </motion.div>
+
+                    {/* NEW: Sparkles Doodle */}
+                    <motion.div
+                        animate={{ opacity: [0.2, 0.5, 0.2] }}
+                        transition={{ duration: 3, repeat: Infinity }}
+                        className="absolute bottom-40 left-1/4 text-[#652b32]/15 hidden lg:block pointer-events-none"
+                    >
+                        <svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M30 0L35 25L60 30L35 35L30 60L25 35L0 30L25 25L30 0Z" fill="currentColor" />
+                            <path d="M50 10L52 18L60 20L52 22L50 30L48 22L40 20L48 18L50 10Z" fill="currentColor" />
+                        </svg>
+                    </motion.div>
+
+                    <motion.div
+                        animate={{ rotate: [0, 5, 0, -5, 0] }}
+                        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                        className="absolute bottom-20 right-10 text-yellow-500/25 hidden lg:block pointer-events-none"
+                    >
+                        {/* Hand-drawn Compass/Direction Doodle */}
+                        <svg width="150" height="150" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <circle cx="100" cy="100" r="80" stroke="currentColor" strokeWidth="3" strokeDasharray="10 5" />
+                            <path d="M100 30L120 100L100 170L80 100L100 30Z" stroke="currentColor" strokeWidth="4" fill="currentColor" fillOpacity="0.1" />
+                            <text x="92" y="25" fill="currentColor" className="text-xl font-bold">N</text>
+                            <text x="92" y="195" fill="currentColor" className="text-xl font-bold">S</text>
+                        </svg>
+                    </motion.div>
+
+                    <div className="container mx-auto px-4 md:px-8 max-w-6xl relative z-10">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.4 }}
+                            className="text-center mb-10"
+                        >
+                            <h2 className="text-3xl md:text-5xl font-bold text-[#652b32] mb-4">
+                                Find Us <span className="text-yellow-500">In Coimbatore</span>
+                            </h2>
+                            <p className="text-[#652b32]/60 text-lg max-w-3xl mx-auto">
+                                Visit MediaMatic Studio in Coimbatore. We're located at No.97, Dr.Jaganathan Nagar, Civil Aerodrome Post.
+                            </p>
+                        </motion.div>
+
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.98 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                            className="rounded-[2.5rem] overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.15)] border-0 relative group"
+                        >
+                            <iframe
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15663.48628287515!2d77.0138577!3d11.027225!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba857f831c9a81f%3A0x92122de2e15fb2df!2sMediaMatic%20Studio_%20Hopes%20(P)%2CLtd.!5e0!3m2!1sen!2sin!4v1714159920000!5m2!1sen!2sin"
+                                width="100%"
+                                height="550"
+                                style={{ border: 0, display: 'block' }}
+                                allowFullScreen
+                                loading="lazy"
+                                referrerPolicy="no-referrer-when-downgrade"
+                                title="MediaMatic Studio Location in Coimbatore"
+                            />
+                        </motion.div>
+
+                        <div className="relative mt-12">
+                            {/* Navigation Path Doodle */}
+                            <motion.div
+                                initial={{ opacity: 0, pathLength: 0 }}
+                                whileInView={{ opacity: 0.5, pathLength: 1 }}
+                                transition={{ duration: 1.5, delay: 0.5 }}
+                                className="absolute -top-16 left-1/2 -ml-48 hidden md:block text-[#652b32]/40 pointer-events-none"
+                            >
+                                <svg width="120" height="120" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M10 20C30 20 20 60 50 60C80 60 70 100 100 100" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeDasharray="8 8" />
+                                    <path d="M90 90L100 100L90 110" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                                    <circle cx="10" cy="20" r="4" fill="currentColor" />
+                                </svg>
+                                <span className="text-xs font-handwriting italic whitespace-nowrap block absolute -top-4 left-4" style={{ fontFamily: 'cursive' }}>Follow the path!</span>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 10 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 0.3, delay: 0.2 }}
+                                className="text-center"
+                            >
+                                <a
+                                    href="https://maps.app.goo.gl/dFJuhyaReiaYXUGk9"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="inline-flex items-center gap-2 bg-[#652b32] text-[#faf3e0] px-8 py-3 rounded-full font-bold shadow-md hover:bg-[#652b32]/90 transition-all group"
+                                >
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5 transition-transform group-hover:bounce" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
+                                        <circle cx="12" cy="9" r="2.5" />
+                                    </svg>
+                                    Get Directions
+                                </a>
+                            </motion.div>
+                        </div>
                     </div>
                 </section>
 
