@@ -13,6 +13,7 @@ const navLinks = [
   { label: "Home", href: "#home", id: "home" },
   { label: "About Us", href: "#about", id: "about" },
   { label: "Services", href: "/services/", id: "services", hasDropdown: true, isSubPage: true },
+  { label: "Digital Marketing", href: "/services/digital-marketing-agency/", id: "digital-marketing", hasDropdown: true, isSubPage: true },
   { label: "STUDIO HUB", href: "#", id: "studio", hasDropdown: true },
   { label: "Blog", href: "/blog/", isSubPage: true },
   { label: "Contact Us", href: "/contact-us/", isSubPage: true, id: "contact" },
@@ -21,10 +22,16 @@ const navLinks = [
 const serviceLinks = [
   { label: "2D & 3D Animation Videos", href: "/services/animation/" },
   { label: "Content Management", href: "/services/contentmanagement/" },
-  { label: "Website & App Development", href: "/services/web-development/" },
+  { label: "Website & App Development", href: "/services/website-development-agency/" },
   { label: "Designing", href: "/services/designing/" },
-  { label: "Digital Marketing", href: "/services/digital-marketing-agency/" },
   { label: "VPS Web Hosting Service", href: "/services/webhosting/" },
+];
+
+const digitalMarketingLinks = [
+  { label: "Search Engine Optimization (SEO)", href: "/search-engine-optimization-company/" },
+  { label: "Social Media Optimization (SMO)", href: "/social-media-optimization-company/" },
+  { label: "Social Media Marketing (SMM)", href: "/social-media-marketing-company/" },
+  { label: "Search Engine Marketing (SEM)", href: "/search-engine-marketing-company/" },
 ];
 
 /* ================= COMPONENT ================= */
@@ -33,8 +40,10 @@ export const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [serviceOpen, setServiceOpen] = useState(false);
+  const [digitalMarketingOpen, setDigitalMarketingOpen] = useState(false);
   const [studioOpen, setStudioOpen] = useState(false);
   const [mobileServiceOpen, setMobileServiceOpen] = useState(false);
+  const [mobileDigitalMarketingOpen, setMobileDigitalMarketingOpen] = useState(false);
   const [mobileStudioOpen, setMobileStudioOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const lastScrollY = useRef(0);
@@ -226,11 +235,13 @@ export const Header = () => {
                     onMouseEnter={() => {
                       if (timeoutRef.current) clearTimeout(timeoutRef.current);
                       setServiceOpen(link.id === "services");
+                      setDigitalMarketingOpen(link.id === "digital-marketing");
                       setStudioOpen(link.id === "studio");
                     }}
                     onMouseLeave={() => {
                       timeoutRef.current = setTimeout(() => {
                         setServiceOpen(false);
+                        setDigitalMarketingOpen(false);
                         setStudioOpen(false);
                       }, 200);
                     }}
@@ -241,7 +252,7 @@ export const Header = () => {
                         e.preventDefault();
                         handleNavClick(link.href, (link as any).isSubPage);
                       }}
-                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/")) || (link.id === "studio" && location.pathname.includes("podcast-recording-studio-in-Coimbatore/"))) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
+                      className={`flex items-center gap-1 text-[12px] xl:text-[13px] uppercase tracking-wider hover:text-primary transition whitespace-nowrap relative after:absolute after:left-0 after:-bottom-1 after:h-[2px] after:bg-primary after:transition-all ${(activeSection === link.id || (link.id === "services" && location.pathname.startsWith("/services/") && !location.pathname.includes("digital-marketing-agency") && !location.pathname.includes("seo-") && !location.pathname.includes("smo-") && !location.pathname.includes("sem-")) || (link.id === "digital-marketing" && (location.pathname.includes("digital-marketing-agency") || location.pathname.includes("seo-") || location.pathname.includes("smo-") || location.pathname.includes("sem-"))) || (link.id === "studio" && location.pathname.includes("podcast-recording-studio-in-Coimbatore/"))) ? "after:w-full text-primary font-bold" : "after:w-0"}`}
                     >
                       {link.label} <ChevronDown size={14} />
                     </a>
@@ -255,6 +266,25 @@ export const Header = () => {
                             onClick={(e) => {
                               e.preventDefault();
                               setServiceOpen(false);
+                              handleNavClick(s.href, true);
+                            }}
+                            className="block px-5 py-3 text-sm transition-all duration-300 hover:bg-[#652b32] hover:text-[#faf3e0] text-foreground/70 font-medium"
+                          >
+                            {s.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
+                    {link.id === "digital-marketing" && digitalMarketingOpen && (
+                      <div className="absolute top-full mt-3 bg-background shadow-xl rounded-xl w-72 overflow-hidden z-10 border border-foreground/5">
+                        {digitalMarketingLinks.map((s) => (
+                          <a
+                            key={s.label}
+                            href={s.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              setDigitalMarketingOpen(false);
                               handleNavClick(s.href, true);
                             }}
                             className="block px-5 py-3 text-sm transition-all duration-300 hover:bg-[#652b32] hover:text-[#faf3e0] text-foreground/70 font-medium"
@@ -350,17 +380,36 @@ export const Header = () => {
                       <button
                         onClick={() => {
                           if (link.id === "services") setMobileServiceOpen(!mobileServiceOpen);
+                          else if (link.id === "digital-marketing") setMobileDigitalMarketingOpen(!mobileDigitalMarketingOpen);
                           else if (link.id === "studio") setMobileStudioOpen(!mobileStudioOpen);
                         }}
                         className="p-1 rounded-full bg-white/10"
                       >
-                        <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${(link.id === "services" ? mobileServiceOpen : mobileStudioOpen) ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`w-6 h-6 transition-transform duration-300 ${(link.id === "services" ? mobileServiceOpen : link.id === "digital-marketing" ? mobileDigitalMarketingOpen : mobileStudioOpen) ? 'rotate-180' : ''}`} />
                       </button>
                     </div>
 
                     {link.id === "services" && mobileServiceOpen && (
-                      <div className="mt-4 space-y-2 w-full">
+                      <div className="mt-4 space-y-2 w-full pl-4 border-l-2 border-primary/20">
                         {serviceLinks.map((s) => (
+                          <a
+                            key={s.label}
+                            href={s.href}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              handleNavClick(s.href, true);
+                            }}
+                            className="block py-3 px-6 rounded-xl text-lg opacity-80 hover:opacity-100 hover:bg-[#652b32] hover:text-[#faf3e0] transition-all duration-300"
+                          >
+                            {s.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+
+                    {link.id === "digital-marketing" && mobileDigitalMarketingOpen && (
+                      <div className="mt-4 space-y-2 w-full pl-4 border-l-2 border-primary/20">
+                        {digitalMarketingLinks.map((s) => (
                           <a
                             key={s.label}
                             href={s.href}

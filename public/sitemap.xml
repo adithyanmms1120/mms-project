@@ -236,6 +236,12 @@
     <changefreq>weekly</changefreq>
   </url>
   <url>
+    <loc>https://mediamaticstudio.com/blog/animated-videos-for-business/</loc>
+    <priority>0.7</priority>
+    <changefreq>weekly</changefreq>
+    <lastmod>2026-03-05</lastmod>
+  </url>
+  <url>
     <loc>https://mediamaticstudio.com/blog/seo-aeo-geo-business-growth-strategy/</loc>
     <priority>0.7</priority>
     <changefreq>weekly</changefreq>

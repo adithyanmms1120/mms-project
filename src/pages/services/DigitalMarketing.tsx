@@ -53,23 +53,27 @@ gsap.registerPlugin(ScrollTrigger);
 const services = [
   {
     icon: seoIcon,
-    title: "SEO – Search Engine Optimization",
+    title: "Search Engine Optimization (SEO)",
     desc: "Our search engine optimization works to enhance your ranking by search engines. We specialize in optimization of keywords, technical optimization, high quality content and backlink. We are a premier digital marketing agency for small business, and we assist small business brands to rise higher in ranking and to draw organic traffic which translates into loyal customers.",
+    link: "/search-engine-optimization-company/"
   },
   {
-    icon: <Share2 className="w-9 h-9 text-[#faf3e0] group-hover:text-[#652b32] transition-colors" />,
-    title: "SMO – Social Media Optimization",
+    icon: smoIcon,
+    title: "Social Media Optimization (SMO)",
     desc: "Our services take your brand to the next level on social networks in the form of optimized profiles, engaging content, and strategies. We are a reputable social media marketing company, so your brand voice will be consistent and credibility, reach, and loyal communities will be formed.",
+    link: "/social-media-optimization-company/"
   },
   {
     icon: semIcon,
-    title: "SEM – Search Engine Marketing",
+    title: "Search Engine Marketing (SEM)",
     desc: "Our SEM programs are instant visibility on the basis of targeted paid ads. We develop high performing campaigns which optimize on ROI with accurate targeting of the audience. Our digital marketing agency service is ongoing optimization of the performance of the ads to ensure they are better.",
+    link: "/search-engine-marketing-company/"
   },
   {
     icon: smmIcon,
-    title: "Social Media Marketing",
+    title: "Social Media Marketing (SMM)",
     desc: "We create social media campaigns that are data-driven and create awareness and leads. Since we do content production and paid promotion, our strategies enable businesses to compete with the leading marketing agencies without losing brand consistency or audience engagement.",
+    link: "/social-media-marketing-company/"
   },
   {
     icon: emailIcon,
@@ -257,18 +261,18 @@ const DigitalMarketing = () => {
 
           </div>
 
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute top-20 right-20 w-96 h-96 rounded-full bg-[#9a5a2a] blur-[120px]" />
-            <div className="absolute bottom-10 left-10 w-72 h-72 rounded-full bg-[#9a5a2a] blur-[100px]" />
+          <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+            <div className="absolute -top-10 -right-10 md:top-20 md:right-20 w-64 h-64 md:w-96 md:h-96 rounded-full bg-[#9a5a2a] blur-[80px] md:blur-[120px]" />
+            <div className="absolute -bottom-10 -left-10 md:bottom-10 md:left-10 w-48 h-48 md:w-72 md:h-72 rounded-full bg-[#9a5a2a] blur-[60px] md:blur-[100px]" />
           </div>
-          <div className="relative max-w-7xl mx-auto px-6 pt-32 pb-10 md:pt-40 md:pb-12">
-            <div className="hero-anim max-w-4xl">
-              <div className="inline-flex items-center gap-2 bg-[#faf3e0]/10 border border-[#faf3e0]/20 rounded-full px-4 py-2 mb-6">
-                <Megaphone className="w-4 h-4 text-[#faf3e0]" />
-                <span className="text-[#faf3e0] text-sm font-medium">Digital Marketing Agency</span>
+          <div className="relative max-w-7xl mx-auto px-6 pt-24 pb-12 md:pt-40 md:pb-12">
+            <div className="hero-anim max-w-4xl text-left">
+              <div className="inline-flex items-center gap-2 bg-[#faf3e0]/10 border border-[#faf3e0]/20 rounded-full px-3 py-1.5 md:px-4 md:py-2 mb-6">
+                <Megaphone className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#faf3e0]" />
+                <span className="text-[#faf3e0] text-xs md:text-sm font-medium">Digital Marketing Agency</span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-[#faf3e0] leading-tight mb-5">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-heading font-bold text-[#faf3e0] leading-tight mb-5">
                 Top Digital Marketing Agency That{" "}
                 <span className="text-[#FACC15]">Generates Traffic</span> and Leads
               </h1>
@@ -301,26 +305,47 @@ const DigitalMarketing = () => {
             </div>
 
             <div className="services-grid grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map((s, i) => (
-                <div
-                  key={i}
-                  className="service-card group bg-[#652b32] rounded-xl p-7 shadow-xl hover:shadow-2xl border border-white/10 hover:border-[#652b32]/20 transition-all duration-300 hover:bg-[#faf3e0] hover:-translate-y-3 hover:scale-[1.02]"
-                >
-                  <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center mb-5 group-hover:bg-[#652b32]/10 transition-colors">
-                    {typeof s.icon === 'string' ? (
-                      <img src={s.icon} alt={s.title} className="w-9 h-9 object-contain brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all" />
-                    ) : (
-                      s.icon
+              {services.map((s, i) => {
+                const CardContent = (
+                  <>
+                    <div className="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center mb-5 group-hover:bg-[#652b32]/10 transition-colors">
+                      {typeof s.icon === 'string' ? (
+                        <img src={s.icon} alt={s.title} className="w-9 h-9 object-contain brightness-0 invert group-hover:brightness-100 group-hover:invert-0 transition-all" />
+                      ) : (
+                        s.icon
+                      )}
+                    </div>
+                    <h3 className="text-lg font-heading font-semibold text-white group-hover:text-[#652b32] mb-3 transition-colors">
+                      {s.title}
+                    </h3>
+                    <p className="text-white/70 text-sm leading-relaxed group-hover:text-[#652b32]/80 transition-colors">
+                      {s.desc}
+                    </p>
+                    {(s as any).link && (
+                      <div className="mt-4 flex items-center gap-2 text-white/50 group-hover:text-[#652b32] font-semibold text-sm transition-colors">
+                        Learn More <ArrowRight className="w-4 h-4" />
+                      </div>
                     )}
+                  </>
+                );
+
+                return (s as any).link ? (
+                  <Link
+                    key={i}
+                    to={(s as any).link}
+                    className="service-card group bg-[#652b32] rounded-xl p-7 shadow-xl hover:shadow-2xl border border-white/10 hover:border-[#652b32]/20 transition-all duration-300 hover:bg-[#faf3e0] hover:-translate-y-3 hover:scale-[1.02] block"
+                  >
+                    {CardContent}
+                  </Link>
+                ) : (
+                  <div
+                    key={i}
+                    className="service-card group bg-[#652b32] rounded-xl p-7 shadow-xl hover:shadow-2xl border border-white/10 hover:border-[#652b32]/20 transition-all duration-300 hover:bg-[#faf3e0] hover:-translate-y-3 hover:scale-[1.02]"
+                  >
+                    {CardContent}
                   </div>
-                  <h3 className="text-lg font-heading font-semibold text-white group-hover:text-[#652b32] mb-3 transition-colors">
-                    {s.title}
-                  </h3>
-                  <p className="text-white/70 text-sm leading-relaxed group-hover:text-[#652b32]/80 transition-colors">
-                    {s.desc}
-                  </p>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>

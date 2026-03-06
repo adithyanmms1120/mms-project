@@ -125,9 +125,22 @@
 .blogContent h6 {
     color: #652b32 !important;
     font-weight: 800;
-    margin-top: 2.5rem;
-    margin-bottom: 1.25rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
     line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+
+    .blogContent h1,
+    .blogContent h2,
+    .blogContent h3,
+    .blogContent h4,
+    .blogContent h5,
+    .blogContent h6 {
+        margin-top: 3rem;
+        margin-bottom: 1.5rem;
+    }
 }
 
 .blogContent h2 {
@@ -194,10 +207,18 @@
 
 .blogContent img {
     display: block;
-    border-radius: 20px;
-    margin: 3rem auto;
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    margin: 1.5rem auto;
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.15);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 768px) {
+    .blogContent img {
+        border-radius: 20px;
+        margin: 3rem auto;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    }
 }
 
 .blogContent img:hover {
@@ -868,4 +889,64 @@
 .numbered-item {
     font-weight: 600;
     color: #652b32;
+}
+
+/* WordPress Table Styling */
+.blogContent table {
+    width: 100%;
+    margin: 3rem 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 0.95rem;
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(101, 43, 50, 0.1);
+}
+
+.blogContent thead th {
+    background-color: #652b32;
+    color: #faf3e0;
+    font-weight: 700;
+    text-align: left;
+    padding: 1.25rem 1.5rem;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+}
+
+.blogContent tbody td {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(101, 43, 50, 0.05);
+    color: #4b5563;
+    transition: all 0.2s ease;
+}
+
+.blogContent tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.blogContent tbody tr:hover td {
+    background-color: rgba(101, 43, 50, 0.02);
+    color: #652b32;
+}
+
+.blogContent tbody tr td:first-child {
+    font-weight: 600;
+    color: #652b32;
+}
+
+@media (max-width: 768px) {
+    .blogContent table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        margin: 2rem 0;
+    }
+
+    .blogContent thead th,
+    .blogContent tbody td {
+        padding: 1rem;
+    }
 }

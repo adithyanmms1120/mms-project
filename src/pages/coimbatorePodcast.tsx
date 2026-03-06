@@ -377,7 +377,7 @@ const PodcastStudioPage = () => {
                             </p>
                         </motion.div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[240px] max-w-7xl mx-auto">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:auto-rows-[240px] auto-rows-auto max-w-7xl mx-auto">
                             {/* Card 1: Podcast Recording Space - Large (2x2) */}
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.95 }}

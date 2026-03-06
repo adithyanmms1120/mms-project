@@ -315,7 +315,7 @@ const BlogPostDetail = () => {
 
                 <div className="container mx-auto px-4 md:px-6 relative z-10">
                     {/* Back Navigation */}
-                    <div className="mb-4 md:mb-6 lg:mb-8">
+                    <div className="mb-4 md:mb-6 lg:mb-8 flex items-center">
                         <Link
                             to="/blog"
                             className="inline-flex items-center gap-1.5 md:gap-2 text-[#652b32]/60 hover:text-[#652b32] transition-colors font-bold uppercase tracking-widest text-[10px] md:text-xs"
@@ -358,7 +358,7 @@ const BlogPostDetail = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, ease: "easeOut" }}
-                                className="bg-white rounded-3xl p-6 md:p-12 shadow-2xl shadow-[#652b32]/5 mb-12"
+                                className="bg-white rounded-[1.5rem] md:rounded-3xl p-5 sm:p-8 md:p-12 shadow-2xl shadow-[#652b32]/5 mb-12"
                             >
                                 {/* Breadcrumbs */}
                                 <nav className="flex items-center flex-wrap gap-1.5 md:gap-2 mb-4 md:mb-6 lg:mb-8">

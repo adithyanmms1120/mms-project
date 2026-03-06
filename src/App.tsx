@@ -33,6 +33,10 @@ const robustLazy = (componentImport: () => Promise<any>) =>
 const Index = robustLazy(() => import("./pages/Index"));
 const NotFound = robustLazy(() => import("./pages/NotFound"));
 const DigitalMarketing = robustLazy(() => import("./pages/services/DigitalMarketing"));
+const SEOServices = robustLazy(() => import("./pages/services/SEOServices"));
+const SMOServices = robustLazy(() => import("./pages/services/SMOServices"));
+const SMMServices = robustLazy(() => import("./pages/services/SMMServices"));
+const SEMServices = robustLazy(() => import("./pages/services/SEMServices"));
 const WebDevelopment = robustLazy(() => import("./pages/services/WebsiteDevelopment"));
 const Animation = robustLazy(() => import("./pages/services/Animation"));
 const Content = robustLazy(() => import("./pages/services/ContentManagement"));
@@ -45,6 +49,7 @@ const BlogList = robustLazy(() => import("./pages/Blog/BlogList"));
 const BlogPost = robustLazy(() => import("./pages/Blog/BlogPost"));
 const AboutPage = robustLazy(() => import("./pages/AboutPage"));
 const ServicesPage = robustLazy(() => import("./pages/ServicesPage"));
+
 const PodcastStudioPage = robustLazy(() => import("./pages/coimbatorePodcast"));
 
 
@@ -88,7 +93,11 @@ const App = () => (
                 <Route path="/contact/" element={<Contact />} />
 
                 <Route path="/services/digital-marketing-agency/" element={<DigitalMarketing />} />
-                <Route path="/services/web-development/" element={<WebDevelopment />} />
+                <Route path="/search-engine-optimization-company/" element={<SEOServices />} />
+                <Route path="/social-media-optimization-company/" element={<SMOServices />} />
+                <Route path="/social-media-marketing-company/" element={<SMMServices />} />
+                <Route path="/search-engine-marketing-company/" element={<SEMServices />} />
+                <Route path="/services/website-development-agency/" element={<WebDevelopment />} />
                 <Route path="/services/designing/" element={<Designing />} />
                 <Route path="/services/animation/" element={<Animation />} />
                 <Route path="/services/contentmanagement/" element={<Content />} />
